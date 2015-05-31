@@ -12,7 +12,7 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
  * @since 2015年5月30日 下午9:46:53
  */
 @XStreamAlias(PacketAlias.MESSAGE_NAME)
-public class OutMessage extends Packet {
+public class OutMessage extends AbstractPacket {
 	
 	/** 第三方系统账号ID */
 	@XStreamAlias("party-id")

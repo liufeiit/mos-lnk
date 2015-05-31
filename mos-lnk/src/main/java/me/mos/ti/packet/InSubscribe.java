@@ -12,7 +12,7 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
  * @since 2015年5月30日 下午11:56:09
  */
 @XStreamAlias(PacketAlias.SUBSCRIBE_NAME)
-public class InSubscribe extends Packet {
+public class InSubscribe extends AbstractPacket {
 
 	/** 被订阅的用户的唯一ID */
 	@XStreamAlias("smid")

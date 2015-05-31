@@ -12,7 +12,7 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
  * @since 2015年5月30日 下午9:46:53
  */
 @XStreamAlias(PacketAlias.MESSAGE_NAME)
-public class InMessage extends Packet {
+public class InMessage extends AbstractPacket {
 	
 	/** 消息到达方的用户的唯一ID */
 	@XStreamAlias("tid")

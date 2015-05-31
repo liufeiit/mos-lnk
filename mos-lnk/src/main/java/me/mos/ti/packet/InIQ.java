@@ -11,6 +11,6 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
  * @since 2015年5月31日 上午1:06:02
  */
 @XStreamAlias(PacketAlias.IQ_NAME)
-public class InIQ extends Packet {
+public class InIQ extends AbstractPacket {
 	
 }
