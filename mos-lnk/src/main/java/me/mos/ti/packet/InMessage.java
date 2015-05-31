@@ -1,5 +1,8 @@
 package me.mos.ti.packet;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+
 /**
  * 聊天通讯消息报文定义.
  * 
@@ -8,21 +11,22 @@ package me.mos.ti.packet;
  * @version 1.0.0
  * @since 2015年5月30日 下午9:46:53
  */
-public class Message extends Packet {
+@XStreamAlias(PacketAlias.MESSAGE_NAME)
+public class InMessage extends Packet {
 	
 	/** 消息到达方的用户的唯一ID */
+	@XStreamAlias("tid")
+	@XStreamAsAttribute
 	private long tid;
 
 	/** 消息内容体 */
+	@XStreamAlias("body")
 	private String body;
 
 	/** 消息发送时间 */
+	@XStreamAlias("gmt-created")
+	@XStreamAsAttribute
 	private long gmt_created;
-
-	@Override
-	public String toXML() {
-		return null;
-	}
 
 	public long getTid() {
 		return tid;

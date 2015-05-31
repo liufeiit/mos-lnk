@@ -1,5 +1,8 @@
 package me.mos.ti.packet;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+
 /**
  * 好友关系订阅.
  * 
@@ -8,15 +11,13 @@ package me.mos.ti.packet;
  * @version 1.0.0
  * @since 2015年5月30日 下午11:56:09
  */
-public class Subscribe extends Packet {
+@XStreamAlias(PacketAlias.SUBSCRIBE_NAME)
+public class InSubscribe extends Packet {
 
 	/** 被订阅的用户的唯一ID */
+	@XStreamAlias("smid")
+	@XStreamAsAttribute
 	private long smid;
-
-	@Override
-	public String toXML() {
-		return "<subscribe mid=\"" + getMid() + "\" smid=\"" + smid + "\"/>";
-	}
 
 	public long getSmid() {
 		return smid;

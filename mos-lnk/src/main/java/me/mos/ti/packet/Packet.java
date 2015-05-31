@@ -1,5 +1,10 @@
 package me.mos.ti.packet;
 
+import me.mos.ti.xml.XStreamParser;
+
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+
 /**
  * 通讯消息报文基类.
  * 
@@ -11,6 +16,8 @@ package me.mos.ti.packet;
 public abstract class Packet {
 
 	/** 发起报文的用户的唯一ID */
+	@XStreamAlias("mid")
+	@XStreamAsAttribute
 	private long mid;
 
 	public long getMid() {
@@ -24,7 +31,9 @@ public abstract class Packet {
 	/**
 	 * 将消息格式化为可发送的XML格式
 	 */
-	public abstract String toXML();
+	public String toXML() {
+		return XStreamParser.toXML(this);
+	}
 
 	/**
 	 * 将消息格式化为可发送的XML格式

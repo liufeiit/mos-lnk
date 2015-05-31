@@ -15,10 +15,8 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
  * @version 1.0.0
  * @since 2015年5月30日 下午7:14:01
  */
-@XStreamAlias(Database.DATABASE_ALIAS_NAME)
+@XStreamAlias("database")
 public class Database {
-
-	static final String DATABASE_ALIAS_NAME = "database";
 
 	@XStreamAlias("driver")
 	private String driverClassName;
@@ -34,7 +32,7 @@ public class Database {
 
 	@XStreamAlias("max-wait")
 	private int maxWait;
-	
+
 	@XStreamAlias("jdbc-interceptors")
 	private String jdbcInterceptors;
 
@@ -49,11 +47,11 @@ public class Database {
 
 	@XStreamAlias("password")
 	private String password;
-	
+
 	public static Database newInstance() throws IOException {
-		return XStreamParser.toObj(Database.class, StreamUtils.copyToString(new FileInputStream("etc/database.xml"), Charsets.UTF_8), Database.DATABASE_ALIAS_NAME);
+		return XStreamParser.toObj(Database.class, StreamUtils.copyToString(new FileInputStream("etc/database.xml"), Charsets.UTF_8));
 	}
-	
+
 	public String getDriverClassName() {
 		return driverClassName;
 	}

@@ -1,10 +1,7 @@
 package me.mos.ti.xml;
 
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 /**
  * @author 刘飞 E-mail:liufei_it@126.com
@@ -14,29 +11,24 @@ import com.thoughtworks.xstream.XStream;
  */
 public class XStreamParser {
 
-	private final static Logger log = LoggerFactory.getLogger(XStreamParser.class);
-	
-	public static <T> String toXML(T object, String alias) {
-		try {
-			XStream xstream = new XStream();
-			xstream.autodetectAnnotations(true);
-			xstream.alias(alias, object.getClass());
-			return xstream.toXML(object);
-		} catch (Exception e) {
-			log.error("XStream Parse to XML Error.", e);
+	public static <T> String toXML(T object) {
+		XStream xstream = new XStream();
+		xstream.autodetectAnnotations(true);
+		Class<? extends Object> type = object.getClass();
+		XStreamAlias alias = type.getAnnotation(XStreamAlias.class);
+		if (alias != null) {
+			xstream.alias(alias.value(), type);
 		}
-		return StringUtils.EMPTY;
+		return xstream.toXML(object);
 	}
-	
-	public static <T> T toObj(Class<T> clazz, String xml, String alias) {
-		try {
-			XStream xstream = new XStream();
-			xstream.autodetectAnnotations(true);
-			xstream.alias(alias, clazz);
-			return clazz.cast(xstream.fromXML(xml));
-		} catch (Exception e) {
-			log.error("XStream Parse to Obj Error.", e);
+
+	public static <T> T toObj(Class<T> clazz, String xml) {
+		XStream xstream = new XStream();
+		xstream.autodetectAnnotations(true);
+		XStreamAlias alias = clazz.getAnnotation(XStreamAlias.class);
+		if (alias != null) {
+			xstream.alias(alias.value(), clazz);
 		}
-		return null;
+		return clazz.cast(xstream.fromXML(xml));
 	}
 }

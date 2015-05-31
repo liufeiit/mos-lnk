@@ -1,5 +1,8 @@
 package me.mos.ti.packet;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+
 /**
  * 用户上线消息报文定义.
  * 
@@ -8,15 +11,13 @@ package me.mos.ti.packet;
  * @version 1.0.0
  * @since 2015年5月31日 上午1:11:50
  */
-public class Presence extends Packet {
+@XStreamAlias(PacketAlias.PRESENCE_NAME)
+public class InPresence extends Packet {
 	
 	/** 用户密码 */
+	@XStreamAlias("passwd")
+	@XStreamAsAttribute
 	private String passwd;
-	
-	@Override
-	public String toXML() {
-		return null;
-	}
 
 	public String getPasswd() {
 		return passwd;
