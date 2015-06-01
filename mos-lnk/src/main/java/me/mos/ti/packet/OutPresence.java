@@ -12,7 +12,7 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
  * @since 2015年5月31日 上午1:11:50
  */
 @XStreamAlias(PacketAlias.PRESENCE_NAME)
-public class OutPresence extends AbstractPacket {
+public class OutPresence extends AbstractOutPacket {
 	
 	@XStreamAlias("success")
 	@XStreamAsAttribute

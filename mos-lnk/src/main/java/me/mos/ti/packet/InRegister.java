@@ -1,7 +1,5 @@
 package me.mos.ti.packet;
 
-import me.mos.ti.xml.XStreamParser;
-
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
@@ -14,7 +12,7 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
  * @since 2015年5月31日 下午11:21:27
  */
 @XStreamAlias(PacketAlias.REGISTER_NAME)
-public class InRegister implements Packet {
+public class InRegister extends AbstractInPacket {
 
 	/** 第三方系统账号ID */
 	@XStreamAlias("party-id")
@@ -53,14 +51,6 @@ public class InRegister implements Packet {
 	@XStreamAlias("phone")
 	private String phone;
 	
-	/**
-	 * 将消息格式化为可发送的XML格式
-	 */
-	@Override
-	public String toXML() {
-		return XStreamParser.toXML(this);
-	}
-
 	public String getParty_id() {
 		return party_id;
 	}

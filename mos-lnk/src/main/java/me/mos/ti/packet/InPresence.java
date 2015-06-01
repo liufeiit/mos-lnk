@@ -12,12 +12,25 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
  * @since 2015年5月31日 上午1:11:50
  */
 @XStreamAlias(PacketAlias.PRESENCE_NAME)
-public class InPresence extends AbstractPacket {
+public class InPresence extends AbstractInPacket {
+	
+	/** 发起报文的用户的唯一ID */
+	@XStreamAlias("mid")
+	@XStreamAsAttribute
+	private long mid;
 	
 	/** 用户密码 */
 	@XStreamAlias("passwd")
 	@XStreamAsAttribute
 	private String passwd;
+
+	public long getMid() {
+		return mid;
+	}
+
+	public void setMid(long mid) {
+		this.mid = mid;
+	}
 
 	public String getPasswd() {
 		return passwd;

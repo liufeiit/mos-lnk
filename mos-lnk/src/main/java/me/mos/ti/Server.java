@@ -1,7 +1,7 @@
 package me.mos.ti;
 
 /**
- * Lnk服务器.
+ * Mos-Lnk服务器.
  * 
  * @author 刘飞 E-mail:liufei_it@126.com
  * 
@@ -10,5 +10,7 @@ package me.mos.ti;
  */
 public interface Server {
 
+	void start();
 	
+	void stop();
 }

@@ -12,12 +12,25 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
  * @since 2015年5月30日 下午11:56:09
  */
 @XStreamAlias(PacketAlias.SUBSCRIBE_NAME)
-public class InSubscribe extends AbstractPacket {
+public class InSubscribe extends AbstractInPacket {
+	
+	/** 发起报文的用户的唯一ID */
+	@XStreamAlias("mid")
+	@XStreamAsAttribute
+	private long mid;
 
 	/** 被订阅的用户的唯一ID */
 	@XStreamAlias("smid")
 	@XStreamAsAttribute
 	private long smid;
+
+	public long getMid() {
+		return mid;
+	}
+
+	public void setMid(long mid) {
+		this.mid = mid;
+	}
 
 	public long getSmid() {
 		return smid;

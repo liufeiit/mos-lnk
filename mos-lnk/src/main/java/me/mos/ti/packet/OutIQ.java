@@ -12,7 +12,7 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
  * @since 2015年5月31日 上午1:06:02
  */
 @XStreamAlias(PacketAlias.IQ_NAME)
-public class OutIQ extends AbstractPacket {
+public class OutIQ extends AbstractOutPacket {
 	
 	@XStreamAlias("online")
 	@XStreamAsAttribute
