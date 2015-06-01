@@ -1,8 +1,12 @@
 package me.mos.ti.srv;
 
+import java.lang.Thread.UncaughtExceptionHandler;
 import java.net.ServerSocket;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.RejectedExecutionHandler;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import me.mos.ti.Server;
 
@@ -21,74 +25,77 @@ public class LnkServer implements Server {
 
 	public final static int DEFAULT_PORT = 9099;
 
-	private final static int DEFAULT_POOLSIZE = 50;
+	private static final String LNK_SERVER_WORKER = "LnkServer-Worker-";
 
-	private final static int DEFAULT_READ_TIMEOUT = 15;
+	private final static int DEFAULT_CORE_POOL_SIZE = 50;
 
-	/**
-	 * 端口号
-	 */
+	private final static int DEFAULT_MAXIMUM_POOL_SIZE = 1000;
+
+	private final static int DEFAULT_QUEUE_SIZE = 10000;
+
+	private final static long DEFAULT_KEEPALIVETIME = 60L;
+
 	private int port = DEFAULT_PORT;
 
-	/**
-	 * 处理线程数
-	 */
-	private int poolSize = DEFAULT_POOLSIZE;
+	private int corePoolSize = DEFAULT_CORE_POOL_SIZE;
 
-	/**
-	 * 读取超时(单位:秒)，默认15s
-	 */
-	private int readTimeout = DEFAULT_READ_TIMEOUT;
+	private int maximumPoolSize = DEFAULT_MAXIMUM_POOL_SIZE;
+
+	private int queueSize = DEFAULT_QUEUE_SIZE;
 
 	/**
 	 * Socket服务器
 	 */
 	private ServerSocket server;
 
-	/**
-	 * 线程
-	 */
-	private ExecutorService executorService;
+	private ThreadPoolExecutor threadPoolExecutor;
 
-	public LnkServer() {
-		this(DEFAULT_PORT, DEFAULT_POOLSIZE, DEFAULT_READ_TIMEOUT);
-	}
+	private static final ThreadFactory DEFAULT_THREAD_FACTORY = new ThreadFactory() {
+		public Thread newThread(Runnable runnable) {
+			final UncaughtExceptionHandler eh = Thread.getDefaultUncaughtExceptionHandler();
+			Thread t = new Thread(Thread.currentThread().getThreadGroup(), runnable);
+			t.setName(LNK_SERVER_WORKER + System.currentTimeMillis());
+			if (t.getPriority() != Thread.NORM_PRIORITY) {
+				t.setPriority(Thread.NORM_PRIORITY);
+			}
+			t.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
+				public void uncaughtException(Thread t, Throwable e) {
+					log.error("LnkServer Worker UncaughtExceptionHandler " + t.getName() + " Error.", e);
+					eh.uncaughtException(t, e);
+				}
+			});
+			return t;
+		}
+	};
 
-	public LnkServer(int port) {
-		this(port, DEFAULT_POOLSIZE, DEFAULT_READ_TIMEOUT);
-	}
-
-	public LnkServer(int port, int poolSize) {
-		this(port, poolSize, DEFAULT_READ_TIMEOUT);
-	}
-
-	public LnkServer(int port, int poolSize, int readTimeout) {
-		super();
-		this.port = port;
-		this.poolSize = poolSize;
-		this.readTimeout = readTimeout;
-	}
+	private static final RejectedExecutionHandler DEFAULT_REJECTED_EXECUTION_HANDLER = new ThreadPoolExecutor.CallerRunsPolicy() {
+		@Override
+		public void rejectedExecution(Runnable r, ThreadPoolExecutor e) {
+			super.rejectedExecution(r, e);
+			log.error("Thread Resource and Cache Queue Resource work out...");
+		}
+	};
 
 	@Override
-	public void start() {
+	public void start(final ServerProcessor processor) {
 		try {
-			// executorService = new ThreadPoolExecutor(poolSize, 200, 1000L,
-			// TimeUnit.MINUTES);
-			executorService = Executors.newFixedThreadPool(poolSize);
+			threadPoolExecutor = new ThreadPoolExecutor(corePoolSize, maximumPoolSize, DEFAULT_KEEPALIVETIME, TimeUnit.SECONDS, new ArrayBlockingQueue<Runnable>(queueSize), DEFAULT_THREAD_FACTORY,
+					DEFAULT_REJECTED_EXECUTION_HANDLER);
 			server = new ServerSocket(port);
-			Thread workThread = new Thread() {
+			Thread masterWorker = new Thread() {
 				@Override
 				public void run() {
 					while (true) {
 						try {
-							// executorService.execute(new
-							// Handler(server.accept(), processor));
+							Channel channel = new BoundChannel(server.accept());
+							threadPoolExecutor.execute(new ServerHandler(channel, processor));
+							log.error(channel + " Connection to LnkServer.");
 						} catch (Throwable t) {
 							if (server.isClosed()) {
 								log.info("LnkServer is closed, port={}", port);
 								break;
 							}
-							log.error("Process data error", t);
+							log.error("Process Channel Error.", t);
 							if (t instanceof InterruptedException) {
 								throw new RuntimeException(t);
 							}
@@ -96,8 +103,8 @@ public class LnkServer implements Server {
 					}
 				}
 			};
-			workThread.setDaemon(true);
-			workThread.start();
+			masterWorker.setDaemon(true);
+			masterWorker.start();
 			log.info("LnkServer Started Success, port={}", port);
 		} catch (Exception e) {
 			log.error("Start LnkServer Failed.", e);
@@ -108,17 +115,19 @@ public class LnkServer implements Server {
 	@Override
 	public void stop() {
 		log.info("Stop LnkServer, port={}", port);
-		if (executorService != null) {
+		if (threadPoolExecutor != null) {
 			try {
-				executorService.shutdownNow();
+				threadPoolExecutor.shutdownNow();
 			} catch (Exception e) {
 			}
+			threadPoolExecutor = null;
 		}
 		if (server != null) {
 			try {
 				server.close();
 			} catch (Exception e) {
 			}
+			server = null;
 		}
 	}
 
@@ -126,11 +135,15 @@ public class LnkServer implements Server {
 		this.port = port;
 	}
 
-	public void setPoolSize(int poolSize) {
-		this.poolSize = poolSize;
+	public void setCorePoolSize(int corePoolSize) {
+		this.corePoolSize = corePoolSize;
 	}
 
-	public void setReadTimeout(int readTimeout) {
-		this.readTimeout = readTimeout;
+	public void setMaximumPoolSize(int maximumPoolSize) {
+		this.maximumPoolSize = maximumPoolSize;
+	}
+
+	public void setQueueSize(int queueSize) {
+		this.queueSize = queueSize;
 	}
 }

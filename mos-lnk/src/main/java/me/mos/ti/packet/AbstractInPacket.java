@@ -10,12 +10,12 @@ import me.mos.ti.xml.XStreamParser;
  * @version 1.0.0
  * @since 2015年5月31日 上午12:52:46
  */
-@SuppressWarnings("unchecked")
 public abstract class AbstractInPacket implements InPacket {
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public <T extends InPacket> T fromXML(String xml) {
-		return XStreamParser.toObj(getClass(), xml);
+		return (T) XStreamParser.toObj(getClass(), xml);
 	}
 
 	/**

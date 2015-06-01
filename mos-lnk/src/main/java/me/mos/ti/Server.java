@@ -1,5 +1,7 @@
 package me.mos.ti;
 
+import me.mos.ti.srv.ServerProcessor;
+
 /**
  * Mos-Lnk服务器.
  * 
@@ -10,7 +12,7 @@ package me.mos.ti;
  */
 public interface Server {
 
-	void start();
+	void start(ServerProcessor processor);
 	
 	void stop();
 }
