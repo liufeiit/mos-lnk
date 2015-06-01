@@ -18,6 +18,11 @@ public class OutPresence extends AbstractOutPacket {
 	@XStreamAsAttribute
 	private boolean success;
 
+	@Override
+	public Type getType() {
+		return Type.Presence;
+	}
+
 	public boolean isSuccess() {
 		return success;
 	}

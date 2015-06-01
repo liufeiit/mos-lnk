@@ -8,7 +8,7 @@ package me.mos.ti.packet;
  * @version 1.0.0
  * @since 2015年6月1日 下午2:03:13
  */
-public interface InPacket {
+public interface InPacket extends Packet {
 
 	<T extends InPacket> T fromXML(String xml);
 }

@@ -8,7 +8,7 @@ package me.mos.ti.packet;
  * @version 1.0.0
  * @since 2015年5月31日 下午11:28:53
  */
-public interface OutPacket {
+public interface OutPacket extends Packet {
 
 	String toXML();
 }

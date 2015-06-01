@@ -41,6 +41,11 @@ public class OutMessage extends AbstractOutPacket {
 	@XStreamAsAttribute
 	private long gmt_created;
 
+	@Override
+	public Type getType() {
+		return Type.Message;
+	}
+
 	public long getTid() {
 		return tid;
 	}

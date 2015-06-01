@@ -19,6 +19,11 @@ public class InIQ extends AbstractInPacket {
 	@XStreamAsAttribute
 	private long mid;
 
+	@Override
+	public Type getType() {
+		return Type.IQ;
+	}
+
 	public long getMid() {
 		return mid;
 	}

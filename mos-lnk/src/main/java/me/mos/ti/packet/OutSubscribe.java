@@ -36,6 +36,11 @@ public class OutSubscribe extends AbstractOutPacket {
 	@XStreamAsAttribute
 	private boolean success;
 
+	@Override
+	public Type getType() {
+		return Type.Subscribe;
+	}
+
 	public long getSmid() {
 		return smid;
 	}

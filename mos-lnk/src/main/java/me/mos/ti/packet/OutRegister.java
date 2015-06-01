@@ -55,6 +55,11 @@ public class OutRegister extends AbstractOutPacket {
 	@XStreamAlias("phone")
 	private long gmt_created;
 
+	@Override
+	public Type getType() {
+		return Type.Register;
+	}
+
 	public String getParty_id() {
 		return party_id;
 	}

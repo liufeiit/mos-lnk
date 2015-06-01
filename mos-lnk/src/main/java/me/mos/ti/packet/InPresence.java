@@ -24,6 +24,11 @@ public class InPresence extends AbstractInPacket {
 	@XStreamAsAttribute
 	private String passwd;
 
+	@Override
+	public Type getType() {
+		return Type.Presence;
+	}
+
 	public long getMid() {
 		return mid;
 	}

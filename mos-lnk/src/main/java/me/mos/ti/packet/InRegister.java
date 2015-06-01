@@ -51,6 +51,11 @@ public class InRegister extends AbstractInPacket {
 	@XStreamAlias("phone")
 	private String phone;
 	
+	@Override
+	public Type getType() {
+		return Type.Register;
+	}
+
 	public String getParty_id() {
 		return party_id;
 	}

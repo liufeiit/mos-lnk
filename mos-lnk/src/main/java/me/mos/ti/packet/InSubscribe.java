@@ -24,6 +24,11 @@ public class InSubscribe extends AbstractInPacket {
 	@XStreamAsAttribute
 	private long smid;
 
+	@Override
+	public Type getType() {
+		return Type.Subscribe;
+	}
+
 	public long getMid() {
 		return mid;
 	}

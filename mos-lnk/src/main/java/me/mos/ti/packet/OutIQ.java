@@ -18,6 +18,11 @@ public class OutIQ extends AbstractOutPacket {
 	@XStreamAsAttribute
 	private boolean online;
 
+	@Override
+	public Type getType() {
+		return Type.IQ;
+	}
+
 	public boolean isOnline() {
 		return online;
 	}

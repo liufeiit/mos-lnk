@@ -33,6 +33,11 @@ public class InMessage extends AbstractInPacket {
 	@XStreamAsAttribute
 	private long gmt_created;
 
+	@Override
+	public Type getType() {
+		return Type.Message;
+	}
+
 	public long getMid() {
 		return mid;
 	}
