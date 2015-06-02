@@ -46,7 +46,8 @@ public class Profile {
 	private int readTimeout = Server.DEFAULT_READ_TIMEOUT;
 
 	public static Profile newInstance() throws IOException {
-		return XStreamParser.toObj(Profile.class, StreamUtils.copyToString(new FileInputStream("../etc/profile.xml"), Charsets.UTF_8));
+//		return XStreamParser.toObj(Profile.class, StreamUtils.copyToString(new FileInputStream("../etc/profile.xml"), Charsets.UTF_8));
+		return XStreamParser.toObj(Profile.class, StreamUtils.copyToString(new FileInputStream("etc/profile.xml"), Charsets.UTF_8));
 	}
 
 	public int getPort() {

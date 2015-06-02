@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Lnk服务通道消息处理器.
+ * Lnk服务通道消息业务处理器.
  * 
  * @author 刘飞 E-mail:liufei_it@126.com
  * 
@@ -20,6 +20,17 @@ final class DefaultServerProcessor implements ServerProcessor {
 	
 	@Override
 	public <I extends InPacket, O extends OutPacket> O process(I packet) throws Throwable {
+		System.out.println(packet);
 		return null;
+	}
+
+	@Override
+	public void online(Channel channel) {
+		
+	}
+
+	@Override
+	public void offline(Channel channel) {
+		
 	}
 }

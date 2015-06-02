@@ -25,6 +25,8 @@ final class ServerHandler implements Runnable {
 
 	private final static Logger log = LoggerFactory.getLogger(ServerHandler.class);
 
+	private static final String XMLSTART_TAG = "<";
+
 	private final Channel channel;
 
 	private final ServerProcessor processor;
@@ -42,35 +44,38 @@ final class ServerHandler implements Runnable {
 			try {
 				if (!channel.isConnected()) {
 					channel.close();
-					// TOTO 并且从服务器下线
+					processor.offline(channel);
 					break;
 				}
 				packet = channel.getReader().readLine();
 				if (StringUtils.isBlank(packet)) {
-					log.error("Blank Packet : " + packet);
 					continue;
 				}
 				InPacket inPacket = null;
-				if (StringUtils.startsWith(packet, PacketAlias.IQ_NAME)) {
+				if (StringUtils.startsWith(packet, XMLSTART_TAG + PacketAlias.IQ_NAME)) {
 					inPacket = new InIQ().fromXML(packet);
 				}
-				if (StringUtils.startsWith(packet, PacketAlias.MESSAGE_NAME)) {
+				if (StringUtils.startsWith(packet, XMLSTART_TAG + PacketAlias.MESSAGE_NAME)) {
 					inPacket = new InMessage().fromXML(packet);
 				}
-				if (StringUtils.startsWith(packet, PacketAlias.PRESENCE_NAME)) {
+				if (StringUtils.startsWith(packet, XMLSTART_TAG + PacketAlias.PRESENCE_NAME)) {
 					inPacket = new InPresence().fromXML(packet);
 				}
-				if (StringUtils.startsWith(packet, PacketAlias.REGISTER_NAME)) {
+				if (StringUtils.startsWith(packet, XMLSTART_TAG + PacketAlias.REGISTER_NAME)) {
 					inPacket = new InRegister().fromXML(packet);
 				}
-				if (StringUtils.startsWith(packet, PacketAlias.SUBSCRIBE_NAME)) {
+				if (StringUtils.startsWith(packet, XMLSTART_TAG + PacketAlias.SUBSCRIBE_NAME)) {
 					inPacket = new InSubscribe().fromXML(packet);
 				}
 				if (inPacket == null) {
-					log.error("Parse InPacket form Data Packet Error.");
+					log.error("Parse InPacket form Data Packet Error, Packet : " + packet);
 					continue;
 				}
 				OutPacket outPacket = processor.process(inPacket);
+				if (outPacket == null) {
+					log.error("process InPacket to OutPacket Error, Packet : " + packet);
+					continue;
+				}
 				channel.write(outPacket);
 			} catch (Throwable e) {
 				log.error("ServerHandler Process Channel Packet Error.", e);
