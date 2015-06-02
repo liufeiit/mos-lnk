@@ -10,8 +10,6 @@ import me.mos.ti.packet.OutPacket;
 import me.mos.ti.packet.PacketAlias;
 
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Lnk服务通道事件处理句柄.
@@ -22,8 +20,6 @@ import org.slf4j.LoggerFactory;
  * @since 2015年6月2日 上午12:08:50
  */
 final class ServerHandler implements Runnable {
-
-	private final static Logger log = LoggerFactory.getLogger(ServerHandler.class);
 
 	private static final String XMLSTART_TAG = "<";
 
@@ -68,19 +64,14 @@ final class ServerHandler implements Runnable {
 					inPacket = new InSubscribe().fromXML(packet);
 				}
 				if (inPacket == null) {
-					log.error("Parse InPacket form Data Packet Error, Packet : " + packet);
 					continue;
 				}
 				OutPacket outPacket = processor.process(inPacket);
 				if (outPacket == null) {
-					log.error("process InPacket to OutPacket Error, Packet : " + packet);
 					continue;
 				}
 				channel.write(outPacket);
-				System.err.println("已经回复：" + outPacket);
-			} catch (Throwable e) {
-				log.error("ServerHandler Process Channel Packet Error.", e);
-			}
+			} catch (Throwable e) {}
 		}
 	}
 }
