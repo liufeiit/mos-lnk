@@ -16,7 +16,7 @@ public interface ServerProcessor {
 	/**
 	 * 处理数据包接收和分发.
 	 */
-	<I extends InPacket, O extends OutPacket> O process(I packet) throws Throwable;
+	<I extends InPacket> OutPacket process(I packet) throws Throwable;
 	
 	/**
 	 * 上线
