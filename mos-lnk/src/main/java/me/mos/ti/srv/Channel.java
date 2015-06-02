@@ -1,7 +1,5 @@
 package me.mos.ti.srv;
 
-import java.io.BufferedReader;
-
 import me.mos.ti.packet.OutPacket;
 
 /**
