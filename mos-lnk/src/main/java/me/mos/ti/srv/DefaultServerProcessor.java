@@ -6,15 +6,12 @@ import me.mos.ti.packet.InPacket;
 import me.mos.ti.packet.InPresence;
 import me.mos.ti.packet.InRegister;
 import me.mos.ti.packet.InSubscribe;
-import me.mos.ti.packet.OutIQ;
-import me.mos.ti.packet.OutMessage;
 import me.mos.ti.packet.OutPacket;
-import me.mos.ti.packet.OutPresence;
-import me.mos.ti.packet.OutRegister;
-import me.mos.ti.packet.OutSubscribe;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import me.mos.ti.srv.handler.IQHandler;
+import me.mos.ti.srv.handler.MessageHandler;
+import me.mos.ti.srv.handler.PresenceHandler;
+import me.mos.ti.srv.handler.RegisterHandler;
+import me.mos.ti.srv.handler.SubscribeHandler;
 
 /**
  * Lnk服务通道消息业务处理器.
@@ -25,68 +22,49 @@ import org.slf4j.LoggerFactory;
  * @since 2015年6月2日 上午12:44:18
  */
 final class DefaultServerProcessor implements ServerProcessor {
+	
+	private IQHandler iqHandler;
+	
+	private MessageHandler messageHandler;
+	
+	private PresenceHandler presenceHandler;
+	
+	private RegisterHandler registerHandler;
+	
+	private SubscribeHandler subscribeHandler;
 
-	private final static Logger log = LoggerFactory.getLogger(DefaultServerProcessor.class);
+	public DefaultServerProcessor() {
+		super();
+		iqHandler = new IQHandler(this);
+		messageHandler = new MessageHandler(this);
+		presenceHandler = new PresenceHandler(this);
+		registerHandler = new RegisterHandler(this);
+		subscribeHandler = new SubscribeHandler(this);
+	}
 
 	@Override
 	public <I extends InPacket> OutPacket process(I packet) throws Throwable {
 		OutPacket outPacket = null;
 		switch (packet.getType()) {
 			case IQ :
-				outPacket = processResponse((InIQ) packet);
+				outPacket = iqHandler.process((InIQ) packet);
 				break;
 			case Message :
-				outPacket = processResponse((InMessage) packet);
+				outPacket = messageHandler.process((InMessage) packet);
 				break;
 			case Presence :
-				outPacket = processResponse((InPresence) packet);
+				outPacket = presenceHandler.process((InPresence) packet);
 				break;
 			case Register :
-				outPacket = processResponse((InRegister) packet);
+				outPacket = registerHandler.process((InRegister) packet);
 				break;
 			case Subscribe :
-				outPacket = processResponse((InSubscribe) packet);
+				outPacket = subscribeHandler.process((InSubscribe) packet);
 				break;
 			default :
 				break;
 		}
 		return outPacket;
-	}
-
-	private OutSubscribe processResponse(InSubscribe subscribe) {
-		OutSubscribe resp = new OutSubscribe();
-		
-		return resp;
-	}
-
-	private OutRegister processResponse(InRegister register) {
-		OutRegister resp = new OutRegister();
-
-		return resp;
-	}
-
-	private OutPresence processResponse(InPresence presence) {
-		OutPresence resp = new OutPresence();
-		resp.setMid(presence.getMid());
-		resp.setSuccess(true);
-		return resp;
-	}
-
-	private OutMessage processResponse(InMessage message) {
-		OutMessage resp = new OutMessage();
-
-		return resp;
-	}
-
-	private OutIQ processResponse(InIQ iq) {
-		OutIQ resp = new OutIQ();
-		Channel channel = ChannelsMemory.channel(String.valueOf(iq.getMid()));
-		if (channel == null || !channel.isConnected()) {
-			resp.setOnline(false);
-			return resp;
-		}
-		resp.setOnline(true);
-		return resp;
 	}
 
 	@Override

@@ -1,9 +1,5 @@
 package me.mos.ti.database;
 
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.SQLException;
-
 import me.mos.ti.etc.Database;
 
 import org.apache.tomcat.jdbc.pool.DataSource;
@@ -14,31 +10,16 @@ import org.apache.tomcat.jdbc.pool.DataSource;
  * @version 1.0.0
  * @since 2015年5月30日 下午5:04:49
  */
-public class DefaultConnectionProvider implements ConnectionProvider {
+public class DefaultDataSourceProvider implements DataSourceProvider {
 
 	private DataSource dataSource;
 
 	@Override
-	public boolean isPooled() {
-		return true;
-	}
-
-	@Override
-	public Connection getConnection() throws SQLException {
-		if (dataSource == null) {
-			throw new SQLException("Please Start ConnectionProvider.");
+	public DataSource getDataSource() throws Throwable {
+		if(dataSource != null) {
+			return dataSource;
 		}
-		return dataSource.createPool().getConnection();
-	}
-
-	@Override
-	public void start() {
-		Database database = null;
-		try {
-			database = Database.newInstance();
-		} catch (IOException e) {
-			throw new IllegalStateException("Create Database Instance Error.", e);
-		}
+		Database database = Database.newInstance();
 		dataSource = new DataSource();
 		dataSource.setDriverClassName(database.getDriverClassName());
 		dataSource.setTestWhileIdle(database.isTestWhileIdle());
@@ -50,20 +31,6 @@ public class DefaultConnectionProvider implements ConnectionProvider {
 		dataSource.setUrl(database.getUrl());
 		dataSource.setUsername(database.getUsername());
 		dataSource.setPassword(database.getPassword());
-	}
-
-	@Override
-	public void restart() {
-		destroy();
-		start();
-	}
-
-	@Override
-	public void destroy() {
-		if (dataSource == null) {
-			return;
-		}
-		dataSource.close();
-		dataSource = null;
+		return dataSource;
 	}
 }
