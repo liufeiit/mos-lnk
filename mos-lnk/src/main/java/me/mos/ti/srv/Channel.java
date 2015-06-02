@@ -1,6 +1,8 @@
 package me.mos.ti.srv;
 
-import me.mos.ti.packet.InPacket;
+import java.io.BufferedReader;
+import java.io.PrintWriter;
+
 import me.mos.ti.packet.OutPacket;
 
 /**
@@ -13,20 +15,20 @@ import me.mos.ti.packet.OutPacket;
  */
 public interface Channel {
 
+	/**
+	 * 获取用户通道ID
+	 */
 	String getMID();
+	
+	/**
+	 * 获取通道消息读取对象.
+	 */
+	BufferedReader getReader();
 
 	/**
 	 * 获取客户端网络地址
 	 */
 	java.net.InetAddress getPeerAddress();
-
-	/**
-	 * 读取消息
-	 * 
-	 * @param timeout
-	 *            消息读取超时时间, 单位秒, 默认15秒
-	 */
-	<I extends InPacket> I read(int timeout);
 
 	/**
 	 * 写消息

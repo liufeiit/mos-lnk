@@ -49,7 +49,7 @@ public class Database {
 	private String password;
 
 	public static Database newInstance() throws IOException {
-		return XStreamParser.toObj(Database.class, StreamUtils.copyToString(new FileInputStream("etc/database.xml"), Charsets.UTF_8));
+		return XStreamParser.toObj(Database.class, StreamUtils.copyToString(new FileInputStream("../etc/database.xml"), Charsets.UTF_8));
 	}
 
 	public String getDriverClassName() {
