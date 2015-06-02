@@ -50,11 +50,6 @@ final class BoundChannel implements Channel {
 	}
 
 	@Override
-	public BufferedReader getReader() {
-		return reader;
-	}
-
-	@Override
 	public InetAddress getPeerAddress() {
 		if (channel == null || !channel.isConnected()) {
 			return null;
@@ -63,9 +58,19 @@ final class BoundChannel implements Channel {
 	}
 
 	@Override
+	public String read() {
+		try {
+			return reader.readLine();
+		} catch (IOException e) {
+			log.error("Channel Read Packet Error.", e);
+		}
+		return null;
+	}
+
+	@Override
 	public <O extends OutPacket> void write(O packet) {
 		try {
-			writer.write(packet.toXML());
+			writer.println(packet.toXML());
 			writer.flush();
 		} catch (Exception e) {
 			log.error("Channel Write Packet Error.", e);

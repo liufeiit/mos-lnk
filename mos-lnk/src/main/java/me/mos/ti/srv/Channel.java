@@ -20,14 +20,14 @@ public interface Channel {
 	String getMID();
 	
 	/**
-	 * 获取通道消息读取对象.
-	 */
-	BufferedReader getReader();
-
-	/**
 	 * 获取客户端网络地址
 	 */
 	java.net.InetAddress getPeerAddress();
+	
+	/**
+	 * 读消息
+	 */
+	String read();
 
 	/**
 	 * 写消息

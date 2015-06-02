@@ -47,7 +47,7 @@ final class ServerHandler implements Runnable {
 					processor.offline(channel);
 					break;
 				}
-				packet = channel.getReader().readLine();
+				packet = channel.read();
 				if (StringUtils.isBlank(packet)) {
 					continue;
 				}
@@ -77,6 +77,7 @@ final class ServerHandler implements Runnable {
 					continue;
 				}
 				channel.write(outPacket);
+				System.err.println("已经回复：" + outPacket);
 			} catch (Throwable e) {
 				log.error("ServerHandler Process Channel Packet Error.", e);
 			}

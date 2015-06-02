@@ -30,6 +30,7 @@ final class DefaultServerProcessor implements ServerProcessor {
 
 	@Override
 	public <I extends InPacket> OutPacket process(I packet) throws Throwable {
+		System.err.println("InComing Packet : " + packet);
 		OutPacket outPacket = null;
 		switch (packet.getType()) {
 			case IQ :
@@ -50,6 +51,7 @@ final class DefaultServerProcessor implements ServerProcessor {
 			default :
 				break;
 		}
+		System.err.println("OutComing Packet : " + outPacket);
 		return outPacket;
 	}
 
@@ -67,7 +69,8 @@ final class DefaultServerProcessor implements ServerProcessor {
 
 	private OutPresence processResponse(InPresence presence) {
 		OutPresence resp = new OutPresence();
-
+		resp.setMid(presence.getMid());
+		resp.setSuccess(true);
 		return resp;
 	}
 
