@@ -12,7 +12,7 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
  * @since 2015年5月30日 下午9:46:53
  */
 @XStreamAlias(PacketAlias.MESSAGE_NAME)
-public class InMessage extends AbstractInPacket {
+public class InMessage extends AbstractInPacket<OutMessage> {
 	
 	/** 发起报文的用户的唯一ID */
 	@XStreamAlias("mid")
@@ -32,6 +32,16 @@ public class InMessage extends AbstractInPacket {
 	@XStreamAlias("gmt-created")
 	@XStreamAsAttribute
 	private long gmt_created;
+
+	@Override
+	public OutMessage toOutPacket() {
+		OutMessage outMessage = new OutMessage();
+		outMessage.setBody(body);
+		outMessage.setGmt_created(gmt_created);
+		outMessage.setMid(mid);
+		outMessage.setTid(tid);
+		return outMessage;
+	}
 
 	@Override
 	public Type getType() {

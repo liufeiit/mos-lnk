@@ -12,12 +12,19 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
  * @since 2015年5月31日 上午1:06:02
  */
 @XStreamAlias(PacketAlias.IQ_NAME)
-public class InIQ extends AbstractInPacket {
+public class InIQ extends AbstractInPacket<OutIQ> {
 	
 	/** 发起报文的用户的唯一ID */
 	@XStreamAlias("mid")
 	@XStreamAsAttribute
 	private long mid;
+
+	@Override
+	public OutIQ toOutPacket() {
+		OutIQ outIQ = new OutIQ();
+		outIQ.setMid(mid);
+		return outIQ;
+	}
 
 	@Override
 	public Type getType() {

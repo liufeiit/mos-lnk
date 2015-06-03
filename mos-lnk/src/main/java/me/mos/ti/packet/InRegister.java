@@ -12,7 +12,7 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
  * @since 2015年5月31日 下午11:21:27
  */
 @XStreamAlias(PacketAlias.REGISTER_NAME)
-public class InRegister extends AbstractInPacket {
+public class InRegister extends AbstractInPacket<OutRegister> {
 
 	/** 第三方系统账号ID */
 	@XStreamAlias("party-id")
@@ -51,6 +51,20 @@ public class InRegister extends AbstractInPacket {
 	@XStreamAlias("phone")
 	private String phone;
 	
+	@Override
+	public OutRegister toOutPacket() {
+		OutRegister outRegister = new OutRegister();
+		outRegister.setAvatar(avatar);
+		outRegister.setEmail(email);
+		outRegister.setNick(nick);
+		outRegister.setParty_id(party_id);
+		outRegister.setPhone(phone);
+		outRegister.setQq(qq);
+		outRegister.setTelephone(telephone);
+		outRegister.setWeixin(weixin);
+		return outRegister;
+	}
+
 	@Override
 	public Type getType() {
 		return Type.Register;

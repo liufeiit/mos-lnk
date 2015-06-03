@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @version 1.0.0
  * @since 2015年6月2日 下午3:43:32
  */
-public class ChannelsMemory {
+public class Channels {
 
 	private static final ConcurrentHashMap<String/** MID */, Channel/** 通道 */> channels = new ConcurrentHashMap<String, Channel>(2000);
 

@@ -69,11 +69,11 @@ final class DefaultServerProcessor implements ServerProcessor {
 
 	@Override
 	public void online(Channel channel) {
-		ChannelsMemory.online(channel);
+		Channels.online(channel);
 	}
 
 	@Override
 	public void offline(Channel channel) {
-		ChannelsMemory.offline(channel);
+		Channels.offline(channel);
 	}
 }

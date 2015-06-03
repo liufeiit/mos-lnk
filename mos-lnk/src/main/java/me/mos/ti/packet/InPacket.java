@@ -8,7 +8,9 @@ package me.mos.ti.packet;
  * @version 1.0.0
  * @since 2015年6月1日 下午2:03:13
  */
-public interface InPacket extends Packet {
+public interface InPacket<O extends OutPacket> extends Packet {
 
-	<T extends InPacket> T fromXML(String xml);
+	<T extends InPacket<O>> T fromXML(String xml);
+	
+	O toOutPacket();
 }

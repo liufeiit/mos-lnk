@@ -23,10 +23,6 @@ public class OutRegister extends AbstractOutPacket {
 	@XStreamAlias("nick")
 	private String nick;
 
-	/** 用户密码 */
-	@XStreamAlias("passwd")
-	private String passwd;
-
 	/** 用户头像 */
 	@XStreamAlias("avatar")
 	private String avatar;
@@ -74,14 +70,6 @@ public class OutRegister extends AbstractOutPacket {
 
 	public void setNick(String nick) {
 		this.nick = nick;
-	}
-
-	public String getPasswd() {
-		return passwd;
-	}
-
-	public void setPasswd(String passwd) {
-		this.passwd = passwd;
 	}
 
 	public String getAvatar() {

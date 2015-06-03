@@ -24,7 +24,7 @@ public class MessageHandler implements PacketHandler<InMessage, OutMessage> {
 	@Override
 	public OutMessage process(InMessage packet) throws Throwable {
 		OutMessage resp = new OutMessage();
-
+		
 		return resp;
 	}
 }

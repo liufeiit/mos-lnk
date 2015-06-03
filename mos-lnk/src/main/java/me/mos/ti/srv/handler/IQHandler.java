@@ -3,7 +3,7 @@ package me.mos.ti.srv.handler;
 import me.mos.ti.packet.InIQ;
 import me.mos.ti.packet.OutIQ;
 import me.mos.ti.srv.Channel;
-import me.mos.ti.srv.ChannelsMemory;
+import me.mos.ti.srv.Channels;
 import me.mos.ti.srv.ServerProcessor;
 
 /**
@@ -26,7 +26,7 @@ public class IQHandler implements PacketHandler<InIQ, OutIQ> {
 	@Override
 	public OutIQ process(InIQ packet) throws Throwable {
 		OutIQ resp = new OutIQ();
-		Channel channel = ChannelsMemory.channel(String.valueOf(packet.getMid()));
+		Channel channel = Channels.channel(String.valueOf(packet.getMid()));
 		if (channel == null || !channel.isConnected()) {
 			resp.setOnline(false);
 			return resp;
