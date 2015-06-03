@@ -29,7 +29,7 @@ public class InSubscribe extends AbstractInPacket {
 		OutSubscribe outSubscribe = new OutSubscribe();
 		outSubscribe.setMid(mid);
 		outSubscribe.setSmid(smid);
-		return outSubscribe;
+		return outSubscribe.ok();
 	}
 
 	@Override

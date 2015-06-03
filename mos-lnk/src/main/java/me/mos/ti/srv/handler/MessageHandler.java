@@ -33,7 +33,7 @@ public class MessageHandler extends AbstractPacketHandler<InMessage> {
 			// 对方不存在 丢弃消息
 			return new Acknowledge().peerNotExist();
 		}
-		OutMessage resp = packet.toOutPacket().ok();
+		OutMessage resp = packet.toOutPacket();
 		resp.setAvatar(user.getAvatar());
 		resp.setNick(user.getNick());
 		resp.setParty_id(user.getParty_id());

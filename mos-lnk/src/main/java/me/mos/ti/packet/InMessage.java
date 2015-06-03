@@ -40,7 +40,7 @@ public class InMessage extends AbstractInPacket {
 		outMessage.setGmt_created(gmt_created);
 		outMessage.setMid(mid);
 		outMessage.setTid(tid);
-		return outMessage;
+		return outMessage.ok();
 	}
 
 	@Override

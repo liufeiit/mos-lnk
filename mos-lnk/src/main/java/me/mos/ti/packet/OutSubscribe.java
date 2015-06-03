@@ -14,6 +14,8 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 @XStreamAlias(PacketAlias.SUBSCRIBE_NAME)
 public class OutSubscribe extends AbstractOutPacket {
 
+	private static final int ERR = 3;
+
 	private static final int PEER_NOT_EXIST = 2;
 
 	private static final int OK = 1;
@@ -42,6 +44,11 @@ public class OutSubscribe extends AbstractOutPacket {
 	
 	public OutSubscribe ok() {
 		status = OK;
+		return this;
+	}
+	
+	public OutSubscribe err() {
+		status = ERR;
 		return this;
 	}
 	

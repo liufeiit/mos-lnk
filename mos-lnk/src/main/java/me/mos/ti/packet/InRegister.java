@@ -62,7 +62,7 @@ public class InRegister extends AbstractInPacket {
 		outRegister.setQq(qq);
 		outRegister.setTelephone(telephone);
 		outRegister.setWeixin(weixin);
-		return outRegister;
+		return outRegister.ok();
 	}
 
 	@Override

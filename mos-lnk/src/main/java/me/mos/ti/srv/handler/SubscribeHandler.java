@@ -5,6 +5,8 @@ import me.mos.ti.packet.OutPacket;
 import me.mos.ti.packet.OutSubscribe;
 import me.mos.ti.srv.Channel;
 import me.mos.ti.srv.ServerProcessor;
+import me.mos.ti.subscribe.DefaultSubscribeProvider;
+import me.mos.ti.subscribe.Subscribe;
 import me.mos.ti.user.DefaultUserProvider;
 import me.mos.ti.user.User;
 
@@ -25,14 +27,19 @@ public class SubscribeHandler extends AbstractPacketHandler<InSubscribe> {
 	@Override
 	public OutPacket process(Channel channel, InSubscribe packet) throws Throwable {
 		OutSubscribe resp = packet.toOutPacket();
-		User user = DefaultUserProvider.getInstance().query(packet.getSmid());
-		if (user == null) {
-			return resp.peerNotExist();
+		try {
+			User user = DefaultUserProvider.getInstance().query(packet.getSmid());
+			if (user == null) {
+				return resp.peerNotExist();
+			}
+			resp.setAvatar(user.getAvatar());
+			resp.setNick(user.getNick());
+			resp.setParty_id(user.getParty_id());
+			Subscribe subscribe = Subscribe.newInstance(resp);
+			DefaultSubscribeProvider.getInstance().save(subscribe);
+		} catch (Exception e) {
+			resp.err();
 		}
-		resp.setAvatar(user.getAvatar());
-		resp.setNick(user.getNick());
-		resp.setParty_id(user.getParty_id());
-		// TODO 订阅用户
-		return resp.ok();
+		return resp;
 	}
 }

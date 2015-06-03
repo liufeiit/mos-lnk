@@ -28,7 +28,7 @@ public class InPresence extends AbstractInPacket {
 	public OutPresence toOutPacket() {
 		OutPresence outPresence = new OutPresence();
 		outPresence.setMid(mid);
-		return outPresence;
+		return outPresence.ok();
 	}
 
 	@Override

@@ -34,7 +34,7 @@ public class Message {
 	private long gmt_created;
 	
 	public OutMessage toOutMessage() {
-		OutMessage o = new OutMessage();
+		OutMessage o = new OutMessage().ok();
 		o.setAvatar(avatar);
 		o.setBody(body);
 		o.setGmt_created(gmt_created);
