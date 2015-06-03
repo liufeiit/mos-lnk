@@ -27,6 +27,18 @@ public class DefaultMessageProvider implements MessageProvider {
 	private static class MessageProviderHolder {
 		private static final MessageProvider MESSAGE_PROVIDER = new DefaultMessageProvider();
 	}
+	
+	private static final String SAVE_MESSAGE_SQL = "INSERT INTO `mos-lnk`.`lnk-message` "
+			+ "(`mid`, `party_id`, `nick`, `avatar`, `tid`, `body`, `gmt_created`) "
+			+ "VALUES "
+			+ "(:mid, :party_id, :nick, :avatar, :tid, :body, :gmt_created)";
+	
+	private static final String DEL_MESSAGE_SQL = "DELETE FROM `mos-lnk`.`lnk-message` WHERE id = :id;";
+	
+	private static final String QUERY_MESSAGE_SQL = "SELECT "
+			+ "`lnk-message`.`id`, `lnk-message`.`mid`, `lnk-message`.`party_id`, "
+			+ "`lnk-message`.`nick`, `lnk-message`.`avatar`, `lnk-message`.`tid`, "
+			+ "`lnk-message`.`body`, `lnk-message`.`gmt_created` FROM `mos-lnk`.`lnk-message` where `lnk-message`.`tid` = :tid;";
 
 	private DefaultMessageProvider() {
 		super();
@@ -40,7 +52,7 @@ public class DefaultMessageProvider implements MessageProvider {
 	@Override
 	public long save(Message message) {
 		KeyHolder keyHolder = new GeneratedKeyHolder();
-		jdbcTemplate.update("", new BeanPropertySqlParameterSource(message), keyHolder, new String[] { "id" });
+		jdbcTemplate.update(SAVE_MESSAGE_SQL, new BeanPropertySqlParameterSource(message), keyHolder, new String[] { "id" });
 		return keyHolder.getKey().longValue();
 	}
 
@@ -48,14 +60,14 @@ public class DefaultMessageProvider implements MessageProvider {
 	public List<Message> queryMessageList(long tid) {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("tid", tid);
-		return jdbcTemplate.query("", paramMap, new MessageMapper());
+		return jdbcTemplate.query(QUERY_MESSAGE_SQL, paramMap, new MessageMapper());
 	}
 
 	@Override
 	public int delete(long id) {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("id", id);
-		return jdbcTemplate.update("", paramMap);
+		return jdbcTemplate.update(DEL_MESSAGE_SQL, paramMap);
 	}
 	
 	private class MessageMapper implements RowMapper<Message> {
