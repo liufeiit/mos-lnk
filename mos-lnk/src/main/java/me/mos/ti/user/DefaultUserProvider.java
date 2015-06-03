@@ -26,6 +26,31 @@ public class DefaultUserProvider implements UserProvider {
 	private static class UserProviderHolder {
 		private static final UserProvider USER_PROVIDER = new DefaultUserProvider();
 	}
+	
+	private static final String SELECT_SQL = "SELECT "
+			+ "`lnk-user`.`mid`, "
+			+ "`lnk-user`.`party_id`, "
+			+ "`lnk-user`.`nick`, "
+			+ "`lnk-user`.`passwd`, "
+			+ "`lnk-user`.`avatar`, "
+			+ "`lnk-user`.`weixin`, "
+			+ "`lnk-user`.`qq`, "
+			+ "`lnk-user`.`email`, "
+			+ "`lnk-user`.`telephone`, "
+			+ "`lnk-user`.`phone`, "
+			+ "`lnk-user`.`address`, "
+			+ "`lnk-user`.`ip`, "
+			+ "`lnk-user`.`lng`, "
+			+ "`lnk-user`.`lat`, "
+			+ "`lnk-user`.`status`, "
+			+ "`lnk-user`.`extend`, "
+			+ "`lnk-user`.`gmt_created`, "
+			+ "`lnk-user`.`gmt_modified` FROM `mos-lnk`.`lnk-user` WHERE `lnk-user`.`mid` = :mid;";
+	
+	private static final String CREATE_USR_SQL = "INSERT INTO `mos-lnk`.`lnk-user` "
+			+ "(`party_id`, `nick`, `passwd`, `avatar`, `weixin`, `qq`, `email`, `telephone`, `phone`, `address`, `ip`, `lng`, `lat`, `status`, `extend`, `gmt_created`, `gmt_modified`) "
+			+ "VALUES "
+			+ "(:party_id, :nick, :passwd, :avatar, :weixin, :qq, :email, :telephone, :phone, :address, :ip, :lng, :lat, :status, :extend, :gmt_created, :gmt_modified);";
 
 	private DefaultUserProvider() {
 		super();
@@ -40,13 +65,13 @@ public class DefaultUserProvider implements UserProvider {
 	public User query(long mid) {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("mid", mid);
-		return jdbcTemplate.queryForObject("", paramMap, new UserMapper());
+		return jdbcTemplate.queryForObject(SELECT_SQL, paramMap, new UserMapper());
 	}
 
 	@Override
 	public long save(User user) {
 		KeyHolder keyHolder = new GeneratedKeyHolder();
-		jdbcTemplate.update("", new BeanPropertySqlParameterSource(user), keyHolder, new String[] { "mid" });
+		jdbcTemplate.update(CREATE_USR_SQL, new BeanPropertySqlParameterSource(user), keyHolder, new String[] { "mid" });
 		return keyHolder.getKey().longValue();
 	}
 
