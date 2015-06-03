@@ -14,7 +14,7 @@ import me.mos.ti.srv.ServerProcessor;
  */
 public class PresenceHandler extends AbstractPacketHandler<InPresence, OutPresence> {
 
-	protected PresenceHandler(ServerProcessor processor) {
+	public PresenceHandler(ServerProcessor processor) {
 		super(processor);
 	}
 

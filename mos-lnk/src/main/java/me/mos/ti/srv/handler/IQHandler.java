@@ -16,7 +16,7 @@ import me.mos.ti.srv.ServerProcessor;
  */
 public class IQHandler extends AbstractPacketHandler<InIQ, OutIQ> {
 	
-	protected IQHandler(ServerProcessor processor) {
+	public IQHandler(ServerProcessor processor) {
 		super(processor);
 	}
 

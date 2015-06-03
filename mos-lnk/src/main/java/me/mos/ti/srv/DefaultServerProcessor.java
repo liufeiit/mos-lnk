@@ -43,7 +43,7 @@ final class DefaultServerProcessor implements ServerProcessor {
 	}
 
 	@Override
-	public <I extends InPacket> OutPacket process(I packet) throws Throwable {
+	public <I extends InPacket<? extends OutPacket>> OutPacket process(I packet) throws Throwable {
 		OutPacket outPacket = null;
 		switch (packet.getType()) {
 			case IQ :

@@ -10,11 +10,11 @@ import me.mos.ti.srv.ServerProcessor;
  * @version 1.0.0
  * @since 2015年6月3日 下午4:31:36
  */
-public abstract class AbstractPacketHandler<I extends InPacket<?>, O extends OutPacket> implements PacketHandler<I, O> {
+public abstract class AbstractPacketHandler<I extends InPacket<? extends OutPacket>, O extends OutPacket> implements PacketHandler<I, O> {
 
 	protected final ServerProcessor processor;
 
-	protected AbstractPacketHandler(ServerProcessor processor) {
+	public AbstractPacketHandler(ServerProcessor processor) {
 		super();
 		this.processor = processor;
 	}

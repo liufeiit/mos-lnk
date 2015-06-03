@@ -12,7 +12,7 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
  * @since 2015年6月2日 下午4:12:35
  */
 public class Acknowledge extends AbstractOutPacket {
-
+	
 	/**
 	 * 消息状态
 	 */
@@ -23,6 +23,30 @@ public class Acknowledge extends AbstractOutPacket {
 	@Override
 	public Type getType() {
 		return Type.Acknowledge;
+	}
+	
+	/**
+	 * 消息已经发送
+	 */
+	public Acknowledge ok() {
+		status = 1;
+		return this;
+	}
+	
+	/**
+	 * 对方不在线, 已经发送离线消息
+	 */
+	public Acknowledge waitForPeerOnline() {
+		status = 2;
+		return this;
+	}
+	
+	/**
+	 * 对方不存在
+	 */
+	public Acknowledge peerNoExist() {
+		status = 3;
+		return this;
 	}
 
 	public byte getStatus() {

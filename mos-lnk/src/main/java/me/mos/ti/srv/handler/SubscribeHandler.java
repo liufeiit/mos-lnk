@@ -14,7 +14,7 @@ import me.mos.ti.srv.ServerProcessor;
  */
 public class SubscribeHandler extends AbstractPacketHandler<InSubscribe, OutSubscribe> {
 	
-	protected SubscribeHandler(ServerProcessor processor) {
+	public SubscribeHandler(ServerProcessor processor) {
 		super(processor);
 	}
 

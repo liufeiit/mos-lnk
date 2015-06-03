@@ -14,7 +14,7 @@ import me.mos.ti.srv.ServerProcessor;
  */
 public class RegisterHandler extends AbstractPacketHandler<InRegister, OutRegister> {
 	
-	protected RegisterHandler(ServerProcessor processor) {
+	public RegisterHandler(ServerProcessor processor) {
 		super(processor);
 	}
 
