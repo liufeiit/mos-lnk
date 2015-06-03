@@ -2,6 +2,10 @@ package me.mos.ti.user;
 
 import java.util.Date;
 
+import org.apache.commons.lang3.StringUtils;
+
+import me.mos.ti.packet.InRegister;
+
 /**
  * 通讯用户定义.
  * 
@@ -11,6 +15,10 @@ import java.util.Date;
  * @since 2015年5月30日 下午9:43:28
  */
 public class User {
+	
+	public static final String ONLINE = "online";
+
+	public static final String OFFLINE = "offline";
 
 	/** 用户唯一ID */
 	private long mid;
@@ -65,6 +73,41 @@ public class User {
 
 	/** 用户最后修改信息时间 */
 	private Date gmt_modified;
+	
+	public static User newInstance(InRegister inRegister) {
+		Date date = new Date();
+		User user = new User();
+		user.setAvatar(inRegister.getAvatar());
+		user.setEmail(inRegister.getEmail());
+		user.setGmt_created(date);
+		user.setGmt_modified(date);
+		user.setNick(inRegister.getNick());
+		user.setParty_id(inRegister.getParty_id());
+		user.setPasswd(inRegister.getPasswd());
+		user.setPhone(inRegister.getPhone());
+		user.setQq(inRegister.getQq());
+		user.setTelephone(inRegister.getTelephone());
+		user.setWeixin(inRegister.getWeixin());
+		return user;
+	}
+	
+	public boolean isOnline() {
+		return StringUtils.equals(ONLINE, status);
+	}
+	
+	public boolean isOffline() {
+		return StringUtils.equals(OFFLINE, status);
+	}
+	
+	public User online() {
+		status = ONLINE;
+		return this;
+	}
+	
+	public User offline() {
+		status = OFFLINE;
+		return this;
+	}
 
 	public long getMid() {
 		return mid;

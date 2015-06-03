@@ -1,10 +1,14 @@
 package me.mos.ti.srv.handler;
 
+import org.apache.commons.lang3.StringUtils;
+
 import me.mos.ti.packet.InRegister;
 import me.mos.ti.packet.OutPacket;
 import me.mos.ti.packet.OutRegister;
 import me.mos.ti.srv.Channel;
 import me.mos.ti.srv.ServerProcessor;
+import me.mos.ti.user.DefaultUserProvider;
+import me.mos.ti.user.User;
 
 /**
  * Register消息处理器.
@@ -23,7 +27,14 @@ public class RegisterHandler extends AbstractPacketHandler<InRegister> {
 	@Override
 	public OutPacket process(Channel channel, InRegister packet) throws Throwable {
 		OutRegister resp = packet.toOutPacket();
-
+		User user = User.newInstance(packet);
+		user.setAddress(StringUtils.EMPTY);
+		user.setExtend(StringUtils.EMPTY);
+		user.setIp(channel.toString());
+		long mid = DefaultUserProvider.getInstance().save(user);
+		user.online().setMid(mid);
+		channel.setMID(mid);
+		processor.online(channel);
 		return resp;
 	}
 }

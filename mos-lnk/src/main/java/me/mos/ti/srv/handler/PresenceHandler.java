@@ -23,8 +23,12 @@ public class PresenceHandler extends AbstractPacketHandler<InPresence> {
 	@Override
 	public OutPacket process(Channel channel, InPresence packet) throws Throwable {
 		OutPresence resp = packet.toOutPacket();
-		processor.online(channel);
-		resp.setSuccess(true);
-		return resp;
+		try {
+			processor.online(channel);
+			//TODO 出席之后拉取离线消息
+		} catch (Exception e) {
+			return resp.err();
+		}
+		return resp.ok();
 	}
 }

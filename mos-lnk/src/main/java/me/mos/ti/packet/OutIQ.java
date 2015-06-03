@@ -14,20 +14,33 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 @XStreamAlias(PacketAlias.IQ_NAME)
 public class OutIQ extends AbstractOutPacket {
 	
-	@XStreamAlias("online")
+	private static final int OFFLINE = 2;
+	private static final int ONLINE = 1;
+	
+	@XStreamAlias("status")
 	@XStreamAsAttribute
-	private boolean online;
+	private byte status;
 
 	@Override
 	public Type getType() {
 		return Type.IQ;
 	}
-
-	public boolean isOnline() {
-		return online;
+	
+	public OutIQ online() {
+		status = ONLINE;
+		return this;
+	}
+	
+	public OutIQ offline() {
+		status = OFFLINE;
+		return this;
 	}
 
-	public void setOnline(boolean online) {
-		this.online = online;
+	public byte getStatus() {
+		return status;
+	}
+
+	public void setStatus(byte status) {
+		this.status = status;
 	}
 }

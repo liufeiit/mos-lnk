@@ -52,6 +52,8 @@ public class DefaultUserProvider implements UserProvider {
 			+ "VALUES "
 			+ "(:party_id, :nick, :passwd, :avatar, :weixin, :qq, :email, :telephone, :phone, :address, :ip, :lng, :lat, :status, :extend, :gmt_created, :gmt_modified);";
 
+	private static final String UPDATE_USER_STATUS_SQL = "UPDATE `mos-lnk`.`lnk-user` SET `lnk-user`.`status` = :status WHERE `lnk-user`.`mid` = :mid;";
+	
 	private DefaultUserProvider() {
 		super();
 		jdbcTemplate = JdbcTemplateProvider.getJdbcTemplate();
@@ -73,6 +75,22 @@ public class DefaultUserProvider implements UserProvider {
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		jdbcTemplate.update(CREATE_USR_SQL, new BeanPropertySqlParameterSource(user), keyHolder, new String[] { "mid" });
 		return keyHolder.getKey().longValue();
+	}
+
+	@Override
+	public int online(long mid) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("mid", mid);
+		paramMap.put("status", User.ONLINE);
+		return jdbcTemplate.update(UPDATE_USER_STATUS_SQL, paramMap);
+	}
+
+	@Override
+	public int offline(long mid) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("mid", mid);
+		paramMap.put("status", User.OFFLINE);
+		return jdbcTemplate.update(UPDATE_USER_STATUS_SQL, paramMap);
 	}
 
 	private class UserMapper implements RowMapper<User> {

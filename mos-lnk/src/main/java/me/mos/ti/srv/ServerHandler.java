@@ -50,18 +50,22 @@ final class ServerHandler implements Runnable {
 				InPacket inPacket = null;
 				if (StringUtils.startsWith(packet, XMLSTART_TAG + PacketAlias.IQ_NAME)) {
 					inPacket = new InIQ().fromXML(packet);
+					channel.setMID(((InIQ) inPacket).getMid());
 				}
 				if (StringUtils.startsWith(packet, XMLSTART_TAG + PacketAlias.MESSAGE_NAME)) {
 					inPacket = new InMessage().fromXML(packet);
+					channel.setMID(((InMessage) inPacket).getMid());
 				}
 				if (StringUtils.startsWith(packet, XMLSTART_TAG + PacketAlias.PRESENCE_NAME)) {
 					inPacket = new InPresence().fromXML(packet);
+					channel.setMID(((InPresence) inPacket).getMid());
 				}
 				if (StringUtils.startsWith(packet, XMLSTART_TAG + PacketAlias.REGISTER_NAME)) {
 					inPacket = new InRegister().fromXML(packet);
 				}
 				if (StringUtils.startsWith(packet, XMLSTART_TAG + PacketAlias.SUBSCRIBE_NAME)) {
 					inPacket = new InSubscribe().fromXML(packet);
+					channel.setMID(((InSubscribe) inPacket).getMid());
 				}
 				if (inPacket == null) {
 					continue;

@@ -11,4 +11,9 @@ package me.mos.ti.packet;
 public interface OutPacket extends Packet {
 
 	String toXML();
+	
+	/**
+	 * 获取操作状态
+	 */
+	byte getStatus();
 }

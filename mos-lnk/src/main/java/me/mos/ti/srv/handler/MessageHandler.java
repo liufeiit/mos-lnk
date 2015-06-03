@@ -31,9 +31,9 @@ public class MessageHandler extends AbstractPacketHandler<InMessage> {
 		User user = DefaultUserProvider.getInstance().query(packet.getMid());
 		if (user == null) {
 			// 对方不存在 丢弃消息
-			return new Acknowledge().peerNoExist();
+			return new Acknowledge().peerNotExist();
 		}
-		OutMessage resp = packet.toOutPacket();
+		OutMessage resp = packet.toOutPacket().ok();
 		resp.setAvatar(user.getAvatar());
 		resp.setNick(user.getNick());
 		resp.setParty_id(user.getParty_id());
@@ -41,7 +41,7 @@ public class MessageHandler extends AbstractPacketHandler<InMessage> {
 		if (peerChannel == null || !peerChannel.isConnected()) {
 			// 对方不存在离线消息保存并回执
 			DefaultMessageProvider.getInstance().save(Message.newInstance(resp));
-			return new Acknowledge().waitForPeerOnline();
+			return new Acknowledge().peerOffline();
 		}
 		peerChannel.write(resp);// 发送给对方
 		return new Acknowledge().ok();

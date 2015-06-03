@@ -16,6 +16,8 @@ public interface Channel {
 	 * 获取用户通道ID
 	 */
 	String getMID();
+
+	Channel setMID(long mid);
 	
 	/**
 	 * 获取客户端网络地址

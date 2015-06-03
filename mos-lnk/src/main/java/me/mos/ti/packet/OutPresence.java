@@ -14,20 +14,33 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 @XStreamAlias(PacketAlias.PRESENCE_NAME)
 public class OutPresence extends AbstractOutPacket {
 	
-	@XStreamAlias("success")
+	private static final int ERR = 2;
+	private static final int OK = 1;
+	
+	@XStreamAlias("status")
 	@XStreamAsAttribute
-	private boolean success;
+	private byte status;
 
 	@Override
 	public Type getType() {
 		return Type.Presence;
 	}
-
-	public boolean isSuccess() {
-		return success;
+	
+	public OutPresence ok() {
+		status = OK;
+		return this;
+	}
+	
+	public OutPresence err() {
+		status = ERR;
+		return this;
 	}
 
-	public void setSuccess(boolean success) {
-		this.success = success;
+	public byte getStatus() {
+		return status;
+	}
+
+	public void setStatus(byte status) {
+		this.status = status;
 	}
 }

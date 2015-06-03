@@ -16,7 +16,7 @@ import me.mos.ti.srv.ServerProcessor;
  * @since 2015年6月2日 下午7:18:45
  */
 public class IQHandler extends AbstractPacketHandler<InIQ> {
-	
+
 	public IQHandler(ServerProcessor processor) {
 		super(processor);
 	}
@@ -25,7 +25,11 @@ public class IQHandler extends AbstractPacketHandler<InIQ> {
 	public OutPacket process(Channel channel, InIQ packet) throws Throwable {
 		OutIQ resp = packet.toOutPacket();
 		Channel me = Channels.channel(String.valueOf(packet.getMid()));
-		resp.setOnline((me != null && me.isConnected()));
+		if (me != null && me.isConnected()) {
+			resp.online();
+		} else {
+			resp.offline();
+		}
 		return resp;
 	}
 }

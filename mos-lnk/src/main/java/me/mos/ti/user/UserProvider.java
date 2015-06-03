@@ -9,4 +9,7 @@ package me.mos.ti.user;
 public interface UserProvider {
 	User query(long mid);
 	long save(User user);
+	
+	int online(long mid);
+	int offline(long mid);
 }

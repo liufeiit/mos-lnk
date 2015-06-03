@@ -50,6 +50,12 @@ final class BoundChannel implements Channel {
 	}
 
 	@Override
+	public Channel setMID(long mid) {
+		this.mid = String.valueOf(mid);
+		return this;
+	}
+
+	@Override
 	public InetAddress getPeerAddress() {
 		if (channel == null || !channel.isConnected()) {
 			return null;

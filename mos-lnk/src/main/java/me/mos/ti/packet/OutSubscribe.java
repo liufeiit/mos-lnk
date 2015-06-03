@@ -14,6 +14,10 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 @XStreamAlias(PacketAlias.SUBSCRIBE_NAME)
 public class OutSubscribe extends AbstractOutPacket {
 
+	private static final int PEER_NOT_EXIST = 2;
+
+	private static final int OK = 1;
+
 	/** 被订阅的用户的唯一ID */
 	@XStreamAlias("smid")
 	@XStreamAsAttribute
@@ -32,9 +36,19 @@ public class OutSubscribe extends AbstractOutPacket {
 	@XStreamAlias("avatar")
 	private String avatar;
 	
-	@XStreamAlias("success")
+	@XStreamAlias("status")
 	@XStreamAsAttribute
-	private boolean success;
+	private byte status;
+	
+	public OutSubscribe ok() {
+		status = OK;
+		return this;
+	}
+	
+	public OutSubscribe peerNotExist() {
+		status = PEER_NOT_EXIST;
+		return this;
+	}
 
 	@Override
 	public Type getType() {
@@ -49,12 +63,12 @@ public class OutSubscribe extends AbstractOutPacket {
 		this.smid = smid;
 	}
 
-	public boolean isSuccess() {
-		return success;
+	public byte getStatus() {
+		return status;
 	}
 
-	public void setSuccess(boolean success) {
-		this.success = success;
+	public void setStatus(byte status) {
+		this.status = status;
 	}
 
 	public String getParty_id() {

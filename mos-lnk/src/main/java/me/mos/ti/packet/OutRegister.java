@@ -14,6 +14,10 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 @XStreamAlias(PacketAlias.REGISTER_NAME)
 public class OutRegister extends AbstractOutPacket {
 
+	private static final int ERR = 2;
+
+	private static final int OK = 1;
+
 	/** 第三方系统账号ID */
 	@XStreamAlias("party-id")
 	@XStreamAsAttribute
@@ -50,6 +54,20 @@ public class OutRegister extends AbstractOutPacket {
 	/** 用户注册时间 */
 	@XStreamAlias("phone")
 	private long gmt_created;
+	
+	@XStreamAlias("status")
+	@XStreamAsAttribute
+	private byte status;
+	
+	public OutRegister ok() {
+		status = OK;
+		return this;
+	}
+	
+	public OutRegister err() {
+		status = ERR;
+		return this;
+	}
 
 	@Override
 	public Type getType() {
@@ -126,5 +144,13 @@ public class OutRegister extends AbstractOutPacket {
 
 	public void setGmt_created(long gmt_created) {
 		this.gmt_created = gmt_created;
+	}
+
+	public byte getStatus() {
+		return status;
+	}
+
+	public void setStatus(byte status) {
+		this.status = status;
 	}
 }

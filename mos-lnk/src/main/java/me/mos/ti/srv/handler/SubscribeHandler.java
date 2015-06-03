@@ -5,6 +5,8 @@ import me.mos.ti.packet.OutPacket;
 import me.mos.ti.packet.OutSubscribe;
 import me.mos.ti.srv.Channel;
 import me.mos.ti.srv.ServerProcessor;
+import me.mos.ti.user.DefaultUserProvider;
+import me.mos.ti.user.User;
 
 /**
  * Subscribe消息处理器.
@@ -15,7 +17,7 @@ import me.mos.ti.srv.ServerProcessor;
  * @since 2015年6月2日 下午7:23:45
  */
 public class SubscribeHandler extends AbstractPacketHandler<InSubscribe> {
-	
+
 	public SubscribeHandler(ServerProcessor processor) {
 		super(processor);
 	}
@@ -23,7 +25,14 @@ public class SubscribeHandler extends AbstractPacketHandler<InSubscribe> {
 	@Override
 	public OutPacket process(Channel channel, InSubscribe packet) throws Throwable {
 		OutSubscribe resp = packet.toOutPacket();
-
-		return resp;
+		User user = DefaultUserProvider.getInstance().query(packet.getSmid());
+		if (user == null) {
+			return resp.peerNotExist();
+		}
+		resp.setAvatar(user.getAvatar());
+		resp.setNick(user.getNick());
+		resp.setParty_id(user.getParty_id());
+		// TODO 订阅用户
+		return resp.ok();
 	}
 }
