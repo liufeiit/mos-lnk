@@ -12,13 +12,10 @@ import me.mos.ti.srv.ServerProcessor;
  * @version 1.0.0
  * @since 2015年6月2日 下午7:23:45
  */
-public class SubscribeHandler implements PacketHandler<InSubscribe, OutSubscribe> {
+public class SubscribeHandler extends AbstractPacketHandler<InSubscribe, OutSubscribe> {
 	
-	private final ServerProcessor processor;
-
-	public SubscribeHandler(ServerProcessor processor) {
-		super();
-		this.processor = processor;
+	protected SubscribeHandler(ServerProcessor processor) {
+		super(processor);
 	}
 
 	@Override

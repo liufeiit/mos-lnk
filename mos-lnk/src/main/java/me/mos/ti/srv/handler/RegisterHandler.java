@@ -12,13 +12,10 @@ import me.mos.ti.srv.ServerProcessor;
  * @version 1.0.0
  * @since 2015年6月2日 下午7:22:47
  */
-public class RegisterHandler implements PacketHandler<InRegister, OutRegister> {
+public class RegisterHandler extends AbstractPacketHandler<InRegister, OutRegister> {
 	
-	private final ServerProcessor processor;
-
-	public RegisterHandler(ServerProcessor processor) {
-		super();
-		this.processor = processor;
+	protected RegisterHandler(ServerProcessor processor) {
+		super(processor);
 	}
 
 	@Override

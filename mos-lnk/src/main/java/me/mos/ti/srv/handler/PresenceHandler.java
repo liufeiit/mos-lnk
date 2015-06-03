@@ -12,13 +12,10 @@ import me.mos.ti.srv.ServerProcessor;
  * @version 1.0.0
  * @since 2015年6月2日 下午7:22:00
  */
-public class PresenceHandler implements PacketHandler<InPresence, OutPresence> {
-	
-	private final ServerProcessor processor;
+public class PresenceHandler extends AbstractPacketHandler<InPresence, OutPresence> {
 
-	public PresenceHandler(ServerProcessor processor) {
-		super();
-		this.processor = processor;
+	protected PresenceHandler(ServerProcessor processor) {
+		super(processor);
 	}
 
 	@Override

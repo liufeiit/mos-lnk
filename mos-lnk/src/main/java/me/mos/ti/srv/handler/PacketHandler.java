@@ -11,6 +11,6 @@ import me.mos.ti.packet.InPacket;
  * @version 1.0.0
  * @since 2015年6月2日 下午7:15:56
  */
-public interface PacketHandler<I extends InPacket, O extends OutPacket> {
+public interface PacketHandler<I extends InPacket<?>, O extends OutPacket> {
 	O process(I packet) throws Throwable;
 }

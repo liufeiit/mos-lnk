@@ -14,18 +14,15 @@ import me.mos.ti.srv.ServerProcessor;
  * @version 1.0.0
  * @since 2015年6月2日 下午7:18:45
  */
-public class IQHandler implements PacketHandler<InIQ, OutIQ> {
+public class IQHandler extends AbstractPacketHandler<InIQ, OutIQ> {
 	
-	private final ServerProcessor processor;
-
-	public IQHandler(ServerProcessor processor) {
-		super();
-		this.processor = processor;
+	protected IQHandler(ServerProcessor processor) {
+		super(processor);
 	}
 
 	@Override
 	public OutIQ process(InIQ packet) throws Throwable {
-		OutIQ resp = new OutIQ();
+		OutIQ resp = packet.toOutPacket();
 		Channel channel = Channels.channel(String.valueOf(packet.getMid()));
 		if (channel == null || !channel.isConnected()) {
 			resp.setOnline(false);
