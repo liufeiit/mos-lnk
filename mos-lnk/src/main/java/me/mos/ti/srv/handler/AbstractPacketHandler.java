@@ -1,7 +1,6 @@
 package me.mos.ti.srv.handler;
 
 import me.mos.ti.packet.InPacket;
-import me.mos.ti.packet.OutPacket;
 import me.mos.ti.srv.ServerProcessor;
 
 /**
@@ -10,7 +9,7 @@ import me.mos.ti.srv.ServerProcessor;
  * @version 1.0.0
  * @since 2015年6月3日 下午4:31:36
  */
-public abstract class AbstractPacketHandler<I extends InPacket<? extends OutPacket>, O extends OutPacket> implements PacketHandler<I, O> {
+public abstract class AbstractPacketHandler<I extends InPacket> implements PacketHandler<I> {
 
 	protected final ServerProcessor processor;
 

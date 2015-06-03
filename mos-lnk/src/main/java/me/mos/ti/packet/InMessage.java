@@ -12,7 +12,7 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
  * @since 2015年5月30日 下午9:46:53
  */
 @XStreamAlias(PacketAlias.MESSAGE_NAME)
-public class InMessage extends AbstractInPacket<OutMessage> {
+public class InMessage extends AbstractInPacket {
 	
 	/** 发起报文的用户的唯一ID */
 	@XStreamAlias("mid")

@@ -1,5 +1,7 @@
 package me.mos.ti.message;
 
+import me.mos.ti.packet.OutMessage;
+
 /**
  * @author 刘飞 E-mail:liufei_it@126.com
  * 
@@ -30,6 +32,30 @@ public class Message {
 
 	/** 消息发送时间 */
 	private long gmt_created;
+	
+	public OutMessage toOutMessage() {
+		OutMessage o = new OutMessage();
+		o.setAvatar(avatar);
+		o.setBody(body);
+		o.setGmt_created(gmt_created);
+		o.setMid(mid);
+		o.setNick(nick);
+		o.setParty_id(party_id);
+		o.setTid(tid);
+		return o;
+	}
+	
+	public static Message newInstance(OutMessage o) {
+		Message message = new Message();
+		message.setAvatar(o.getAvatar());
+		message.setBody(o.getBody());
+		message.setGmt_created(o.getGmt_created());
+		message.setMid(o.getMid());
+		message.setNick(o.getNick());
+		message.setParty_id(o.getParty_id());
+		message.setTid(o.getTid());
+		return message;
+	}
 
 	public long getId() {
 		return id;

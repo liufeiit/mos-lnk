@@ -1,7 +1,9 @@
 package me.mos.ti.srv.handler;
 
 import me.mos.ti.packet.InRegister;
+import me.mos.ti.packet.OutPacket;
 import me.mos.ti.packet.OutRegister;
+import me.mos.ti.srv.Channel;
 import me.mos.ti.srv.ServerProcessor;
 
 /**
@@ -12,15 +14,15 @@ import me.mos.ti.srv.ServerProcessor;
  * @version 1.0.0
  * @since 2015年6月2日 下午7:22:47
  */
-public class RegisterHandler extends AbstractPacketHandler<InRegister, OutRegister> {
+public class RegisterHandler extends AbstractPacketHandler<InRegister> {
 	
 	public RegisterHandler(ServerProcessor processor) {
 		super(processor);
 	}
 
 	@Override
-	public OutRegister process(InRegister packet) throws Throwable {
-		OutRegister resp = new OutRegister();
+	public OutPacket process(Channel channel, InRegister packet) throws Throwable {
+		OutRegister resp = packet.toOutPacket();
 
 		return resp;
 	}

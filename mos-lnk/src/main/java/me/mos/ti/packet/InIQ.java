@@ -12,7 +12,7 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
  * @since 2015年5月31日 上午1:06:02
  */
 @XStreamAlias(PacketAlias.IQ_NAME)
-public class InIQ extends AbstractInPacket<OutIQ> {
+public class InIQ extends AbstractInPacket {
 	
 	/** 发起报文的用户的唯一ID */
 	@XStreamAlias("mid")

@@ -66,7 +66,7 @@ final class ServerHandler implements Runnable {
 				if (inPacket == null) {
 					continue;
 				}
-				OutPacket outPacket = processor.process(inPacket);
+				OutPacket outPacket = processor.process(channel, inPacket);
 				if (outPacket == null) {
 					continue;
 				}

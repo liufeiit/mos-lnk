@@ -10,11 +10,11 @@ import me.mos.ti.xml.XStreamParser;
  * @version 1.0.0
  * @since 2015年5月31日 上午12:52:46
  */
-public abstract class AbstractInPacket<O extends AbstractOutPacket> implements InPacket<O> {
+public abstract class AbstractInPacket implements InPacket {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public <T extends InPacket<O>> T fromXML(String xml) {
+	public <T extends InPacket> T fromXML(String xml) {
 		return (T) XStreamParser.toObj(getClass(), xml);
 	}
 

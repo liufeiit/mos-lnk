@@ -2,7 +2,6 @@ package me.mos.ti.packet;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 /**
  * 聊天通讯消息报文定义.
@@ -41,18 +40,6 @@ public class OutMessage extends AbstractOutPacket {
 	@XStreamAlias("gmt-created")
 	@XStreamAsAttribute
 	private long gmt_created;
-
-	@XStreamOmitField
-	private Acknowledge acknowledge;
-	
-	public OutMessage acknowledge(Acknowledge acknowledge) {
-		this.acknowledge = acknowledge;
-		return this;
-	}
-	
-	public Acknowledge acknowledge() {
-		return acknowledge;
-	}
 
 	@Override
 	public Type getType() {

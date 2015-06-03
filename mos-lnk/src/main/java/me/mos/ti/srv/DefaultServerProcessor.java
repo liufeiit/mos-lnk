@@ -43,23 +43,23 @@ final class DefaultServerProcessor implements ServerProcessor {
 	}
 
 	@Override
-	public <I extends InPacket<? extends OutPacket>> OutPacket process(I packet) throws Throwable {
+	public <I extends InPacket> OutPacket process(Channel channel, I packet) throws Throwable {
 		OutPacket outPacket = null;
 		switch (packet.getType()) {
 			case IQ :
-				outPacket = iqHandler.process((InIQ) packet);
+				outPacket = iqHandler.process(channel, (InIQ) packet);
 				break;
 			case Message :
-				outPacket = messageHandler.process((InMessage) packet);
+				outPacket = messageHandler.process(channel, (InMessage) packet);
 				break;
 			case Presence :
-				outPacket = presenceHandler.process((InPresence) packet);
+				outPacket = presenceHandler.process(channel, (InPresence) packet);
 				break;
 			case Register :
-				outPacket = registerHandler.process((InRegister) packet);
+				outPacket = registerHandler.process(channel, (InRegister) packet);
 				break;
 			case Subscribe :
-				outPacket = subscribeHandler.process((InSubscribe) packet);
+				outPacket = subscribeHandler.process(channel, (InSubscribe) packet);
 				break;
 			default :
 				break;
