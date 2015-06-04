@@ -8,7 +8,6 @@ import me.mos.ti.packet.OutPacket;
 import me.mos.ti.srv.Channel;
 import me.mos.ti.srv.Channels;
 import me.mos.ti.srv.ServerProcessor;
-import me.mos.ti.user.DefaultUserProvider;
 import me.mos.ti.user.User;
 
 /**
