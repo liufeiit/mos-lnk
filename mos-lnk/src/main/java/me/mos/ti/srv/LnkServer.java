@@ -82,7 +82,7 @@ public class LnkServer implements Server {
 							Socket socket = server.accept();
 							socket.setSoTimeout(readTimeout * 1000); // 毫秒
 							socket.setKeepAlive(true);
-							Channel channel = new BoundChannel(socket);
+							Channel channel = Channels.newChannel(socket);
 							threadPoolExecutor.execute(new ServerHandler(channel, processor));
 							log.error(channel + " Connection to LnkServer.");
 						} catch (Throwable t) {

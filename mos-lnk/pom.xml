@@ -18,10 +18,17 @@
             <artifactId>spring-jdbc</artifactId>
             <version>4.0.7.RELEASE</version>
         </dependency>
+		<!--
 		<dependency>
 			<groupId>org.apache.tomcat</groupId>
 			<artifactId>tomcat-jdbc</artifactId>
 			<version>8.0.23</version>
+		</dependency>
+		-->
+		<dependency>
+			<groupId>org.apache.tomcat</groupId>
+			<artifactId>tomcat-jdbc</artifactId>
+			<version>7.0.30</version>
 		</dependency>
 		<dependency>
 			<groupId>mysql</groupId>

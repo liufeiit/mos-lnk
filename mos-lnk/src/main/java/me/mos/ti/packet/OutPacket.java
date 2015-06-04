@@ -9,8 +9,6 @@ package me.mos.ti.packet;
  * @since 2015年5月31日 下午11:28:53
  */
 public interface OutPacket extends Packet {
-
-	String toXML();
 	
 	/**
 	 * 获取操作状态

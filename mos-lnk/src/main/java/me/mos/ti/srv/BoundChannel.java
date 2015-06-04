@@ -7,7 +7,7 @@ import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 
-import me.mos.ti.packet.OutPacket;
+import me.mos.ti.packet.Packet;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,7 +74,7 @@ final class BoundChannel implements Channel {
 	}
 
 	@Override
-	public <O extends OutPacket> void write(O packet) {
+	public void write(Packet packet) {
 		try {
 			writer.println(packet.toXML());
 			writer.flush();

@@ -1,13 +1,13 @@
 package test;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.Socket;
 
+import org.apache.commons.lang3.StringUtils;
+
 import me.mos.ti.Server;
-import me.mos.ti.packet.InIQ;
-import me.mos.ti.packet.InPresence;
+import me.mos.ti.packet.InRegister;
+import me.mos.ti.srv.Channel;
+import me.mos.ti.srv.Channels;
 
 /**
  * @author 刘飞 E-mail:liufei_it@126.com
@@ -18,24 +18,25 @@ import me.mos.ti.packet.InPresence;
 public class Client {
 
 	public static void main(String[] args) throws Exception {
-		long mid = 123L;
 		Socket socket = new Socket("localhost", Server.DEFAULT_PORT);
 		socket.setKeepAlive(true);
-		socket.setSoTimeout(3000);
-		BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-		PrintWriter writer = new PrintWriter(socket.getOutputStream());
+		socket.setSoTimeout(30000);
+		Channel channel = Channels.newChannel(socket);
+		channel.write(newInRegister());
 		while(true) {
-			InPresence inPresence = new InPresence();
-			inPresence.setMid(mid);
-			inPresence.setPasswd("123456");
-			writer.println(inPresence.toString());
-			writer.flush();
-			System.err.println("Resp : " + reader.readLine());
-			InIQ inIQ = new InIQ();
-			inIQ.setMid(mid);
-			writer.println(inIQ.toString());
-			writer.flush();
-			System.err.println("Resp : " + reader.readLine());
+			String response = channel.read();
+			if (StringUtils.isBlank(response)) {
+				continue;
+			}
+			System.err.println("Register Response : " + response);
 		}
+	}
+	
+	public static InRegister newInRegister() {
+		InRegister inRegister = new InRegister();
+		inRegister.setNick("大飞哥儿");
+		inRegister.setParty_id("1");
+		inRegister.setPasswd("liufei123");
+		return inRegister;
 	}
 }

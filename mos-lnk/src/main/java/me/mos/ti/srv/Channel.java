@@ -1,6 +1,6 @@
 package me.mos.ti.srv;
 
-import me.mos.ti.packet.OutPacket;
+import me.mos.ti.packet.Packet;
 
 /**
  * 表示一个客户端连接通道.
@@ -32,7 +32,7 @@ public interface Channel {
 	/**
 	 * 写消息
 	 */
-	<O extends OutPacket> void write(O packet);
+	void write(Packet packet);
 
 	/**
 	 * 通道是否处于连接状态

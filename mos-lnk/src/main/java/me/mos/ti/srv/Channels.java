@@ -1,5 +1,6 @@
 package me.mos.ti.srv;
 
+import java.net.Socket;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
@@ -34,6 +35,10 @@ public class Channels implements Runnable {
 	public static Channel channel(String mid) {
 		return channels.get(mid);
 	}
+	
+	public static Channel newChannel(Socket socket) {
+		return new BoundChannel(socket);
+	}
 
 	@Override
 	public void run() {
@@ -41,6 +46,7 @@ public class Channels implements Runnable {
 			TIMER.schedule(new TimerTask() {
 				@Override
 				public void run() {
+					System.err.println("Channel Active Monitor Running...");
 					try {
 						for (String mid : Channels.channels.keySet()) {
 							Channel channel = Channels.channels.get(mid);

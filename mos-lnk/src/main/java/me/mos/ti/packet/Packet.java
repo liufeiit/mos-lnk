@@ -7,5 +7,6 @@ package me.mos.ti.packet;
  * @since 2015年6月2日 上午12:54:04
  */
 public interface Packet {
+	String toXML();
 	Type getType();
 }

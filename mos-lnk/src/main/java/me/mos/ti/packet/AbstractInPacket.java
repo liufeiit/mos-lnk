@@ -17,12 +17,20 @@ public abstract class AbstractInPacket implements InPacket {
 	public <T extends InPacket> T fromXML(String xml) {
 		return (T) XStreamParser.toObj(getClass(), xml);
 	}
+	
+	/**
+	 * 将消息格式化为可发送的XML格式
+	 */
+	@Override
+	public String toXML() {
+		return XStreamParser.toXML(this);
+	}
 
 	/**
 	 * 将消息格式化为可发送的XML格式
 	 */
 	@Override
 	public String toString() {
-		return XStreamParser.toXML(this);
+		return toXML();
 	}
 }
