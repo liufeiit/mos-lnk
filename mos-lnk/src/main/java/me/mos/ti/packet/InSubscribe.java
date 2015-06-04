@@ -14,6 +14,12 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 @XStreamAlias(PacketAlias.SUBSCRIBE_NAME)
 public class InSubscribe extends AbstractInPacket {
 	
+	private static final byte SUB = 1;
+
+	private static final byte SUB_CANCEL = 2;
+
+	private static final byte SUB_QUERY =3;
+
 	/** 发起报文的用户的唯一ID */
 	@XStreamAlias("mid")
 	@XStreamAsAttribute
@@ -24,17 +30,42 @@ public class InSubscribe extends AbstractInPacket {
 	@XStreamAsAttribute
 	private long smid;
 
+	/** 订阅动作 */
+	@XStreamAlias("act")
+	@XStreamAsAttribute
+	private byte act;
+
 	@Override
 	public OutSubscribe toOutPacket() {
 		OutSubscribe outSubscribe = new OutSubscribe();
 		outSubscribe.setMid(mid);
-		outSubscribe.setSmid(smid);
+		outSubscribe.setAct(act);
 		return outSubscribe.ok();
+	}
+	
+	public boolean isSub() {
+		return SUB == this.act;
+	}
+	
+	public boolean isSubCancel() {
+		return SUB_CANCEL == this.act;
+	}
+	
+	public boolean isSubQuery() {
+		return SUB_QUERY == this.act;
 	}
 
 	@Override
 	public Type getType() {
 		return Type.Subscribe;
+	}
+
+	public byte getAct() {
+		return act;
+	}
+
+	public void setAct(byte act) {
+		this.act = act;
 	}
 
 	public long getMid() {

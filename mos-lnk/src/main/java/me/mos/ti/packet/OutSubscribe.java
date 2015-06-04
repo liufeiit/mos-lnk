@@ -1,7 +1,10 @@
 package me.mos.ti.packet;
 
+import java.util.List;
+
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+import com.thoughtworks.xstream.annotations.XStreamImplicit;
 
 /**
  * 好友关系订阅.
@@ -14,29 +17,21 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 @XStreamAlias(PacketAlias.SUBSCRIBE_NAME)
 public class OutSubscribe extends AbstractOutPacket {
 
-	private static final int ERR = 3;
+	private static final byte ILLEGAL_ACTION = 4;
 
-	private static final int PEER_NOT_EXIST = 2;
+	private static final byte ERR = 3;
 
-	private static final int OK = 1;
+	private static final byte PEER_NOT_EXIST = 2;
 
-	/** 被订阅的用户的唯一ID */
-	@XStreamAlias("smid")
+	private static final byte OK = 1;
+
+	/** 订阅动作 */
+	@XStreamAlias("act")
 	@XStreamAsAttribute
-	private long smid;
+	private byte act;
 	
-	/** 第三方系统账号ID */
-	@XStreamAlias("party-id")
-	@XStreamAsAttribute
-	private String party_id;
-
-	/** 用户昵称 */
-	@XStreamAlias("nick")
-	private String nick;
-
-	/** 用户头像 */
-	@XStreamAlias("avatar")
-	private String avatar;
+	@XStreamImplicit(itemFieldName = "sub-usr")
+	private List<SubUsr> subUsrs;
 	
 	@XStreamAlias("status")
 	@XStreamAsAttribute
@@ -56,18 +51,31 @@ public class OutSubscribe extends AbstractOutPacket {
 		status = PEER_NOT_EXIST;
 		return this;
 	}
+	
+	public OutSubscribe illegalAction() {
+		status = ILLEGAL_ACTION;
+		return this;
+	}
 
 	@Override
 	public Type getType() {
 		return Type.Subscribe;
 	}
 
-	public long getSmid() {
-		return smid;
+	public List<SubUsr> getSubUsrs() {
+		return subUsrs;
 	}
 
-	public void setSmid(long smid) {
-		this.smid = smid;
+	public void setSubUsrs(List<SubUsr> subUsrs) {
+		this.subUsrs = subUsrs;
+	}
+
+	public byte getAct() {
+		return act;
+	}
+
+	public void setAct(byte act) {
+		this.act = act;
 	}
 
 	public byte getStatus() {
@@ -76,29 +84,5 @@ public class OutSubscribe extends AbstractOutPacket {
 
 	public void setStatus(byte status) {
 		this.status = status;
-	}
-
-	public String getParty_id() {
-		return party_id;
-	}
-
-	public void setParty_id(String party_id) {
-		this.party_id = party_id;
-	}
-
-	public String getNick() {
-		return nick;
-	}
-
-	public void setNick(String nick) {
-		this.nick = nick;
-	}
-
-	public String getAvatar() {
-		return avatar;
-	}
-
-	public void setAvatar(String avatar) {
-		this.avatar = avatar;
 	}
 }

@@ -28,20 +28,22 @@ public class PresenceHandler extends AbstractPacketHandler<InPresence> {
 
 	@Override
 	public OutPacket process(Channel channel, InPresence packet) throws Throwable {
-		OutPresence resp = packet.toOutPacket();
+		OutPresence outPresence = packet.toOutPacket();
 		try {
 			processor.online(channel);
+			// 我出席了之后 拉取我的离线消息
 			List<Message> offlineMessageList = messageProvider.queryMessageList(packet.getMid());
-			if (!CollectionUtils.isEmpty(offlineMessageList)) {
-				for (Message message : offlineMessageList) {
-					OutMessage outMessage = message.toOutMessage();
-					channel.write(outMessage);
-					messageProvider.delete(message.getId());
-				}
+			if (CollectionUtils.isEmpty(offlineMessageList)) {
+				return outPresence;
+			}
+			for (Message message : offlineMessageList) {
+				OutMessage outMessage = message.toOutMessage();
+				channel.write(outMessage);
+				messageProvider.delete(message.getId());
 			}
 		} catch (Exception e) {
-			return resp.err();
+			return outPresence.err();
 		}
-		return resp;
+		return outPresence;
 	}
 }

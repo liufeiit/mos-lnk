@@ -27,22 +27,22 @@ public class MessageHandler extends AbstractPacketHandler<InMessage> {
 
 	@Override
 	public OutPacket process(Channel channel, InMessage packet) throws Throwable {
-		User user = DefaultUserProvider.getInstance().query(packet.getMid());
+		User user = userProvider.query(packet.getMid());
 		if (user == null) {
-			// 对方不存在 丢弃消息
-			return new Acknowledge().peerNotExist();
+			// 非法用户发来的 丢弃消息
+			return new Acknowledge().meNotExist();
 		}
-		OutMessage resp = packet.toOutPacket();
-		resp.setAvatar(user.getAvatar());
-		resp.setNick(user.getNick());
-		resp.setParty_id(user.getParty_id());
-		Channel peerChannel = Channels.channel(String.valueOf(packet.getMid()));
+		OutMessage outMessage = packet.toOutPacket();
+		outMessage.setAvatar(user.getAvatar());
+		outMessage.setNick(user.getNick());
+		outMessage.setParty_id(user.getParty_id());
+		Channel peerChannel = Channels.channel(String.valueOf(packet.getTid()));
 		if (peerChannel == null || !peerChannel.isConnected()) {
 			// 对方不存在离线消息保存并回执
-			messageProvider.save(Message.newInstance(resp));
+			messageProvider.save(Message.newInstance(outMessage));
 			return new Acknowledge().peerOffline();
 		}
-		peerChannel.write(resp);// 发送给对方
+		peerChannel.write(outMessage);// 发送给对方
 		return new Acknowledge().ok();
 	}
 }

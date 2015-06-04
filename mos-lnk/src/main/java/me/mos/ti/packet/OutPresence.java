@@ -14,8 +14,8 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 @XStreamAlias(PacketAlias.PRESENCE_NAME)
 public class OutPresence extends AbstractOutPacket {
 	
-	private static final int ERR = 2;
-	private static final int OK = 1;
+	private static final byte ERR = 2;
+	private static final byte OK = 1;
 	
 	@XStreamAlias("status")
 	@XStreamAsAttribute

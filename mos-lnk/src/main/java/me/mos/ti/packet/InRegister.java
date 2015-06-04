@@ -1,5 +1,7 @@
 package me.mos.ti.packet;
 
+import java.util.Date;
+
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
@@ -62,6 +64,7 @@ public class InRegister extends AbstractInPacket {
 		outRegister.setQq(qq);
 		outRegister.setTelephone(telephone);
 		outRegister.setWeixin(weixin);
+		outRegister.setGmt_created(new Date().getTime());
 		return outRegister.ok();
 	}
 

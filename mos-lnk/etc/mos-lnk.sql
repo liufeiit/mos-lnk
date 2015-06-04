@@ -42,3 +42,17 @@ CREATE TABLE `lnk-message` (
   KEY `time` (`gmt_created`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE `lnk-subscribe` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `mid` bigint(20) NOT NULL COMMENT '订阅用户唯一ID',
+  `smid` bigint(20) NOT NULL COMMENT '被订阅用户唯一ID',
+  `party_id` varchar(45) DEFAULT NULL COMMENT '被订阅用户第三方系统账号ID',
+  `nick` varchar(45) DEFAULT NULL COMMENT '被订阅用户昵称',
+  `avatar` varchar(45) DEFAULT NULL COMMENT '被订阅用户头像',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  KEY `smid` (`mid`,`smid`),
+  KEY `sid` (`mid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+

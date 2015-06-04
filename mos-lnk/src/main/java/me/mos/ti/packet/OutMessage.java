@@ -14,9 +14,9 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 @XStreamAlias(PacketAlias.MESSAGE_NAME)
 public class OutMessage extends AbstractOutPacket {
 	
-	private static final int ERR = 2;
+	private static final byte ERR = 2;
 
-	private static final int OK = 1;
+	private static final byte OK = 1;
 
 	/** 第三方系统账号ID */
 	@XStreamAlias("party-id")

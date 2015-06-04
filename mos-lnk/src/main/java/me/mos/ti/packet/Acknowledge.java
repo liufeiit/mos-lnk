@@ -13,9 +13,9 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
  */
 public class Acknowledge extends AbstractOutPacket {
 	
-	private static final int PEER_NOT_EXIST = 3;
-	private static final int PEER_OFFLINE = 2;
-	private static final int OK = 1;
+	private static final byte ME_NOT_EXIST = 3;
+	private static final byte PEER_OFFLINE = 2;
+	private static final byte OK = 1;
 	
 	/**
 	 * 消息状态
@@ -46,10 +46,10 @@ public class Acknowledge extends AbstractOutPacket {
 	}
 	
 	/**
-	 * 对方不存在
+	 * 一个不存在的用户发来的
 	 */
-	public Acknowledge peerNotExist() {
-		status = PEER_NOT_EXIST;
+	public Acknowledge meNotExist() {
+		status = ME_NOT_EXIST;
 		return this;
 	}
 

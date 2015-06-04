@@ -31,7 +31,20 @@ public class DefaultSubscribeProvider implements SubscribeProvider {
 	public static SubscribeProvider getInstance() {
 		return SubscribeProviderHolder.SUBSCRIBE_PROVIDER;
 	}
+	
+	private static final String ADD_SUB_SQL = "INSERT INTO `mos-lnk`.`lnk-subscribe` (`mid`, `smid`, `party_id`, `nick`, `avatar`) VALUES (:mid, :smid, :party_id, :nick, :avatar);";
 
+	private static final String DEL_SUB_SQL = "DELETE FROM `mos-lnk`.`lnk-subscribe` WHERE `mos-lnk`.`mid` = :mid AND `mos-lnk`.`smid` = :smid;";
+	
+	private static final String QUERY_SUB_SQL = "SELECT "
+			+ "`lnk-subscribe`.`id`, "
+			+ "`lnk-subscribe`.`mid`, "
+			+ "`lnk-subscribe`.`smid`, "
+			+ "`lnk-subscribe`.`party_id`, "
+			+ "`lnk-subscribe`.`nick`, "
+			+ "`lnk-subscribe`.`avatar` "
+			+ "FROM `mos-lnk`.`lnk-subscribe` WHERE `lnk-subscribe`.`mid` = :mid;";
+	
 	private DefaultSubscribeProvider() {
 		super();
 		jdbcTemplate = JdbcTemplateProvider.getJdbcTemplate();
@@ -40,7 +53,7 @@ public class DefaultSubscribeProvider implements SubscribeProvider {
 	@Override
 	public long save(Subscribe subscribe) {
 		KeyHolder keyHolder = new GeneratedKeyHolder();
-		jdbcTemplate.update("", new BeanPropertySqlParameterSource(subscribe), keyHolder, new String[] { "id" });
+		jdbcTemplate.update(ADD_SUB_SQL, new BeanPropertySqlParameterSource(subscribe), keyHolder, new String[] { "id" });
 		return keyHolder.getKey().longValue();
 	}
 
@@ -48,7 +61,7 @@ public class DefaultSubscribeProvider implements SubscribeProvider {
 	public List<Subscribe> queryMessageList(long mid) {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("mid", mid);
-		return jdbcTemplate.query("", paramMap, new SubscribeMapper());
+		return jdbcTemplate.query(QUERY_SUB_SQL, paramMap, new SubscribeMapper());
 	}
 
 	@Override
@@ -56,7 +69,7 @@ public class DefaultSubscribeProvider implements SubscribeProvider {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("mid", mid);
 		paramMap.put("smid", smid);
-		return jdbcTemplate.update("", paramMap);
+		return jdbcTemplate.update(DEL_SUB_SQL, paramMap);
 	}
 	
 	private class SubscribeMapper implements RowMapper<Subscribe> {

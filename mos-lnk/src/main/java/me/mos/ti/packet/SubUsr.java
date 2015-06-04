@@ -1,52 +1,33 @@
-package me.mos.ti.subscribe;
+package me.mos.ti.packet;
 
-import me.mos.ti.packet.OutSubscribe;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
 /**
  * @author 刘飞 E-mail:liufei_it@126.com
  * 
  * @version 1.0.0
- * @since 2015年6月3日 下午11:45:57
+ * @since 2015年6月4日 下午3:23:16
  */
-public class Subscribe {
-
-	private long id;
-
-	private long mid;
-
+@XStreamAlias("sub-usr")
+public class SubUsr {
 	/** 被订阅的用户的唯一ID */
+	@XStreamAlias("smid")
+	@XStreamAsAttribute
 	private long smid;
-
+	
 	/** 第三方系统账号ID */
+	@XStreamAlias("party-id")
+	@XStreamAsAttribute
 	private String party_id;
 
 	/** 用户昵称 */
+	@XStreamAlias("nick")
 	private String nick;
 
 	/** 用户头像 */
+	@XStreamAlias("avatar")
 	private String avatar;
-
-	public static Subscribe newInstance(OutSubscribe outSubscribe) {
-		Subscribe subscribe = new Subscribe();
-		subscribe.setMid(outSubscribe.getMid());
-		return subscribe;
-	}
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	public long getMid() {
-		return mid;
-	}
-
-	public void setMid(long mid) {
-		this.mid = mid;
-	}
 
 	public long getSmid() {
 		return smid;

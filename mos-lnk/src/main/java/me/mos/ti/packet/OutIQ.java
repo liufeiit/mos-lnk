@@ -14,8 +14,8 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 @XStreamAlias(PacketAlias.IQ_NAME)
 public class OutIQ extends AbstractOutPacket {
 	
-	private static final int OFFLINE = 2;
-	private static final int ONLINE = 1;
+	private static final byte OFFLINE = 2;
+	private static final byte ONLINE = 1;
 	
 	@XStreamAlias("status")
 	@XStreamAsAttribute

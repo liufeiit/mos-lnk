@@ -25,7 +25,7 @@ public class RegisterHandler extends AbstractPacketHandler<InRegister> {
 
 	@Override
 	public OutPacket process(Channel channel, InRegister packet) throws Throwable {
-		OutRegister resp = packet.toOutPacket();
+		OutRegister outRegister = packet.toOutPacket();
 		User user = User.newInstance(packet);
 		user.setAddress(StringUtils.EMPTY);
 		user.setExtend(StringUtils.EMPTY);
@@ -34,6 +34,7 @@ public class RegisterHandler extends AbstractPacketHandler<InRegister> {
 		user.online().setMid(mid);
 		channel.setMID(mid);
 		processor.online(channel);
-		return resp;
+		outRegister.setMid(mid);
+		return outRegister;
 	}
 }
