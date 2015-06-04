@@ -53,18 +53,6 @@ public class LnkServer implements Server {
 	private ThreadPoolExecutor threadPoolExecutor;
 	
 	private Profile profile;
-	
-	public static void main(String[] args) throws Exception {
-		LnkServer lnkServer = new LnkServer();
-		lnkServer.start(new DefaultServerProcessor());
-		new Thread() {
-			@Override
-			public void run() {
-				while(true) {
-				}
-			}
-		}.start();
-	}
 
 	public LnkServer() {
 		super();
@@ -112,6 +100,7 @@ public class LnkServer implements Server {
 			};
 			masterWorker.setDaemon(true);
 			masterWorker.start();
+			threadPoolExecutor.execute(new Channels());
 			log.info("LnkServer Started Success on {}.", port);
 			System.err.println("LnkServer Started Success on " + port + ".");
 		} catch (Exception e) {
