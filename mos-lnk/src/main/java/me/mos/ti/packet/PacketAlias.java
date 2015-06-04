@@ -17,4 +17,6 @@ public interface PacketAlias {
 	String PRESENCE_NAME = "presence";
 	
 	String REGISTER_NAME = "register";
+	
+	String ACKNOWLEDGE_NAME = "ack";
 }
