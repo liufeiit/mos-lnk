@@ -1,7 +1,7 @@
 package me.mos.ti.srv.handler;
 
-import me.mos.ti.packet.OutPacket;
 import me.mos.ti.packet.InPacket;
+import me.mos.ti.packet.OutPacket;
 import me.mos.ti.srv.Channel;
 
 /**

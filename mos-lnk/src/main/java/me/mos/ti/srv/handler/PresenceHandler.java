@@ -2,9 +2,6 @@ package me.mos.ti.srv.handler;
 
 import java.util.List;
 
-import org.springframework.util.CollectionUtils;
-
-import me.mos.ti.message.DefaultMessageProvider;
 import me.mos.ti.message.Message;
 import me.mos.ti.packet.InPresence;
 import me.mos.ti.packet.OutMessage;
@@ -12,6 +9,8 @@ import me.mos.ti.packet.OutPacket;
 import me.mos.ti.packet.OutPresence;
 import me.mos.ti.srv.Channel;
 import me.mos.ti.srv.ServerProcessor;
+
+import org.springframework.util.CollectionUtils;
 
 /**
  * Presence出席消息处理器.
@@ -32,11 +31,12 @@ public class PresenceHandler extends AbstractPacketHandler<InPresence> {
 		OutPresence resp = packet.toOutPacket();
 		try {
 			processor.online(channel);
-			List<Message> offlineMessageList = DefaultMessageProvider.getInstance().queryMessageList(packet.getMid());
+			List<Message> offlineMessageList = messageProvider.queryMessageList(packet.getMid());
 			if (!CollectionUtils.isEmpty(offlineMessageList)) {
 				for (Message message : offlineMessageList) {
 					OutMessage outMessage = message.toOutMessage();
 					channel.write(outMessage);
+					messageProvider.delete(message.getId());
 				}
 			}
 		} catch (Exception e) {

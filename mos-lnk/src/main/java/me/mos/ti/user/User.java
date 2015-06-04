@@ -2,9 +2,9 @@ package me.mos.ti.user;
 
 import java.util.Date;
 
-import org.apache.commons.lang3.StringUtils;
-
 import me.mos.ti.packet.InRegister;
+
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * 通讯用户定义.

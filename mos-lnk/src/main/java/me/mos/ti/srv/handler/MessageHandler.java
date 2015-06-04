@@ -1,6 +1,5 @@
 package me.mos.ti.srv.handler;
 
-import me.mos.ti.message.DefaultMessageProvider;
 import me.mos.ti.message.Message;
 import me.mos.ti.packet.Acknowledge;
 import me.mos.ti.packet.InMessage;
@@ -40,7 +39,7 @@ public class MessageHandler extends AbstractPacketHandler<InMessage> {
 		Channel peerChannel = Channels.channel(String.valueOf(packet.getMid()));
 		if (peerChannel == null || !peerChannel.isConnected()) {
 			// 对方不存在离线消息保存并回执
-			DefaultMessageProvider.getInstance().save(Message.newInstance(resp));
+			messageProvider.save(Message.newInstance(resp));
 			return new Acknowledge().peerOffline();
 		}
 		peerChannel.write(resp);// 发送给对方

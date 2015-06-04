@@ -1,7 +1,13 @@
 package me.mos.ti.srv.handler;
 
+import me.mos.ti.message.DefaultMessageProvider;
+import me.mos.ti.message.MessageProvider;
 import me.mos.ti.packet.InPacket;
 import me.mos.ti.srv.ServerProcessor;
+import me.mos.ti.subscribe.DefaultSubscribeProvider;
+import me.mos.ti.subscribe.SubscribeProvider;
+import me.mos.ti.user.DefaultUserProvider;
+import me.mos.ti.user.UserProvider;
 
 /**
  * @author 刘飞 E-mail:liufei_it@126.com
@@ -12,9 +18,18 @@ import me.mos.ti.srv.ServerProcessor;
 public abstract class AbstractPacketHandler<I extends InPacket> implements PacketHandler<I> {
 
 	protected final ServerProcessor processor;
+	
+	protected MessageProvider messageProvider;
+	
+	protected UserProvider userProvider;
+	
+	protected SubscribeProvider subscribeProvider;
 
 	public AbstractPacketHandler(ServerProcessor processor) {
 		super();
 		this.processor = processor;
+		messageProvider = DefaultMessageProvider.getInstance();
+		userProvider = DefaultUserProvider.getInstance();
+		subscribeProvider = DefaultSubscribeProvider.getInstance();
 	}
 }
