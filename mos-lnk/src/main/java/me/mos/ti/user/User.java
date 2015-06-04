@@ -88,6 +88,7 @@ public class User {
 		user.setQq(inRegister.getQq());
 		user.setTelephone(inRegister.getTelephone());
 		user.setWeixin(inRegister.getWeixin());
+		user.offline();
 		return user;
 	}
 	

@@ -52,7 +52,7 @@ public class OutRegister extends AbstractOutPacket {
 	private String phone;
 	
 	/** 用户注册时间 */
-	@XStreamAlias("phone")
+	@XStreamAlias("gmt-created")
 	private long gmt_created;
 	
 	@XStreamAlias("status")

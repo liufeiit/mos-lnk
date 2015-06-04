@@ -30,7 +30,12 @@ public class RegisterHandler extends AbstractPacketHandler<InRegister> {
 		user.setAddress(StringUtils.EMPTY);
 		user.setExtend(StringUtils.EMPTY);
 		user.setIp(channel.toString());
-		long mid = userProvider.save(user);
+		long mid = 0;
+		try {
+			mid = userProvider.save(user);
+		} catch (Exception e) {
+			return outRegister.err();
+		}
 		user.online().setMid(mid);
 		channel.setMID(mid);
 		processor.online(channel);

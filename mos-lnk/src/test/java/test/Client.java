@@ -34,7 +34,7 @@ public class Client {
 	
 	public static InRegister newInRegister() {
 		InRegister inRegister = new InRegister();
-		inRegister.setNick("大飞哥儿");
+		inRegister.setNick("大飞哥儿1");
 		inRegister.setParty_id("1");
 		inRegister.setPasswd("liufei123");
 		return inRegister;

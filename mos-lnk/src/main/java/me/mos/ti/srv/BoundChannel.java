@@ -67,9 +67,7 @@ final class BoundChannel implements Channel {
 	public String read() {
 		try {
 			return reader.readLine();
-		} catch (IOException e) {
-			log.error("Channel Read Packet Error.", e);
-		}
+		} catch (IOException ingore) {}
 		return null;
 	}
 
@@ -79,7 +77,7 @@ final class BoundChannel implements Channel {
 			writer.println(packet.toXML());
 			writer.flush();
 		} catch (Exception e) {
-			log.error("Channel Write Packet Error.", e);
+			log.error("Channel Write Packet Error -> " + packet.toXML(), e);
 		}
 	}
 
