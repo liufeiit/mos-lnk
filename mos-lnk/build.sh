@@ -2,6 +2,7 @@
 echo "clean Lnk Server Build..."
 echo "clean build/lib/*.jar" && rm build/lib/*.jar
 echo "clean lnk/lib/*.jar" && rm lnk/lib/*.jar
+#mvn install -DskipTests
 mvn clean install -Dmaven.test.skip=true
 echo "Build Mos-Lnk Server Success ."
 echo "Install Lnk Server... "

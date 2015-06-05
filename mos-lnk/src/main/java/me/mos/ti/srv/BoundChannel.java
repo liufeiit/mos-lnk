@@ -76,6 +76,7 @@ final class BoundChannel implements Channel {
 		try {
 			writer.println(packet.toXML());
 			writer.flush();
+//			channel.shutdownOutput();
 		} catch (Exception e) {
 			log.error("Channel Write Packet Error -> " + packet.toXML(), e);
 		}
