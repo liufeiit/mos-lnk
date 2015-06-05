@@ -46,7 +46,6 @@ public class Channels implements Runnable {
 			TIMER.schedule(new TimerTask() {
 				@Override
 				public void run() {
-					System.err.println("Channel Active Monitor Running...");
 					try {
 						for (String mid : Channels.channels.keySet()) {
 							Channel channel = Channels.channels.get(mid);
