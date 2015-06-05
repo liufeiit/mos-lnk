@@ -11,7 +11,13 @@ package me.mos.ti.srv;
 public class LnkServerStarter {
 
 	public static void main(String[] args) {
-		LnkServer lnkServer = new LnkServer();
+		final LnkServer lnkServer = new LnkServer();
 		lnkServer.start(new DefaultServerProcessor());
+		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+			@Override
+			public void run() {
+				lnkServer.stop();
+			}
+		}));
 	}
 }
