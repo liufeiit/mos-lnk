@@ -54,7 +54,7 @@ public class LnkServer implements Server {
 	
 	private Profile profile;
 
-	public LnkServer() {
+	LnkServer() {
 		super();
 		try {
 			profile = Profile.newInstance();
