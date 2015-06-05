@@ -12,7 +12,6 @@ import me.mos.ti.srv.handler.MessageHandler;
 import me.mos.ti.srv.handler.PresenceHandler;
 import me.mos.ti.srv.handler.RegisterHandler;
 import me.mos.ti.srv.handler.SubscribeHandler;
-import me.mos.ti.user.DefaultUserProvider;
 
 /**
  * Lnk服务通道消息业务处理器.
@@ -71,12 +70,10 @@ final class DefaultServerProcessor implements ServerProcessor {
 	@Override
 	public void online(Channel channel) {
 		Channels.online(channel);
-		DefaultUserProvider.getInstance().online(Long.parseLong(channel.getMID()));
 	}
 
 	@Override
 	public void offline(Channel channel) {
 		Channels.offline(channel);
-		DefaultUserProvider.getInstance().offline(Long.parseLong(channel.getMID()));
 	}
 }

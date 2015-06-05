@@ -6,6 +6,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
 
+import me.mos.ti.user.DefaultUserProvider;
+
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,22 +24,54 @@ public class Channels implements Runnable {
 
 	private final static Logger log = LoggerFactory.getLogger(Channels.class);
 
-	private static final ConcurrentHashMap<String/** MID */, Channel/** 通道 */> channels = new ConcurrentHashMap<String, Channel>(2000);
+	private static final ConcurrentHashMap<String, Channel> channels = new ConcurrentHashMap<String, Channel>(2000);
 
 	private static final Timer TIMER = new Timer("Channel Active Monitor", false);
 
 	public static void online(Channel channel) {
-		channels.put(channel.getMID(), channel);
+		String mid = channel.getMID();
+		Channels.channels.put(mid, channel);
+		try {
+			if (StringUtils.isNotBlank(mid)) {
+				DefaultUserProvider.getInstance().online(Long.parseLong(mid));
+			}
+		} catch (Exception e) {
+			log.error("Online Error.", e);
+		}
 	}
 
 	public static void offline(Channel channel) {
-		channels.remove(channel.getMID());
+		Channels.offline(channel.getMID());
+	}
+
+	public static void offline(String mid) {
+		Channels.channels.remove(mid);
+		try {
+			if (StringUtils.isNotBlank(mid)) {
+				DefaultUserProvider.getInstance().offline(Long.parseLong(mid));
+			}
+		} catch (Exception e) {
+			log.error("Offline Error.", e);
+		}
 	}
 
 	public static Channel channel(String mid) {
-		return channels.get(mid);
+		return Channels.channels.get(mid);
 	}
-	
+
+	public static boolean isOnline(String mid) {
+		Channel channel = channel(mid);
+		return channel != null && channel.isConnected();
+	}
+
+	public static boolean isOnline(long mid) {
+		return Channels.isOnline(String.valueOf(mid));
+	}
+
+	public static boolean isOnline(Channel channel) {
+		return Channels.isOnline(channel.getMID());
+	}
+
 	public static Channel newChannel(Socket socket) {
 		return new BoundChannel(socket);
 	}
@@ -48,26 +83,15 @@ public class Channels implements Runnable {
 				@Override
 				public void run() {
 					try {
-						/**
-						for (String mid : Channels.channels.keySet()) {
-							Channel channel = Channels.channels.get(mid);
-							if (channel == null) {
-								Channels.channels.remove(mid);
-							}
-							if (!channel.isConnected()) {
-								Channels.channels.remove(mid);
-							}
-						}
-						*/
 						Enumeration<String> mids = Channels.channels.keys();
 						while (mids.hasMoreElements()) {
 							String mid = mids.nextElement();
 							Channel channel = Channels.channels.get(mid);
 							if (channel == null) {
-								Channels.channels.remove(mid);
+								Channels.offline(mid);
 							}
 							if (!channel.isConnected()) {
-								Channels.channels.remove(mid);
+								Channels.offline(channel);
 							}
 						}
 					} catch (Exception e) {

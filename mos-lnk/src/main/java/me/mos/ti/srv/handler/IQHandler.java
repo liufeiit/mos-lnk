@@ -24,11 +24,11 @@ public class IQHandler extends AbstractPacketHandler<InIQ> {
 	@Override
 	public OutPacket process(Channel channel, InIQ packet) throws Throwable {
 		OutIQ outIQ = packet.toOutPacket();
-		Channel me = Channels.channel(String.valueOf(packet.getMid()));
-		if (me != null && me.isConnected()) {
+		if (Channels.isOnline(packet.getMid())) {
 			outIQ.online();
 		} else {
 			outIQ.offline();
+			Channels.online(channel);
 		}
 		return outIQ;
 	}
