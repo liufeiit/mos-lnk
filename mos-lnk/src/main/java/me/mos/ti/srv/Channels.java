@@ -1,6 +1,7 @@
 package me.mos.ti.srv;
 
 import java.net.Socket;
+import java.util.Enumeration;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
@@ -47,7 +48,20 @@ public class Channels implements Runnable {
 				@Override
 				public void run() {
 					try {
+						/**
 						for (String mid : Channels.channels.keySet()) {
+							Channel channel = Channels.channels.get(mid);
+							if (channel == null) {
+								Channels.channels.remove(mid);
+							}
+							if (!channel.isConnected()) {
+								Channels.channels.remove(mid);
+							}
+						}
+						*/
+						Enumeration<String> mids = Channels.channels.keys();
+						while (mids.hasMoreElements()) {
+							String mid = mids.nextElement();
 							Channel channel = Channels.channels.get(mid);
 							if (channel == null) {
 								Channels.channels.remove(mid);
