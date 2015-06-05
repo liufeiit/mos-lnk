@@ -38,9 +38,9 @@ final class ServerHandler implements Runnable {
 		String packet = StringUtils.EMPTY;
 		while (true) {
 			try {
-				if (!channel.isConnected()) {
+				if (!channel.isConnect()) {
 					channel.close();
-					processor.offline(channel);
+					Channels.offline(channel);
 					break;
 				}
 				packet = channel.read();

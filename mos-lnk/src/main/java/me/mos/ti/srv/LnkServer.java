@@ -39,7 +39,7 @@ public class LnkServer implements Server {
 	 * 缓冲队列大小
 	 */
 	private int queueSize = DEFAULT_QUEUE_SIZE;
-	
+
 	/**
 	 * 读取超时(单位:秒)，默认30s
 	 */
@@ -51,7 +51,7 @@ public class LnkServer implements Server {
 	private ServerSocket server;
 
 	private ThreadPoolExecutor threadPoolExecutor;
-	
+
 	private Profile profile;
 
 	LnkServer() {
@@ -63,6 +63,7 @@ public class LnkServer implements Server {
 			setPort(profile.getPort());
 			setQueueSize(profile.getQueueSize());
 			setReadTimeout(profile.getReadTimeout());
+			log.error("Config LnkServer Success.");
 		} catch (IOException e) {
 			log.error("Create Server Profile from XML Error.", e);
 		}
@@ -71,6 +72,7 @@ public class LnkServer implements Server {
 	@Override
 	public void start(final ServerProcessor processor) {
 		try {
+			log.error("LnkServer starting on port {}", port);
 			threadPoolExecutor = new ThreadPoolExecutor(corePoolSize, maximumPoolSize, DEFAULT_KEEPALIVETIME, TimeUnit.SECONDS, new ArrayBlockingQueue<Runnable>(queueSize), DEFAULT_THREAD_FACTORY,
 					DEFAULT_REJECTED_EXECUTION_HANDLER);
 			server = new ServerSocket(port);
@@ -87,7 +89,7 @@ public class LnkServer implements Server {
 							log.error(channel + " Connection to LnkServer.");
 						} catch (Throwable t) {
 							if (server.isClosed()) {
-								log.info("LnkServer is closed, port={}", port);
+								log.error("LnkServer is closed, port={}", port);
 								break;
 							}
 							log.error("Process Channel Error.", t);
@@ -100,9 +102,8 @@ public class LnkServer implements Server {
 			};
 			masterWorker.setDaemon(true);
 			masterWorker.start();
-			threadPoolExecutor.execute(new Channels());
-			log.info("LnkServer Started Success on {}.", port);
-			System.err.println("LnkServer Started Success on " + port + ".");
+			threadPoolExecutor.execute(new ChannelActiveMonitor());
+			log.error("LnkServer started success on port {}.", port);
 		} catch (Exception e) {
 			log.error("Start LnkServer Failed.", e);
 			throw new IllegalStateException(e);
@@ -111,7 +112,7 @@ public class LnkServer implements Server {
 
 	@Override
 	public void stop() {
-		log.info("Stop LnkServer, port={}", port);
+		log.info("Stoping LnkServer, port={}", port);
 		if (threadPoolExecutor != null) {
 			try {
 				threadPoolExecutor.shutdownNow();
@@ -126,6 +127,7 @@ public class LnkServer implements Server {
 			}
 			server = null;
 		}
+		log.info("Stoped LnkServer, port={}", port);
 	}
 
 	public void setPort(int port) {
@@ -143,7 +145,7 @@ public class LnkServer implements Server {
 	public void setQueueSize(int queueSize) {
 		this.queueSize = queueSize;
 	}
-	
+
 	public void setReadTimeout(int readTimeout) {
 		this.readTimeout = readTimeout;
 	}

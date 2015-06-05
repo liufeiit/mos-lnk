@@ -7,7 +7,6 @@ import me.mos.ti.packet.OutMessage;
 import me.mos.ti.packet.OutPacket;
 import me.mos.ti.srv.Channel;
 import me.mos.ti.srv.Channels;
-import me.mos.ti.srv.ServerProcessor;
 import me.mos.ti.user.User;
 
 /**
@@ -19,10 +18,6 @@ import me.mos.ti.user.User;
  * @since 2015年6月2日 下午7:20:27
  */
 public class MessageHandler extends AbstractPacketHandler<InMessage> {
-
-	public MessageHandler(ServerProcessor processor) {
-		super(processor);
-	}
 
 	@Override
 	public OutPacket process(Channel channel, InMessage packet) throws Throwable {
@@ -36,7 +31,7 @@ public class MessageHandler extends AbstractPacketHandler<InMessage> {
 		outMessage.setNick(user.getNick());
 		outMessage.setParty_id(user.getParty_id());
 		Channel peerChannel = Channels.channel(String.valueOf(packet.getTid()));
-		if (peerChannel == null || !peerChannel.isConnected()) {
+		if (peerChannel == null || !peerChannel.isConnect()) {
 			// 对方不存在离线消息保存并回执
 			messageProvider.save(Message.newInstance(outMessage));
 			return new Acknowledge().peerOffline();

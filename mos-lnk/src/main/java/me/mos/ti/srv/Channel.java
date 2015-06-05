@@ -37,7 +37,7 @@ public interface Channel {
 	/**
 	 * 通道是否处于连接状态
 	 */
-	boolean isConnected();
+	boolean isConnect();
 
 	/**
 	 * 关闭通道

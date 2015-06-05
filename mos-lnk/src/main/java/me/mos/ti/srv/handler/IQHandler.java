@@ -5,7 +5,6 @@ import me.mos.ti.packet.OutIQ;
 import me.mos.ti.packet.OutPacket;
 import me.mos.ti.srv.Channel;
 import me.mos.ti.srv.Channels;
-import me.mos.ti.srv.ServerProcessor;
 
 /**
  * IQ消息处理器.
@@ -16,10 +15,6 @@ import me.mos.ti.srv.ServerProcessor;
  * @since 2015年6月2日 下午7:18:45
  */
 public class IQHandler extends AbstractPacketHandler<InIQ> {
-
-	public IQHandler(ServerProcessor processor) {
-		super(processor);
-	}
 
 	@Override
 	public OutPacket process(Channel channel, InIQ packet) throws Throwable {

@@ -12,10 +12,10 @@ import java.io.Writer;
 import java.nio.charset.Charset;
 
 /**
+ * @author 刘飞 E-mail:liufei_it@126.com
  * 
- * @author john.liu E-mail:fei.liu@yeepay.com
  * @version 1.0.0
- * @since 2015年1月12日 下午6:46:59
+ * @since 2015年6月5日 下午10:08:26
  */
 public class StreamUtils {
 

@@ -4,7 +4,7 @@ import me.mos.ti.packet.InRegister;
 import me.mos.ti.packet.OutPacket;
 import me.mos.ti.packet.OutRegister;
 import me.mos.ti.srv.Channel;
-import me.mos.ti.srv.ServerProcessor;
+import me.mos.ti.srv.Channels;
 import me.mos.ti.user.User;
 
 import org.apache.commons.lang3.StringUtils;
@@ -18,10 +18,6 @@ import org.apache.commons.lang3.StringUtils;
  * @since 2015年6月2日 下午7:22:47
  */
 public class RegisterHandler extends AbstractPacketHandler<InRegister> {
-	
-	public RegisterHandler(ServerProcessor processor) {
-		super(processor);
-	}
 
 	@Override
 	public OutPacket process(Channel channel, InRegister packet) throws Throwable {
@@ -38,7 +34,7 @@ public class RegisterHandler extends AbstractPacketHandler<InRegister> {
 		}
 		user.online().setMid(mid);
 		channel.setMID(mid);
-		processor.online(channel);
+		Channels.online(channel);
 		outRegister.setMid(mid);
 		return outRegister;
 	}

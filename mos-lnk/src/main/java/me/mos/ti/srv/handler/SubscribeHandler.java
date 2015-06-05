@@ -9,7 +9,6 @@ import me.mos.ti.packet.OutPacket;
 import me.mos.ti.packet.OutSubscribe;
 import me.mos.ti.packet.SubUsr;
 import me.mos.ti.srv.Channel;
-import me.mos.ti.srv.ServerProcessor;
 import me.mos.ti.subscribe.Subscribe;
 import me.mos.ti.user.User;
 
@@ -24,10 +23,6 @@ import org.springframework.util.CollectionUtils;
  * @since 2015年6月2日 下午7:23:45
  */
 public class SubscribeHandler extends AbstractPacketHandler<InSubscribe> {
-
-	public SubscribeHandler(ServerProcessor processor) {
-		super(processor);
-	}
 
 	@Override
 	public OutPacket process(Channel channel, InSubscribe packet) throws Throwable {

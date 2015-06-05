@@ -2,8 +2,6 @@ package me.mos.ti.srv;
 
 import java.net.Socket;
 import java.util.Enumeration;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
 
 import me.mos.ti.user.DefaultUserProvider;
@@ -20,36 +18,51 @@ import org.slf4j.LoggerFactory;
  * @version 1.0.0
  * @since 2015年6月2日 下午3:43:32
  */
-public class Channels implements Runnable {
+public class Channels {
 
 	private final static Logger log = LoggerFactory.getLogger(Channels.class);
 
 	private static final ConcurrentHashMap<String, Channel> channels = new ConcurrentHashMap<String, Channel>(2000);
 
-	private static final Timer TIMER = new Timer("Channel Active Monitor", false);
+	public static Channel newChannel(Socket socket) {
+		return new BoundChannel(socket);
+	}
+
+	public static Enumeration<String> channels() {
+		return Channels.channels.keys();
+	}
 
 	public static void online(Channel channel) {
 		String mid = channel.getMID();
-		Channels.channels.put(mid, channel);
+		if (StringUtils.isBlank(mid)) {
+			log.error(channel + "'s MID is not Setting.");
+			return;
+		}
 		try {
-			if (StringUtils.isNotBlank(mid)) {
-				DefaultUserProvider.getInstance().online(Long.parseLong(mid));
-			}
+			Channels.channels.put(mid, channel);
+			DefaultUserProvider.getInstance().online(Long.parseLong(mid));
 		} catch (Exception e) {
 			log.error("Online Error.", e);
 		}
+
 	}
 
 	public static void offline(Channel channel) {
-		Channels.offline(channel.getMID());
+		String mid = channel.getMID();
+		if (StringUtils.isBlank(mid)) {
+			log.error(channel + "'s MID is not Setting.");
+			return;
+		}
+		Channels.offline(mid);
 	}
 
 	public static void offline(String mid) {
-		Channels.channels.remove(mid);
+		if (StringUtils.isBlank(mid)) {
+			return;
+		}
 		try {
-			if (StringUtils.isNotBlank(mid)) {
-				DefaultUserProvider.getInstance().offline(Long.parseLong(mid));
-			}
+			Channels.channels.remove(mid);
+			DefaultUserProvider.getInstance().offline(Long.parseLong(mid));
 		} catch (Exception e) {
 			log.error("Offline Error.", e);
 		}
@@ -60,8 +73,8 @@ public class Channels implements Runnable {
 	}
 
 	public static boolean isOnline(String mid) {
-		Channel channel = channel(mid);
-		return channel != null && channel.isConnected();
+		Channel channel = Channels.channel(mid);
+		return channel != null && channel.isConnect();
 	}
 
 	public static boolean isOnline(long mid) {
@@ -69,38 +82,11 @@ public class Channels implements Runnable {
 	}
 
 	public static boolean isOnline(Channel channel) {
-		return Channels.isOnline(channel.getMID());
-	}
-
-	public static Channel newChannel(Socket socket) {
-		return new BoundChannel(socket);
-	}
-
-	@Override
-	public void run() {
-		try {
-			TIMER.schedule(new TimerTask() {
-				@Override
-				public void run() {
-					try {
-						Enumeration<String> mids = Channels.channels.keys();
-						while (mids.hasMoreElements()) {
-							String mid = mids.nextElement();
-							Channel channel = Channels.channels.get(mid);
-							if (channel == null) {
-								Channels.offline(mid);
-							}
-							if (!channel.isConnected()) {
-								Channels.offline(channel);
-							}
-						}
-					} catch (Exception e) {
-						log.error("Channel Active Monitor Running Error.", e);
-					}
-				}
-			}, 60000L, 300000L);
-		} catch (Exception e) {
-			log.error("Channel Active Monitor Starting Error.", e);
+		String mid = channel.getMID();
+		if (StringUtils.isBlank(mid)) {
+			log.error(channel + "'s MID is not Setting.");
+			return false;
 		}
+		return Channels.isOnline(mid);
 	}
 }

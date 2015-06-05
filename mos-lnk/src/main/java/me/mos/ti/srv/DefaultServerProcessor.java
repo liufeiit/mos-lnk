@@ -22,58 +22,48 @@ import me.mos.ti.srv.handler.SubscribeHandler;
  * @since 2015年6月2日 上午12:44:18
  */
 final class DefaultServerProcessor implements ServerProcessor {
-	
+
 	private IQHandler iqHandler;
-	
+
 	private MessageHandler messageHandler;
-	
+
 	private PresenceHandler presenceHandler;
-	
+
 	private RegisterHandler registerHandler;
-	
+
 	private SubscribeHandler subscribeHandler;
 
 	public DefaultServerProcessor() {
 		super();
-		iqHandler = new IQHandler(this);
-		messageHandler = new MessageHandler(this);
-		presenceHandler = new PresenceHandler(this);
-		registerHandler = new RegisterHandler(this);
-		subscribeHandler = new SubscribeHandler(this);
+		iqHandler = new IQHandler();
+		messageHandler = new MessageHandler();
+		presenceHandler = new PresenceHandler();
+		registerHandler = new RegisterHandler();
+		subscribeHandler = new SubscribeHandler();
 	}
 
 	@Override
 	public <I extends InPacket> OutPacket process(Channel channel, I packet) throws Throwable {
 		OutPacket outPacket = null;
 		switch (packet.getType()) {
-			case IQ :
-				outPacket = iqHandler.process(channel, (InIQ) packet);
-				break;
-			case Message :
-				outPacket = messageHandler.process(channel, (InMessage) packet);
-				break;
-			case Presence :
-				outPacket = presenceHandler.process(channel, (InPresence) packet);
-				break;
-			case Register :
-				outPacket = registerHandler.process(channel, (InRegister) packet);
-				break;
-			case Subscribe :
-				outPacket = subscribeHandler.process(channel, (InSubscribe) packet);
-				break;
-			default :
-				break;
+		case IQ:
+			outPacket = iqHandler.process(channel, (InIQ) packet);
+			break;
+		case Message:
+			outPacket = messageHandler.process(channel, (InMessage) packet);
+			break;
+		case Presence:
+			outPacket = presenceHandler.process(channel, (InPresence) packet);
+			break;
+		case Register:
+			outPacket = registerHandler.process(channel, (InRegister) packet);
+			break;
+		case Subscribe:
+			outPacket = subscribeHandler.process(channel, (InSubscribe) packet);
+			break;
+		default:
+			break;
 		}
 		return outPacket;
-	}
-
-	@Override
-	public void online(Channel channel) {
-		Channels.online(channel);
-	}
-
-	@Override
-	public void offline(Channel channel) {
-		Channels.offline(channel);
 	}
 }

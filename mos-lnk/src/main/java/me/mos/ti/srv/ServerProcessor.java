@@ -17,14 +17,4 @@ public interface ServerProcessor {
 	 * 处理数据包接收和分发.
 	 */
 	<I extends InPacket> OutPacket process(Channel channel, I packet) throws Throwable;
-	
-	/**
-	 * 上线
-	 */
-	void online(Channel channel);
-	
-	/**
-	 * 下线
-	 */
-	void offline(Channel channel);
 }

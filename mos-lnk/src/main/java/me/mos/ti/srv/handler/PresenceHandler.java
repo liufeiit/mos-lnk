@@ -8,7 +8,7 @@ import me.mos.ti.packet.OutMessage;
 import me.mos.ti.packet.OutPacket;
 import me.mos.ti.packet.OutPresence;
 import me.mos.ti.srv.Channel;
-import me.mos.ti.srv.ServerProcessor;
+import me.mos.ti.srv.Channels;
 
 import org.springframework.util.CollectionUtils;
 
@@ -22,15 +22,11 @@ import org.springframework.util.CollectionUtils;
  */
 public class PresenceHandler extends AbstractPacketHandler<InPresence> {
 
-	public PresenceHandler(ServerProcessor processor) {
-		super(processor);
-	}
-
 	@Override
 	public OutPacket process(Channel channel, InPresence packet) throws Throwable {
 		OutPresence outPresence = packet.toOutPacket();
 		try {
-			processor.online(channel);
+			Channels.online(channel);
 			// 我出席了之后 拉取我的离线消息
 			List<Message> offlineMessageList = messageProvider.queryMessageList(packet.getMid());
 			if (CollectionUtils.isEmpty(offlineMessageList)) {

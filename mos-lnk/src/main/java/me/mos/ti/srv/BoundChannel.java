@@ -57,7 +57,7 @@ final class BoundChannel implements Channel {
 
 	@Override
 	public InetAddress getPeerAddress() {
-		if (channel == null || !channel.isConnected()) {
+		if (!isConnect()) {
 			return null;
 		}
 		return channel.getInetAddress();
@@ -69,7 +69,7 @@ final class BoundChannel implements Channel {
 			return reader.readLine();
 		} catch (Exception ingore) {
 			try {
-				if (!isConnected()) {
+				if (!isConnect()) {
 					Channels.offline(this);
 				}
 			} catch (Exception e) {
@@ -86,7 +86,7 @@ final class BoundChannel implements Channel {
 		} catch (Exception ex) {
 			log.error("Channel Write Packet Error -> " + packet.toXML(), ex);
 			try {
-				if (!isConnected()) {
+				if (!isConnect()) {
 					Channels.offline(this);
 				}
 			} catch (Exception e) {
@@ -95,11 +95,11 @@ final class BoundChannel implements Channel {
 	}
 
 	@Override
-	public boolean isConnected() {
+	public boolean isConnect() {
 		if (channel == null) {
 			return false;
 		}
-		return channel.isConnected();
+		return channel.isConnected() && !channel.isClosed();
 	}
 
 	@Override
