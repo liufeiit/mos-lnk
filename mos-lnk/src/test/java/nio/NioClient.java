@@ -3,49 +3,68 @@ package nio;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
+import java.nio.channels.SelectionKey;
+import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
-import java.util.logging.Logger;
+import java.util.Iterator;
 
 /**
  * @author 刘飞 E-mail:liufei_it@126.com
  * 
  * @version 1.0.0
- * @since 2015年6月5日 下午3:41:17
+ * @since 2015年6月5日 下午3:58:25
  */
 public class NioClient {
+	private Selector selector;
 
-	private static final Logger log = Logger.getLogger(NioClient.class.getName());
-	private InetSocketAddress inetSocketAddress;
-
-	public NioClient(String hostname, int port) {
-		inetSocketAddress = new InetSocketAddress(hostname, port);
+	public NioClient init(String serverIp, int port) throws IOException {
+		SocketChannel channel = SocketChannel.open();
+		channel.configureBlocking(false);
+		selector = Selector.open();
+		// 客户端连接服务器，需要调用channel.finishConnect();才能实际完成连接。
+		channel.connect(new InetSocketAddress(serverIp, port));
+		// 为该通道注册SelectionKey.OP_CONNECT事件
+		channel.register(selector, SelectionKey.OP_CONNECT);
+		return this;
 	}
 
-	public void send(String requestData) {
-		try {
-			SocketChannel socketChannel = SocketChannel.open(inetSocketAddress);
-			socketChannel.configureBlocking(false);
-			ByteBuffer byteBuffer = ByteBuffer.allocate(512);
-			socketChannel.write(ByteBuffer.wrap(requestData.getBytes()));
-			while (true) {
-				byteBuffer.clear();
-				int readBytes = socketChannel.read(byteBuffer);
-				if (readBytes > 0) {
-					byteBuffer.flip();
-					log.info("NioClient readBytes = " + readBytes);
-					log.info("NioClient data = " + new String(byteBuffer.array(), 0, readBytes));
-					socketChannel.close();
-					break;
+	public void listen() throws IOException {
+		System.out.println("客户端启动");
+		while (true) {
+			// 选择注册过的io操作的事件(第一次为SelectionKey.OP_CONNECT)
+			selector.select();
+			Iterator<SelectionKey> ite = selector.selectedKeys().iterator();
+			while (ite.hasNext()) {
+				SelectionKey key = ite.next();
+				// 删除已选的key，防止重复处理
+				ite.remove();
+				if (key.isConnectable()) {
+					SocketChannel channel = (SocketChannel) key.channel();
+					// 如果正在连接，则完成连接
+					if (channel.isConnectionPending()) {
+						channel.finishConnect();
+					}
+					channel.configureBlocking(false);
+					// 向服务器发送消息
+					channel.write(ByteBuffer.wrap(new String("send message to server.").getBytes()));
+					// 连接成功后，注册接收服务器消息的事件
+					channel.register(selector, SelectionKey.OP_READ);
+					System.out.println("客户端连接成功");
+				} else if (key.isReadable()) { // 有可读数据事件。
+					SocketChannel channel = (SocketChannel) key.channel();
+					ByteBuffer buffer = ByteBuffer.allocate(10);
+					channel.read(buffer);
+					byte[] data = buffer.array();
+					String message = new String(data);
+					System.out.println("recevie message from server:, size:" + buffer.position() + " msg: " + message);
+					ByteBuffer outbuffer = ByteBuffer.wrap(("client.".concat(message)).getBytes());
+					channel.write(outbuffer);
 				}
 			}
-
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
 	}
 
-	public static void main(String[] args) {
-		String requestData = "你好啊，服务器！！\nO(∩_∩)O哈哈~";
-		new NioClient("localhost", 12210).send(requestData);
+	public static void main(String[] args) throws IOException {
+		new NioClient().init("127.0.0.1", 9981).listen();
 	}
 }
