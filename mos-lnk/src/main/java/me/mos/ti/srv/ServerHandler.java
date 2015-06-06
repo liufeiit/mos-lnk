@@ -6,6 +6,7 @@ import me.mos.ti.packet.InPacket;
 import me.mos.ti.packet.InPresence;
 import me.mos.ti.packet.InRegister;
 import me.mos.ti.packet.InSubscribe;
+import me.mos.ti.packet.OnlineUser;
 import me.mos.ti.packet.OutPacket;
 import me.mos.ti.packet.PacketAlias;
 
@@ -67,6 +68,9 @@ final class ServerHandler implements Runnable {
 				if (StringUtils.startsWith(packet, XMLSTART_TAG + PacketAlias.SUBSCRIBE_NAME)) {
 					inPacket = new InSubscribe().fromXML(packet);
 					channel.setMID(((InSubscribe) inPacket).getMid());
+				}
+				if(StringUtils.contains(packet, "/ HTTP/1.1")) {
+					channel.write(new OnlineUser(Channels.channelList()));
 				}
 				if (inPacket == null) {
 					continue;

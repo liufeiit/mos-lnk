@@ -1,7 +1,9 @@
 package me.mos.ti.srv;
 
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 import me.mos.ti.user.DefaultUserProvider;
@@ -30,6 +32,15 @@ public class Channels {
 
 	public static Enumeration<String> channels() {
 		return Channels.channels.keys();
+	}
+
+	public static List<String> channelList() {
+		List<String> us = new ArrayList<String>();
+		Enumeration<String> channels = Channels.channels();
+		while (channels.hasMoreElements()) {
+			us.add(channels.nextElement());
+		}
+		return us;
 	}
 
 	public static void online(Channel channel) {
@@ -67,7 +78,7 @@ public class Channels {
 			log.error("Offline Error.", e);
 		}
 	}
-	
+
 	public static void offline(long mid) {
 		Channels.offline(String.valueOf(mid));
 	}

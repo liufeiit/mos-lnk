@@ -19,4 +19,6 @@ public interface PacketAlias {
 	String REGISTER_NAME = "register";
 	
 	String ACKNOWLEDGE_NAME = "ack";
+	
+	String ONLINEUSER_NAME = "olu";
 }

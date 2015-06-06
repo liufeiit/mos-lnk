@@ -9,5 +9,5 @@ package me.mos.ti.packet;
  * @since 2015年6月2日 上午12:52:54
  */
 public enum Type {
-	IQ, Message, Presence, Register, Subscribe, Acknowledge;
+	IQ, Message, Presence, Register, Subscribe, Acknowledge, OnlineUser;
 }
