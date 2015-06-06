@@ -13,23 +13,27 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
  */
 @XStreamAlias(PacketAlias.ACKNOWLEDGE_NAME)
 public class Acknowledge extends AbstractOutPacket {
-	
+
 	private static final byte ME_NOT_EXIST = 3;
 	private static final byte PEER_OFFLINE = 2;
 	private static final byte OK = 1;
-	
+
 	/**
 	 * 消息状态
 	 */
 	@XStreamAlias("status")
 	@XStreamAsAttribute
 	private byte status;
-	
+
+	public Acknowledge(long mid) {
+		setMid(mid);
+	}
+
 	@Override
 	public Type getType() {
 		return Type.Acknowledge;
 	}
-	
+
 	/**
 	 * 消息已经发送
 	 */
@@ -37,7 +41,7 @@ public class Acknowledge extends AbstractOutPacket {
 		status = OK;
 		return this;
 	}
-	
+
 	/**
 	 * 对方不在线, 已经发送离线消息
 	 */
@@ -45,7 +49,7 @@ public class Acknowledge extends AbstractOutPacket {
 		status = PEER_OFFLINE;
 		return this;
 	}
-	
+
 	/**
 	 * 一个不存在的用户发来的
 	 */

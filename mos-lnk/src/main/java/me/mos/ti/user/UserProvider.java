@@ -1,5 +1,7 @@
 package me.mos.ti.user;
 
+import java.util.List;
+
 /**
  * @author 刘飞 E-mail:liufei_it@126.com
  * 
@@ -12,4 +14,6 @@ public interface UserProvider {
 	
 	int online(long mid);
 	int offline(long mid);
+	
+	List<User> queryOnline();
 }

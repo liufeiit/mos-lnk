@@ -1,5 +1,8 @@
 package me.mos.ti.srv;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import me.mos.ti.packet.InIQ;
 import me.mos.ti.packet.InMessage;
 import me.mos.ti.packet.InPacket;
@@ -22,6 +25,8 @@ import me.mos.ti.srv.handler.SubscribeHandler;
  * @since 2015年6月2日 上午12:44:18
  */
 final class DefaultServerProcessor implements ServerProcessor {
+	
+	private static final Logger log = LoggerFactory.getLogger(ServerProcessor.class);
 
 	private IQHandler iqHandler;
 
@@ -64,6 +69,7 @@ final class DefaultServerProcessor implements ServerProcessor {
 		default:
 			break;
 		}
+		log.debug("Incoming Packet : {} \nOutcoming Packet : {}", packet, outPacket);
 		return outPacket;
 	}
 }

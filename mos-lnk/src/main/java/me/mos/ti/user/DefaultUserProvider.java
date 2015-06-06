@@ -3,6 +3,7 @@ package me.mos.ti.user;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import me.mos.ti.database.JdbcTemplateProvider;
@@ -47,6 +48,27 @@ public class DefaultUserProvider implements UserProvider {
 			+ "`lnk-user`.`gmt_created`, "
 			+ "`lnk-user`.`gmt_modified` FROM `mos-lnk`.`lnk-user` WHERE `lnk-user`.`mid` = :mid;";
 	
+	private static final String SELECT_ONLINE_SQL = "SELECT "
+			+ "`lnk-user`.`mid`, "
+			+ "`lnk-user`.`party_id`, "
+			+ "`lnk-user`.`nick`, "
+			+ "`lnk-user`.`passwd`, "
+			+ "`lnk-user`.`avatar`, "
+			+ "`lnk-user`.`weixin`, "
+			+ "`lnk-user`.`qq`, "
+			+ "`lnk-user`.`email`, "
+			+ "`lnk-user`.`telephone`, "
+			+ "`lnk-user`.`phone`, "
+			+ "`lnk-user`.`address`, "
+			+ "`lnk-user`.`ip`, "
+			+ "`lnk-user`.`lng`, "
+			+ "`lnk-user`.`lat`, "
+			+ "`lnk-user`.`status`, "
+			+ "`lnk-user`.`extend`, "
+			+ "`lnk-user`.`gmt_created`, "
+			+ "`lnk-user`.`gmt_modified` FROM `mos-lnk`.`lnk-user` WHERE `lnk-user`.`status` = '" + User.ONLINE + "';";
+	
+	
 	private static final String CREATE_USR_SQL = "INSERT INTO `mos-lnk`.`lnk-user` "
 			+ "(`party_id`, `nick`, `passwd`, `avatar`, `weixin`, `qq`, `email`, `telephone`, `phone`, `address`, `ip`, `lng`, `lat`, `status`, `extend`, `gmt_created`, `gmt_modified`) "
 			+ "VALUES "
@@ -61,6 +83,11 @@ public class DefaultUserProvider implements UserProvider {
 
 	public static UserProvider getInstance() {
 		return UserProviderHolder.USER_PROVIDER;
+	}
+
+	@Override
+	public List<User> queryOnline() {
+		return jdbcTemplate.query(SELECT_ONLINE_SQL, new UserMapper());
 	}
 
 	@Override

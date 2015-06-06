@@ -1,11 +1,16 @@
 package me.mos.ti.srv;
 
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import me.mos.ti.user.DefaultUserProvider;
+import me.mos.ti.user.User;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.CollectionUtils;
 
 /**
  * @author 刘飞 E-mail:liufei_it@126.com
@@ -35,6 +40,20 @@ public class ChannelActiveMonitor implements Runnable {
 							}
 							if (!channel.isConnect()) {
 								Channels.offline(channel);
+							}
+						}
+					} catch (Exception e) {
+						log.error("Channel Active Monitor Running Error.", e);
+					}
+					try {
+						List<User> userList = DefaultUserProvider.getInstance().queryOnline();
+						if (!CollectionUtils.isEmpty(userList)) {
+							for (User user : userList) {
+								long mid = user.getMid();
+								if (Channels.isOnline(mid)) {
+									continue;
+								}
+								Channels.offline(mid);
 							}
 						}
 					} catch (Exception e) {

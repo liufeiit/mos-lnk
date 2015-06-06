@@ -67,6 +67,10 @@ public class Channels {
 			log.error("Offline Error.", e);
 		}
 	}
+	
+	public static void offline(long mid) {
+		Channels.offline(String.valueOf(mid));
+	}
 
 	public static Channel channel(String mid) {
 		return Channels.channels.get(mid);

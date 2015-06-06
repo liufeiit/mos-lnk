@@ -24,7 +24,7 @@ public class MessageHandler extends AbstractPacketHandler<InMessage> {
 		User user = userProvider.query(packet.getMid());
 		if (user == null) {
 			// 非法用户发来的 丢弃消息
-			return new Acknowledge().meNotExist();
+			return new Acknowledge(packet.getMid()).meNotExist();
 		}
 		OutMessage outMessage = packet.toOutPacket();
 		outMessage.setAvatar(user.getAvatar());
@@ -34,9 +34,9 @@ public class MessageHandler extends AbstractPacketHandler<InMessage> {
 		if (peerChannel == null || !peerChannel.isConnect()) {
 			// 对方不存在离线消息保存并回执
 			messageProvider.save(Message.newInstance(outMessage));
-			return new Acknowledge().peerOffline();
+			return new Acknowledge(packet.getMid()).peerOffline();
 		}
 		peerChannel.write(outMessage);// 发送给对方
-		return new Acknowledge().ok();
+		return new Acknowledge(packet.getMid()).ok();
 	}
 }
