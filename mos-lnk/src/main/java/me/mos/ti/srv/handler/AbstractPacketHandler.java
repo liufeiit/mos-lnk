@@ -1,5 +1,8 @@
 package me.mos.ti.srv.handler;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import me.mos.ti.message.DefaultMessageProvider;
 import me.mos.ti.message.MessageProvider;
 import me.mos.ti.packet.InPacket;
@@ -16,6 +19,8 @@ import me.mos.ti.user.UserProvider;
  */
 public abstract class AbstractPacketHandler<I extends InPacket> implements PacketHandler<I> {
 
+	protected Logger log = LoggerFactory.getLogger(getClass());
+	
 	protected MessageProvider messageProvider;
 	
 	protected UserProvider userProvider;

@@ -33,11 +33,15 @@ public class PresenceHandler extends AbstractPacketHandler<InPresence> {
 				return outPresence;
 			}
 			for (Message message : offlineMessageList) {
+				if (message == null) {
+					continue;
+				}
 				OutMessage outMessage = message.toOutMessage();
 				channel.write(outMessage);
 				messageProvider.delete(message.getId());
 			}
 		} catch (Exception e) {
+			log.error("Presence Processing Error.", e);
 			return outPresence.err();
 		}
 		return outPresence;

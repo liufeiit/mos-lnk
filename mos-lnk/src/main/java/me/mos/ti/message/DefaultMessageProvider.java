@@ -27,16 +27,13 @@ public class DefaultMessageProvider implements MessageProvider {
 	private static class MessageProviderHolder {
 		private static final MessageProvider MESSAGE_PROVIDER = new DefaultMessageProvider();
 	}
-	
-	private static final String SAVE_MESSAGE_SQL = "INSERT INTO `mos-lnk`.`lnk-message` "
-			+ "(`mid`, `party_id`, `nick`, `avatar`, `tid`, `body`, `gmt_created`) "
-			+ "VALUES "
+
+	private static final String SAVE_MESSAGE_SQL = "INSERT INTO `mos-lnk`.`lnk-message` " + "(`mid`, `party_id`, `nick`, `avatar`, `tid`, `body`, `gmt_created`) " + "VALUES "
 			+ "(:mid, :party_id, :nick, :avatar, :tid, :body, :gmt_created)";
-	
+
 	private static final String DEL_MESSAGE_SQL = "DELETE FROM `mos-lnk`.`lnk-message` WHERE id = :id;";
-	
-	private static final String QUERY_MESSAGE_SQL = "SELECT "
-			+ "`lnk-message`.`id`, `lnk-message`.`mid`, `lnk-message`.`party_id`, "
+
+	private static final String QUERY_MESSAGE_SQL = "SELECT " + "`lnk-message`.`id`, `lnk-message`.`mid`, `lnk-message`.`party_id`, "
 			+ "`lnk-message`.`nick`, `lnk-message`.`avatar`, `lnk-message`.`tid`, "
 			+ "`lnk-message`.`body`, `lnk-message`.`gmt_created` FROM `mos-lnk`.`lnk-message` where `lnk-message`.`tid` = :tid;";
 
@@ -69,11 +66,24 @@ public class DefaultMessageProvider implements MessageProvider {
 		paramMap.put("id", id);
 		return jdbcTemplate.update(DEL_MESSAGE_SQL, paramMap);
 	}
-	
+
 	private class MessageMapper implements RowMapper<Message> {
 		@Override
 		public Message mapRow(ResultSet rs, int rowNum) throws SQLException {
-			return null;
+			long id = rs.getLong("id");
+			if (id <= 0L) {
+				return null;
+			}
+			Message message = new Message();
+			message.setAvatar(rs.getString("avatar"));
+			message.setBody(rs.getString("body"));
+			message.setGmt_created(rs.getLong("gmt_created"));
+			message.setId(id);
+			message.setMid(rs.getLong("mid"));
+			message.setNick(rs.getString("nick"));
+			message.setParty_id(rs.getString("party_id"));
+			message.setTid(rs.getLong("tid"));
+			return message;
 		}
 	}
 }

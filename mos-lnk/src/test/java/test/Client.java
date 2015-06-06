@@ -37,7 +37,7 @@ public class Client {
 		socket.setKeepAlive(true);
 		socket.setSoTimeout(30000);
 		Channel channel = Channels.newChannel(socket);
-		channel.write(newInPresence());
+		channel.write(newInSubscribe());
 //		channel.write(newInRegister());
 //		channel.write(newInIQ());
 //		channel.write(newInMessage());
@@ -130,8 +130,10 @@ public class Client {
 	
 	public static InSubscribe newInSubscribe() {
 		InSubscribe inSubscribe = new InSubscribe();
-		inSubscribe.setMid(123);
-		inSubscribe.setSmid(456);
+		inSubscribe.setMid(1);
+		inSubscribe.setSmid(2);
+		byte sub = 3;
+		inSubscribe.setAct(sub);
 		return inSubscribe;
 	}
 }
