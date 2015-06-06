@@ -47,6 +47,7 @@ final class ServerHandler implements Runnable {
 				if (StringUtils.isBlank(packet)) {
 					continue;
 				}
+				System.err.println("Original Incoming Packet : " + packet);
 				InPacket inPacket = null;
 				if (StringUtils.startsWith(packet, XMLSTART_TAG + PacketAlias.IQ_NAME)) {
 					inPacket = new InIQ().fromXML(packet);
