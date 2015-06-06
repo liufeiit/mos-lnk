@@ -20,5 +20,5 @@ public interface PacketAlias {
 	
 	String ACKNOWLEDGE_NAME = "ack";
 	
-	String ONLINEUSER_NAME = "olu";
+	String ONLINEUSER_NAME = "online-users";
 }

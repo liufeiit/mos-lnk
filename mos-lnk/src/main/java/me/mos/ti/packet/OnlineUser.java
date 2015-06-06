@@ -19,7 +19,7 @@ import com.thoughtworks.xstream.annotations.XStreamImplicit;
 @XStreamAlias(PacketAlias.ONLINEUSER_NAME)
 public class OnlineUser implements Packet {
 
-	@XStreamImplicit(itemFieldName = "u")
+	@XStreamImplicit(itemFieldName = "mid")
 	private List<String> us = new ArrayList<String>();
 
 	public OnlineUser(List<String> us) {
