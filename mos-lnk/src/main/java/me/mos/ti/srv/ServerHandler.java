@@ -9,6 +9,8 @@ import me.mos.ti.packet.InSubscribe;
 import me.mos.ti.packet.OnlineUser;
 import me.mos.ti.packet.OutPacket;
 import me.mos.ti.packet.PacketAlias;
+import me.mos.ti.packet.StringPacket;
+import me.mos.ti.utils.Charsets;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -51,26 +53,30 @@ final class ServerHandler implements Runnable {
 				System.err.println("Original Incoming Packet : " + packet);
 				InPacket inPacket = null;
 				if (StringUtils.startsWith(packet, XMLSTART_TAG + PacketAlias.IQ_NAME)) {
-					inPacket = new InIQ().fromXML(packet);
+					inPacket = new InIQ().fromPacket(packet);
 					channel.setMID(((InIQ) inPacket).getMid());
 				}
 				if (StringUtils.startsWith(packet, XMLSTART_TAG + PacketAlias.MESSAGE_NAME)) {
-					inPacket = new InMessage().fromXML(packet);
+					inPacket = new InMessage().fromPacket(packet);
 					channel.setMID(((InMessage) inPacket).getMid());
 				}
 				if (StringUtils.startsWith(packet, XMLSTART_TAG + PacketAlias.PRESENCE_NAME)) {
-					inPacket = new InPresence().fromXML(packet);
+					inPacket = new InPresence().fromPacket(packet);
 					channel.setMID(((InPresence) inPacket).getMid());
 				}
 				if (StringUtils.startsWith(packet, XMLSTART_TAG + PacketAlias.REGISTER_NAME)) {
-					inPacket = new InRegister().fromXML(packet);
+					inPacket = new InRegister().fromPacket(packet);
 				}
 				if (StringUtils.startsWith(packet, XMLSTART_TAG + PacketAlias.SUBSCRIBE_NAME)) {
-					inPacket = new InSubscribe().fromXML(packet);
+					inPacket = new InSubscribe().fromPacket(packet);
 					channel.setMID(((InSubscribe) inPacket).getMid());
 				}
-				if(StringUtils.contains(packet, "/ HTTP/1.1")) {
-					channel.write(new OnlineUser(Channels.channelList()));
+				if (StringUtils.contains(packet, "/online.xml HTTP/1.1")) {
+					String pkg = "HTTP/1.1 200 OK\n" 
+							+ "Content-Type:text/xml;charset=" + Charsets.UTF_8_NAME 
+							+ "\n\n" + new OnlineUser(Channels.channelList());
+					channel.write(new StringPacket(pkg));
+					channel.close();
 				}
 				if (inPacket == null) {
 					continue;
@@ -80,7 +86,8 @@ final class ServerHandler implements Runnable {
 					continue;
 				}
 				channel.write(outPacket);
-			} catch (Throwable e) {}
+			} catch (Throwable e) {
+			}
 		}
 	}
 }

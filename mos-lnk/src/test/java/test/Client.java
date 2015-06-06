@@ -37,7 +37,8 @@ public class Client {
 		socket.setKeepAlive(true);
 		socket.setSoTimeout(30000);
 		Channel channel = Channels.newChannel(socket);
-		channel.write(newInSubscribe());
+		channel.write(newInPresence());
+//		channel.write(newInSubscribe());
 //		channel.write(newInRegister());
 //		channel.write(newInIQ());
 //		channel.write(newInMessage());
@@ -61,7 +62,7 @@ public class Client {
 	
 	public static InPresence newInPresence() {
 		InPresence inPresence = new InPresence();
-		inPresence.setMid(2);
+		inPresence.setMid(1);
 		inPresence.setPasswd(PASSWD);
 		return inPresence;
 	}

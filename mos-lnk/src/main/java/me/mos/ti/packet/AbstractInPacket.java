@@ -14,23 +14,23 @@ public abstract class AbstractInPacket implements InPacket {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public <T extends InPacket> T fromXML(String xml) {
-		return (T) XStreamParser.toObj(getClass(), xml);
+	public <T extends InPacket> T fromPacket(String packet) {
+		return (T) XStreamParser.toObj(getClass(), packet);
 	}
 	
 	/**
-	 * 将消息格式化为可发送的XML格式
+	 * 将消息格式化为可发送的格式
 	 */
 	@Override
-	public String toXML() {
+	public String toPacket() {
 		return XStreamParser.toXML(this);
 	}
 
 	/**
-	 * 将消息格式化为可发送的XML格式
+	 * 将消息格式化为可发送的格式
 	 */
 	@Override
 	public String toString() {
-		return toXML();
+		return toPacket();
 	}
 }

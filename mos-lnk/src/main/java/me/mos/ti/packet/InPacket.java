@@ -10,7 +10,7 @@ package me.mos.ti.packet;
  */
 public interface InPacket extends Packet {
 
-	<I extends InPacket> I fromXML(String xml);
+	<I extends InPacket> I fromPacket(String xml);
 	
 	OutPacket toOutPacket();
 }

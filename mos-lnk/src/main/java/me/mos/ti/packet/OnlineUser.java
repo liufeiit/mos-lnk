@@ -38,12 +38,17 @@ public class OnlineUser implements Packet {
 	}
 
 	@Override
-	public String toXML() {
+	public String toPacket() {
 		return XStreamParser.toXML(this);
 	}
 
 	@Override
 	public Type getType() {
 		return Type.OnlineUser;
+	}
+
+	@Override
+	public String toString() {
+		return toPacket();
 	}
 }

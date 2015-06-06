@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.nio.channels.SocketChannel;
 
 import me.mos.ti.packet.Packet;
 
@@ -56,11 +57,24 @@ final class BoundChannel implements Channel {
 	}
 
 	@Override
+	public int getPort() {
+		if (!isConnect()) {
+			return 0;
+		}
+		return channel.getPort();
+	}
+
+	@Override
 	public InetAddress getPeerAddress() {
 		if (!isConnect()) {
 			return null;
 		}
 		return channel.getInetAddress();
+	}
+
+	@Override
+	public SocketChannel getOriginalChannel() {
+		return channel.getChannel();
 	}
 
 	@Override
@@ -81,10 +95,10 @@ final class BoundChannel implements Channel {
 	@Override
 	public void write(Packet packet) {
 		try {
-			writer.println(packet.toXML());
+			writer.println(packet.toPacket());
 			writer.flush();
 		} catch (Exception ex) {
-			log.error("Channel Write Packet Error -> " + packet.toXML(), ex);
+			log.error("Channel Write Packet Error -> " + packet.toPacket(), ex);
 			try {
 				if (!isConnect()) {
 					Channels.offline(this);

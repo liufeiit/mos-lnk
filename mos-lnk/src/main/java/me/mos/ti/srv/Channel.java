@@ -1,5 +1,7 @@
 package me.mos.ti.srv;
 
+import java.nio.channels.SocketChannel;
+
 import me.mos.ti.packet.Packet;
 
 /**
@@ -17,12 +19,25 @@ public interface Channel {
 	 */
 	String getMID();
 
+	/**
+	 * 注入用户通道ID
+	 */
 	Channel setMID(long mid);
+	
+	/**
+	 * 获取通道的远程端口
+	 */
+	int getPort();
 	
 	/**
 	 * 获取客户端网络地址
 	 */
 	java.net.InetAddress getPeerAddress();
+	
+	/**
+	 * 获取内部原始通道
+	 */
+	SocketChannel getOriginalChannel();
 	
 	/**
 	 * 读消息
