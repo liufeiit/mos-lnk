@@ -1,7 +1,6 @@
 package me.mos.ti.srv;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.InetAddress;
@@ -39,7 +38,7 @@ final class BoundChannel implements Channel {
 		try {
 			this.reader = new BufferedReader(new InputStreamReader(channel.getInputStream()));
 			this.writer = new PrintWriter(channel.getOutputStream());
-		} catch (IOException e) {
+		} catch (Throwable e) {
 			log.error("Channel Binding Error.", e);
 			throw new IllegalStateException(e);
 		}
@@ -81,12 +80,12 @@ final class BoundChannel implements Channel {
 	public String read() {
 		try {
 			return reader.readLine();
-		} catch (Exception ingore) {
+		} catch (Throwable ingore) {
 			try {
 				if (!isConnect()) {
 					Channels.offline(this);
 				}
-			} catch (Exception e) {
+			} catch (Throwable e) {
 			}
 		}
 		return null;
@@ -97,13 +96,13 @@ final class BoundChannel implements Channel {
 		try {
 			writer.println(packet.toPacket());
 			writer.flush();
-		} catch (Exception ex) {
+		} catch (Throwable ex) {
 			log.error("Channel Write Packet Error -> " + packet.toPacket(), ex);
 			try {
 				if (!isConnect()) {
 					Channels.offline(this);
 				}
-			} catch (Exception e) {
+			} catch (Throwable e) {
 			}
 		}
 	}
@@ -113,7 +112,12 @@ final class BoundChannel implements Channel {
 		if (channel == null) {
 			return false;
 		}
-		return channel.isConnected() && !channel.isClosed();
+		try {
+			channel.sendUrgentData(0xFF);
+			return true;
+		} catch (Throwable e) {
+			return false;
+		}
 	}
 
 	@Override
@@ -121,7 +125,7 @@ final class BoundChannel implements Channel {
 		if (channel != null) {
 			try {
 				channel.close();
-			} catch (IOException e) {
+			} catch (Throwable e) {
 				log.error("Channel Named " + getMID() + " close Error.", e);
 			}
 			channel = null;
@@ -129,7 +133,7 @@ final class BoundChannel implements Channel {
 		if (reader != null) {
 			try {
 				reader.close();
-			} catch (IOException e) {
+			} catch (Throwable e) {
 				log.error("Channel Reader " + getMID() + " close Error.", e);
 			}
 			reader = null;
@@ -138,7 +142,7 @@ final class BoundChannel implements Channel {
 			try {
 				writer.flush();
 				writer.close();
-			} catch (Exception e) {
+			} catch (Throwable e) {
 				log.error("Channel Writer " + getMID() + " close Error.", e);
 			}
 			writer = null;
