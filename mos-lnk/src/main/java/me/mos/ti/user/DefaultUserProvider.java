@@ -74,7 +74,7 @@ public class DefaultUserProvider implements UserProvider {
 			+ "VALUES "
 			+ "(:party_id, :nick, :passwd, :avatar, :weixin, :qq, :email, :telephone, :phone, :address, :ip, :lng, :lat, :status, :extend, :gmt_created, :gmt_modified);";
 
-	private static final String UPDATE_USER_STATUS_SQL = "UPDATE `mos-lnk`.`lnk-user` SET `lnk-user`.`status` = :status WHERE `lnk-user`.`mid` = :mid;";
+	private static final String UPDATE_USER_STATUS_SQL = "UPDATE `mos-lnk`.`lnk-user` SET `lnk-user`.`status` = :status, `lnk-user`.`gmt_modified` = NOW() WHERE `lnk-user`.`mid` = :mid;";
 	
 	private DefaultUserProvider() {
 		super();
