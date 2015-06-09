@@ -8,6 +8,7 @@ import java.net.Socket;
 import java.nio.channels.SocketChannel;
 
 import me.mos.ti.packet.Packet;
+import me.mos.ti.utils.Charsets;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,8 +37,8 @@ final class BoundChannel implements Channel {
 		super();
 		this.channel = channel;
 		try {
-			this.reader = new BufferedReader(new InputStreamReader(channel.getInputStream()));
-			this.writer = new PrintWriter(channel.getOutputStream());
+			this.reader = new BufferedReader(new InputStreamReader(channel.getInputStream(), Charsets.UTF_8));
+			this.writer = new PrintWriter(channel.getOutputStream(), true);
 		} catch (Throwable e) {
 			log.error("Channel Binding Error.", e);
 			throw new IllegalStateException(e);
@@ -95,7 +96,6 @@ final class BoundChannel implements Channel {
 	public void write(Packet packet) {
 		try {
 			writer.println(packet.toPacket());
-			writer.flush();
 		} catch (Throwable ex) {
 			log.error("Channel Write Packet Error -> " + packet.toPacket(), ex);
 			try {
