@@ -17,8 +17,8 @@ import me.mos.ti.packet.OutPresence;
 import me.mos.ti.packet.OutRegister;
 import me.mos.ti.packet.OutSubscribe;
 import me.mos.ti.packet.SubUsr;
-import me.mos.ti.srv.Channel;
-import me.mos.ti.srv.Channels;
+import me.mos.ti.srv.sock.Channel;
+import me.mos.ti.srv.sock.Channels;
 
 import org.apache.commons.lang3.StringUtils;
 

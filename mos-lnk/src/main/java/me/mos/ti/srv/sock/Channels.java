@@ -1,4 +1,4 @@
-package me.mos.ti.srv;
+package me.mos.ti.srv.sock;
 
 import java.net.Socket;
 import java.util.ArrayList;

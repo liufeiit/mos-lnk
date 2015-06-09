@@ -1,6 +1,6 @@
 package me.mos.ti;
 
-import me.mos.ti.srv.ServerProcessor;
+import me.mos.ti.srv.sock.ServerProcessor;
 
 /**
  * Mos-Lnk服务器.

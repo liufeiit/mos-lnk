@@ -1,4 +1,4 @@
-package me.mos.ti.srv;
+package me.mos.ti.srv.sock;
 
 import me.mos.ti.packet.InIQ;
 import me.mos.ti.packet.InMessage;

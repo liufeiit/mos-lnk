@@ -1,8 +1,8 @@
-package me.mos.ti.srv.handler;
+package me.mos.ti.srv.sock.handler;
 
 import me.mos.ti.packet.InPacket;
 import me.mos.ti.packet.OutPacket;
-import me.mos.ti.srv.Channel;
+import me.mos.ti.srv.sock.Channel;
 
 /**
  * 通讯数据报文处理.

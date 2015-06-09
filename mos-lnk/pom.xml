@@ -10,7 +10,7 @@
 		<commons.lang3.version>3.1</commons.lang3.version>
 		<commons-codec>1.9</commons-codec>
 		<org.slf4j-version>1.6.4</org.slf4j-version>
-		<jar.main.class>me.mos.ti.srv.LnkServerStarter</jar.main.class>
+		<jar.main.class>me.mos.ti.srv.sock.LnkServerStarter</jar.main.class>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -18,13 +18,6 @@
             <artifactId>spring-jdbc</artifactId>
             <version>4.0.7.RELEASE</version>
         </dependency>
-		<!--
-		<dependency>
-			<groupId>org.apache.tomcat</groupId>
-			<artifactId>tomcat-jdbc</artifactId>
-			<version>8.0.23</version>
-		</dependency>
-		-->
 		<dependency>
 			<groupId>org.apache.tomcat</groupId>
 			<artifactId>tomcat-jdbc</artifactId>

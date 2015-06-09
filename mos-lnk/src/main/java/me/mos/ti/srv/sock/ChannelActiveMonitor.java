@@ -1,4 +1,4 @@
-package me.mos.ti.srv;
+package me.mos.ti.srv.sock;
 
 import java.util.Enumeration;
 import java.util.List;

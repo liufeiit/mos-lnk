@@ -1,12 +1,12 @@
-package me.mos.ti.srv.handler;
+package me.mos.ti.srv.sock.handler;
 
 import me.mos.ti.message.Message;
 import me.mos.ti.packet.Acknowledge;
 import me.mos.ti.packet.InMessage;
 import me.mos.ti.packet.OutMessage;
 import me.mos.ti.packet.OutPacket;
-import me.mos.ti.srv.Channel;
-import me.mos.ti.srv.Channels;
+import me.mos.ti.srv.sock.Channel;
+import me.mos.ti.srv.sock.Channels;
 import me.mos.ti.user.User;
 
 /**

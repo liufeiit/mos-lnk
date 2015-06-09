@@ -2,6 +2,6 @@
  * @author 刘飞 E-mail:liufei_it@126.com
  * 
  * @version 1.0.0
- * @since 2015年6月9日 下午11:10:03
+ * @since 2015年5月31日 下午9:11:19
  */
-package me.mos.ti.srv;
+package me.mos.ti.srv.sock;

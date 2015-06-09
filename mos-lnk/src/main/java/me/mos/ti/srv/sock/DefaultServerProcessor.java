@@ -1,4 +1,4 @@
-package me.mos.ti.srv;
+package me.mos.ti.srv.sock;
 
 import me.mos.ti.packet.InIQ;
 import me.mos.ti.packet.InMessage;
@@ -7,11 +7,11 @@ import me.mos.ti.packet.InPresence;
 import me.mos.ti.packet.InRegister;
 import me.mos.ti.packet.InSubscribe;
 import me.mos.ti.packet.OutPacket;
-import me.mos.ti.srv.handler.IQHandler;
-import me.mos.ti.srv.handler.MessageHandler;
-import me.mos.ti.srv.handler.PresenceHandler;
-import me.mos.ti.srv.handler.RegisterHandler;
-import me.mos.ti.srv.handler.SubscribeHandler;
+import me.mos.ti.srv.sock.handler.IQHandler;
+import me.mos.ti.srv.sock.handler.MessageHandler;
+import me.mos.ti.srv.sock.handler.PresenceHandler;
+import me.mos.ti.srv.sock.handler.RegisterHandler;
+import me.mos.ti.srv.sock.handler.SubscribeHandler;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

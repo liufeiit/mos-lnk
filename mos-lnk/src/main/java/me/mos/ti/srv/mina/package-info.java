@@ -2,6 +2,6 @@
  * @author 刘飞 E-mail:liufei_it@126.com
  * 
  * @version 1.0.0
- * @since 2015年6月2日 下午7:15:31
+ * @since 2015年6月9日 下午11:10:03
  */
-package me.mos.ti.srv.handler;
+package me.mos.ti.srv.mina;
