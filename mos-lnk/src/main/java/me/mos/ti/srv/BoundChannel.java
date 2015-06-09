@@ -155,6 +155,9 @@ final class BoundChannel implements Channel {
 		if (address != null) {
 			return address.getHostAddress();
 		}
+		if (channel != null) {
+			return channel.toString();
+		}
 		return super.toString();
 	}
 }

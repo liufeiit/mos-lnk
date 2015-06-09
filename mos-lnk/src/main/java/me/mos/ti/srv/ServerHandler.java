@@ -13,6 +13,8 @@ import me.mos.ti.packet.StringPacket;
 import me.mos.ti.utils.Charsets;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Lnk服务通道事件处理句柄.
@@ -23,6 +25,8 @@ import org.apache.commons.lang3.StringUtils;
  * @since 2015年6月2日 上午12:08:50
  */
 final class ServerHandler implements Runnable {
+
+	private static final Logger log = LoggerFactory.getLogger(ServerHandler.class);
 
 	private static final String XMLSTART_TAG = "<";
 
@@ -50,7 +54,7 @@ final class ServerHandler implements Runnable {
 				if (StringUtils.isBlank(packet)) {
 					continue;
 				}
-				System.err.println("Original Incoming Packet : " + packet);
+				log.error("Original Incoming Packet : {}", packet);
 				InPacket inPacket = null;
 				if (StringUtils.startsWith(packet, XMLSTART_TAG + PacketAlias.IQ_NAME)) {
 					inPacket = new InIQ().fromPacket(packet);
