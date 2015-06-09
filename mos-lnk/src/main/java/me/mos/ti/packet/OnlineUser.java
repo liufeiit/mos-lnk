@@ -3,9 +3,9 @@ package me.mos.ti.packet;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.util.CollectionUtils;
-
 import me.mos.ti.xml.XStreamParser;
+
+import org.springframework.util.CollectionUtils;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;

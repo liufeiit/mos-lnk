@@ -1,8 +1,5 @@
 package me.mos.ti.srv;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import me.mos.ti.packet.InIQ;
 import me.mos.ti.packet.InMessage;
 import me.mos.ti.packet.InPacket;
@@ -15,6 +12,9 @@ import me.mos.ti.srv.handler.MessageHandler;
 import me.mos.ti.srv.handler.PresenceHandler;
 import me.mos.ti.srv.handler.RegisterHandler;
 import me.mos.ti.srv.handler.SubscribeHandler;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Lnk服务通道消息业务处理器.

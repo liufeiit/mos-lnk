@@ -4,6 +4,6 @@
   <maximum-pool-size>1000</maximum-pool-size>
   <queue-size>10000</queue-size>
   <read-timeout>30</read-timeout>
-  <in-encoding>UTF-8</in-encoding>
-  <out-encoding>UTF-8</out-encoding>
+  <in-encoding>utf8</in-encoding>
+  <out-encoding>utf8</out-encoding>
 </server>

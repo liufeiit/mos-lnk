@@ -1,8 +1,5 @@
 package me.mos.ti.srv.handler;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import me.mos.ti.message.DefaultMessageProvider;
 import me.mos.ti.message.MessageProvider;
 import me.mos.ti.packet.InPacket;
@@ -10,6 +7,9 @@ import me.mos.ti.subscribe.DefaultSubscribeProvider;
 import me.mos.ti.subscribe.SubscribeProvider;
 import me.mos.ti.user.DefaultUserProvider;
 import me.mos.ti.user.UserProvider;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author 刘飞 E-mail:liufei_it@126.com

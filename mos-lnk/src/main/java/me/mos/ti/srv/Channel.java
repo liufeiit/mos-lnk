@@ -1,7 +1,5 @@
 package me.mos.ti.srv;
 
-import java.nio.channels.SocketChannel;
-
 import me.mos.ti.packet.Packet;
 
 /**
@@ -33,11 +31,6 @@ public interface Channel {
 	 * 获取客户端网络地址
 	 */
 	java.net.InetAddress getPeerAddress();
-	
-	/**
-	 * 获取内部原始通道
-	 */
-	SocketChannel getOriginalChannel();
 	
 	/**
 	 * 读消息

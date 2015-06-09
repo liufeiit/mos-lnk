@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.nio.channels.SocketChannel;
 
 import me.mos.ti.packet.Packet;
 
@@ -26,20 +25,16 @@ final class BoundChannel implements Channel {
 
 	private static final int READ_BUFFER_SIZE = 2048;
 
-	private String mid;
-	
-	private final String inEncoding;
+	private static final String DOT = "/";
 
+	private final String inEncoding;
 	private final String outEncoding;
+
+	private String mid;
 
 	private Socket channel;
 
-//	private BufferedReader in;
-
-//	private PrintWriter out;
-	
 	private InputStream in;
-	
 	private OutputStream out;
 
 	public BoundChannel(Socket channel, String inEncoding, String outEncoding) {
@@ -48,13 +43,10 @@ final class BoundChannel implements Channel {
 		this.inEncoding = inEncoding;
 		this.outEncoding = outEncoding;
 		try {
-//			this.in = new BufferedReader(new InputStreamReader(channel.getInputStream(), Charsets.UTF_8));
-//			this.out = new PrintWriter(channel.getOutputStream(), true);
-			this.in = channel.getInputStream();
-			this.out = channel.getOutputStream();
+			in = channel.getInputStream();
+			out = channel.getOutputStream();
 		} catch (Throwable e) {
-			log.error("Channel Binding Error.", e);
-			throw new IllegalStateException(e);
+			log.error(toString() + " Bound Channel Error.", e);
 		}
 	}
 
@@ -86,28 +78,18 @@ final class BoundChannel implements Channel {
 	}
 
 	@Override
-	public SocketChannel getOriginalChannel() {
-		return channel.getChannel();
-	}
-
-	@Override
 	public String read() {
 		try {
-//			return reader.readLine();
-//			byte[] buffer = new byte[10000];
-//			in.read(buffer);
-//			return new String(buffer, Charsets.GB2312);
-			
-			ByteArrayOutputStream req = new ByteArrayOutputStream();
-			byte[] b = new byte[READ_BUFFER_SIZE];
+			ByteArrayOutputStream packet = new ByteArrayOutputStream();
+			byte[] bs = new byte[READ_BUFFER_SIZE];
 			int size;
-			while ((size = in.read(b)) != -1) {
-				req.write(b, 0, size);
-				if (size < b.length) {
+			while ((size = in.read(bs)) != -1) {
+				packet.write(bs, 0, size);
+				if (size < bs.length) {
 					break;
 				}
 			}
-			return new String(req.toByteArray(), inEncoding);
+			return packet.toString(inEncoding);
 		} catch (Throwable ingore) {
 			try {
 				if (!isConnect()) {
@@ -122,7 +104,6 @@ final class BoundChannel implements Channel {
 	@Override
 	public void write(Packet packet) {
 		try {
-//			out.println(packet.toPacket());
 			out.write(packet.toPacket().getBytes(outEncoding));
 		} catch (Throwable ex) {
 			log.error("Channel Write Packet Error -> " + packet.toPacket(), ex);
@@ -150,19 +131,11 @@ final class BoundChannel implements Channel {
 
 	@Override
 	public void close() {
-		if (channel != null) {
-			try {
-				channel.close();
-			} catch (Throwable e) {
-				log.error("Channel Named " + getMID() + " close Error.", e);
-			}
-			channel = null;
-		}
 		if (in != null) {
 			try {
 				in.close();
 			} catch (Throwable e) {
-				log.error("Channel Reader " + getMID() + " close Error.", e);
+				log.error("Channel Reader " + toString() + " close Error.", e);
 			}
 			in = null;
 		}
@@ -171,9 +144,17 @@ final class BoundChannel implements Channel {
 				out.flush();
 				out.close();
 			} catch (Throwable e) {
-				log.error("Channel Writer " + getMID() + " close Error.", e);
+				log.error("Channel Writer " + toString() + " close Error.", e);
 			}
 			out = null;
+		}
+		if (channel != null) {
+			try {
+				channel.close();
+			} catch (Throwable e) {
+				log.error("Channel Named " + toString() + " close Error.", e);
+			}
+			channel = null;
 		}
 	}
 
@@ -181,11 +162,11 @@ final class BoundChannel implements Channel {
 	public String toString() {
 		InetAddress address = getPeerAddress();
 		if (address != null) {
-			return address.getHostAddress();
+			return address.getHostAddress() + DOT + getMID();
 		}
 		if (channel != null) {
-			return channel.toString();
+			return channel.toString() + DOT + getMID();
 		}
-		return super.toString();
+		return super.toString() + DOT + getMID();
 	}
 }
