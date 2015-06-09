@@ -1,7 +1,6 @@
 package me.mos.ti.etc;
 
 import java.io.FileInputStream;
-import java.io.IOException;
 
 import me.mos.ti.utils.Charsets;
 import me.mos.ti.utils.StreamUtils;
@@ -48,9 +47,12 @@ public class Database {
 	@XStreamAlias("password")
 	private String password;
 
-	public static Database newInstance() throws IOException {
-		return XStreamParser.toObj(Database.class, StreamUtils.copyToString(new FileInputStream("../etc/database.xml"), Charsets.UTF_8));
-//		return XStreamParser.toObj(Database.class, StreamUtils.copyToString(new FileInputStream("etc/database.xml"), Charsets.UTF_8));
+	public static Database newInstance() {
+		try {
+			return XStreamParser.toObj(Database.class, StreamUtils.copyToString(new FileInputStream("../etc/database.xml"), Charsets.UTF_8));
+		} catch (Exception e) {
+			throw new IllegalStateException(e);
+		}
 	}
 
 	public String getDriverClassName() {

@@ -1,6 +1,5 @@
 package me.mos.ti.srv;
 
-import java.io.IOException;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -51,6 +50,10 @@ public class LnkServer implements Server {
 	private ServerSocket server;
 
 	private ThreadPoolExecutor threadPoolExecutor;
+	
+	private String inEncoding;
+
+	private String outEncoding;
 
 	private Profile profile;
 
@@ -63,8 +66,10 @@ public class LnkServer implements Server {
 			setPort(profile.getPort());
 			setQueueSize(profile.getQueueSize());
 			setReadTimeout(profile.getReadTimeout());
+			setInEncoding(profile.getInEncoding());
+			setOutEncoding(profile.getOutEncoding());
 			log.error("Config LnkServer Success.");
-		} catch (IOException e) {
+		} catch (Exception e) {
 			log.error("Create Server Profile from XML Error.", e);
 		}
 	}
@@ -84,7 +89,7 @@ public class LnkServer implements Server {
 							Socket socket = server.accept();
 							socket.setSoTimeout(readTimeout * 1000); // 毫秒
 							socket.setKeepAlive(true);
-							Channel channel = Channels.newChannel(socket);
+							Channel channel = Channels.newChannel(socket, inEncoding, outEncoding);
 							threadPoolExecutor.execute(new ServerHandler(channel, processor));
 							log.error(channel + " Connection to LnkServer.");
 						} catch (Throwable t) {
@@ -148,6 +153,14 @@ public class LnkServer implements Server {
 
 	public void setReadTimeout(int readTimeout) {
 		this.readTimeout = readTimeout;
+	}
+	
+	public void setInEncoding(String inEncoding) {
+		this.inEncoding = inEncoding;
+	}
+	
+	public void setOutEncoding(String outEncoding) {
+		this.outEncoding = outEncoding;
 	}
 
 	private static final ThreadFactory DEFAULT_THREAD_FACTORY = new ThreadFactory() {

@@ -1,7 +1,6 @@
 package me.mos.ti.etc;
 
 import java.io.FileInputStream;
-import java.io.IOException;
 
 import me.mos.ti.Server;
 import me.mos.ti.utils.Charsets;
@@ -38,16 +37,25 @@ public class Profile {
 	 */
 	@XStreamAlias("queue-size")
 	private int queueSize = Server.DEFAULT_QUEUE_SIZE;
-	
+
 	/**
 	 * 读取超时(单位:秒)，默认30s
 	 */
 	@XStreamAlias("read-timeout")
 	private int readTimeout = Server.DEFAULT_READ_TIMEOUT;
 
-	public static Profile newInstance() throws IOException {
-		return XStreamParser.toObj(Profile.class, StreamUtils.copyToString(new FileInputStream("../etc/profile.xml"), Charsets.UTF_8));
-//		return XStreamParser.toObj(Profile.class, StreamUtils.copyToString(new FileInputStream("etc/profile.xml"), Charsets.UTF_8));
+	@XStreamAlias("in-encoding")
+	private String inEncoding;
+
+	@XStreamAlias("out-encoding")
+	private String outEncoding;
+
+	public static Profile newInstance() {
+		try {
+			return XStreamParser.toObj(Profile.class, StreamUtils.copyToString(new FileInputStream("../etc/profile.xml"), Charsets.UTF_8));
+		} catch (Exception e) {
+			throw new IllegalStateException(e);
+		}
 	}
 
 	public int getPort() {
@@ -88,5 +96,21 @@ public class Profile {
 
 	public void setReadTimeout(int readTimeout) {
 		this.readTimeout = readTimeout;
+	}
+
+	public String getInEncoding() {
+		return inEncoding;
+	}
+
+	public void setInEncoding(String inEncoding) {
+		this.inEncoding = inEncoding;
+	}
+
+	public String getOutEncoding() {
+		return outEncoding;
+	}
+
+	public void setOutEncoding(String outEncoding) {
+		this.outEncoding = outEncoding;
 	}
 }

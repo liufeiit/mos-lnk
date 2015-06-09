@@ -36,7 +36,7 @@ public class Client {
 		Socket socket = new Socket("wjz", Server.DEFAULT_PORT);
 		socket.setKeepAlive(true);
 		socket.setSoTimeout(30000);
-		Channel channel = Channels.newChannel(socket);
+		Channel channel = Channels.newChannel(socket, "UTF-8", "UTF-8");
 		channel.write(newInPresence());
 //		channel.write(newInSubscribe());
 //		channel.write(newInRegister());

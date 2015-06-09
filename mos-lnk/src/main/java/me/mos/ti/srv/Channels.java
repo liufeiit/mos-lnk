@@ -26,8 +26,8 @@ public class Channels {
 
 	private static final ConcurrentHashMap<String, Channel> channels = new ConcurrentHashMap<String, Channel>(2000);
 
-	public static Channel newChannel(Socket socket) {
-		return new BoundChannel(socket);
+	public static Channel newChannel(Socket channel, String inEncoding, String outEncoding) {
+		return new BoundChannel(channel, inEncoding, outEncoding);
 	}
 
 	public static Enumeration<String> channels() {
