@@ -3,8 +3,8 @@ package me.mos.ti.srv.handler;
 import me.mos.ti.packet.InRegister;
 import me.mos.ti.packet.OutPacket;
 import me.mos.ti.packet.OutRegister;
-import me.mos.ti.srv.sock.Channel;
-import me.mos.ti.srv.sock.Channels;
+import me.mos.ti.srv.channel.Channel;
+import me.mos.ti.srv.channel.Channels;
 import me.mos.ti.user.User;
 
 import org.apache.commons.lang3.StringUtils;

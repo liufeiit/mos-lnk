@@ -1,4 +1,4 @@
-package me.mos.ti.srv.sock;
+package me.mos.ti.srv.processor;
 
 import me.mos.ti.packet.InIQ;
 import me.mos.ti.packet.InMessage;
@@ -7,6 +7,7 @@ import me.mos.ti.packet.InPresence;
 import me.mos.ti.packet.InRegister;
 import me.mos.ti.packet.InSubscribe;
 import me.mos.ti.packet.OutPacket;
+import me.mos.ti.srv.channel.Channel;
 import me.mos.ti.srv.handler.IQHandler;
 import me.mos.ti.srv.handler.MessageHandler;
 import me.mos.ti.srv.handler.PresenceHandler;
@@ -24,7 +25,7 @@ import org.slf4j.LoggerFactory;
  * @version 1.0.0
  * @since 2015年6月2日 上午12:44:18
  */
-final class DefaultServerProcessor implements ServerProcessor {
+public class DefaultServerProcessor implements ServerProcessor {
 	
 	private static final Logger log = LoggerFactory.getLogger(ServerProcessor.class);
 

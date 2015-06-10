@@ -1,4 +1,4 @@
-package me.mos.ti.srv.sock;
+package me.mos.ti.srv.channel;
 
 import me.mos.ti.packet.Packet;
 

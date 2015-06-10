@@ -5,8 +5,8 @@ import me.mos.ti.packet.Acknowledge;
 import me.mos.ti.packet.InMessage;
 import me.mos.ti.packet.OutMessage;
 import me.mos.ti.packet.OutPacket;
-import me.mos.ti.srv.sock.Channel;
-import me.mos.ti.srv.sock.Channels;
+import me.mos.ti.srv.channel.Channel;
+import me.mos.ti.srv.channel.Channels;
 import me.mos.ti.user.User;
 
 /**

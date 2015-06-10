@@ -9,8 +9,12 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import me.mos.ti.Server;
 import me.mos.ti.etc.Profile;
+import me.mos.ti.srv.Server;
+import me.mos.ti.srv.channel.Channel;
+import me.mos.ti.srv.channel.ChannelActiveMonitor;
+import me.mos.ti.srv.channel.Channels;
+import me.mos.ti.srv.processor.ServerProcessor;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +25,7 @@ import org.slf4j.LoggerFactory;
  * @version 1.0.0
  * @since 2015年6月1日 下午2:16:40
  */
-public class LnkServer implements Server {
+final class LnkServer implements Server {
 
 	private final static Logger log = LoggerFactory.getLogger(LnkServer.class);
 

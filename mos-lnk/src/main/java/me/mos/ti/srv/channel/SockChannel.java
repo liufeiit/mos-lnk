@@ -1,4 +1,4 @@
-package me.mos.ti.srv.sock;
+package me.mos.ti.srv.channel;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -19,9 +19,9 @@ import org.slf4j.LoggerFactory;
  * @version 1.0.0
  * @since 2015年6月1日 下午5:51:34
  */
-final class BoundChannel implements Channel {
+public final class SockChannel implements Channel {
 
-	private static final Logger log = LoggerFactory.getLogger(BoundChannel.class);
+	private static final Logger log = LoggerFactory.getLogger(SockChannel.class);
 
 	private static final int READ_BUFFER_SIZE = 2048;
 
@@ -37,7 +37,7 @@ final class BoundChannel implements Channel {
 	private InputStream in;
 	private OutputStream out;
 
-	public BoundChannel(Socket channel, String inEncoding, String outEncoding) {
+	public SockChannel(Socket channel, String inEncoding, String outEncoding) {
 		super();
 		this.channel = channel;
 		this.inEncoding = inEncoding;

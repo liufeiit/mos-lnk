@@ -8,7 +8,7 @@ import me.mos.ti.packet.InSubscribe;
 import me.mos.ti.packet.OutPacket;
 import me.mos.ti.packet.OutSubscribe;
 import me.mos.ti.packet.SubUsr;
-import me.mos.ti.srv.sock.Channel;
+import me.mos.ti.srv.channel.Channel;
 import me.mos.ti.subscribe.Subscribe;
 import me.mos.ti.user.User;
 

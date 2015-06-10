@@ -1,4 +1,4 @@
-package me.mos.ti.srv.sock;
+package me.mos.ti.srv.channel;
 
 import java.net.Socket;
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ public class Channels {
 	private static final ConcurrentHashMap<String, Channel> channels = new ConcurrentHashMap<String, Channel>(2000);
 
 	public static Channel newChannel(Socket channel, String inEncoding, String outEncoding) {
-		return new BoundChannel(channel, inEncoding, outEncoding);
+		return new SockChannel(channel, inEncoding, outEncoding);
 	}
 
 	public static Enumeration<String> channels() {

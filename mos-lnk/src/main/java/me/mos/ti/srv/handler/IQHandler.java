@@ -3,8 +3,8 @@ package me.mos.ti.srv.handler;
 import me.mos.ti.packet.InIQ;
 import me.mos.ti.packet.OutIQ;
 import me.mos.ti.packet.OutPacket;
-import me.mos.ti.srv.sock.Channel;
-import me.mos.ti.srv.sock.Channels;
+import me.mos.ti.srv.channel.Channel;
+import me.mos.ti.srv.channel.Channels;
 
 /**
  * IQ消息处理器.

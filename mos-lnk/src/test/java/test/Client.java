@@ -4,7 +4,6 @@ import java.net.Socket;
 import java.util.Arrays;
 import java.util.Date;
 
-import me.mos.ti.Server;
 import me.mos.ti.packet.Acknowledge;
 import me.mos.ti.packet.InIQ;
 import me.mos.ti.packet.InMessage;
@@ -17,8 +16,9 @@ import me.mos.ti.packet.OutPresence;
 import me.mos.ti.packet.OutRegister;
 import me.mos.ti.packet.OutSubscribe;
 import me.mos.ti.packet.SubUsr;
-import me.mos.ti.srv.sock.Channel;
-import me.mos.ti.srv.sock.Channels;
+import me.mos.ti.srv.Server;
+import me.mos.ti.srv.channel.Channel;
+import me.mos.ti.srv.channel.Channels;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -36,7 +36,7 @@ public class Client {
 		Socket socket = new Socket("wjz", Server.DEFAULT_PORT);
 		socket.setKeepAlive(true);
 		socket.setSoTimeout(30000);
-		Channel channel = Channels.newChannel(socket, "UTF-8", "UTF-8");
+		Channel channel = Channels.newChannel(socket, "utf8", "utf8");
 		channel.write(newInPresence());
 //		channel.write(newInSubscribe());
 //		channel.write(newInRegister());

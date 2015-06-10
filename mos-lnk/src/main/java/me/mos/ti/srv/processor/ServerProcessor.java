@@ -1,7 +1,8 @@
-package me.mos.ti.srv.sock;
+package me.mos.ti.srv.processor;
 
 import me.mos.ti.packet.InPacket;
 import me.mos.ti.packet.OutPacket;
+import me.mos.ti.srv.channel.Channel;
 
 /**
  * Lnk服务通道消息业务处理器.

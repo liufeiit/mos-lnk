@@ -2,7 +2,7 @@ package me.mos.ti.etc;
 
 import java.io.FileInputStream;
 
-import me.mos.ti.Server;
+import me.mos.ti.srv.Server;
 import me.mos.ti.utils.Charsets;
 import me.mos.ti.utils.StreamUtils;
 import me.mos.ti.xml.XStreamParser;
