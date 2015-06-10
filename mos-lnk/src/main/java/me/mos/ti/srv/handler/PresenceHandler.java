@@ -1,4 +1,4 @@
-package me.mos.ti.srv.sock.handler;
+package me.mos.ti.srv.handler;
 
 import java.util.List;
 

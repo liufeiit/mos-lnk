@@ -4,4 +4,4 @@
  * @version 1.0.0
  * @since 2015年6月2日 下午7:15:31
  */
-package me.mos.ti.srv.sock.handler;
+package me.mos.ti.srv.handler;

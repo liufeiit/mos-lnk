@@ -1,4 +1,4 @@
-package me.mos.ti.srv.sock.handler;
+package me.mos.ti.srv.handler;
 
 import me.mos.ti.message.DefaultMessageProvider;
 import me.mos.ti.message.MessageProvider;
