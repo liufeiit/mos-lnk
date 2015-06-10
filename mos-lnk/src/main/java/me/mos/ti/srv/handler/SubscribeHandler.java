@@ -7,9 +7,9 @@ import java.util.List;
 import me.mos.ti.packet.InSubscribe;
 import me.mos.ti.packet.OutPacket;
 import me.mos.ti.packet.OutSubscribe;
-import me.mos.ti.packet.SubUsr;
 import me.mos.ti.srv.channel.Channel;
 import me.mos.ti.subscribe.Subscribe;
+import me.mos.ti.user.SubscribeUser;
 import me.mos.ti.user.User;
 
 import org.springframework.util.CollectionUtils;
@@ -33,7 +33,7 @@ public class SubscribeHandler extends AbstractPacketHandler<InSubscribe> {
 				if (user == null) {
 					return outSubscribe.peerNotExist();
 				}
-				SubUsr subUsr = new SubUsr();
+				SubscribeUser subUsr = new SubscribeUser();
 				subUsr.setSmid(packet.getSmid());
 				subUsr.setAvatar(user.getAvatar());
 				subUsr.setNick(user.getNick());
@@ -44,13 +44,13 @@ public class SubscribeHandler extends AbstractPacketHandler<InSubscribe> {
 				subscribe.setParty_id(user.getParty_id());
 				subscribe.setSmid(packet.getSmid());
 				subscribeProvider.save(subscribe);
-				outSubscribe.setSubUsrs(Arrays.asList(subUsr));
+				outSubscribe.setSubs(Arrays.asList(subUsr));
 			} else if (packet.isSubCancel()) {
 				User user = userProvider.query(packet.getSmid());
 				if (user == null) {
 					return outSubscribe.peerNotExist();
 				}
-				SubUsr subUsr = new SubUsr();
+				SubscribeUser subUsr = new SubscribeUser();
 				subUsr.setSmid(packet.getSmid());
 				subUsr.setAvatar(user.getAvatar());
 				subUsr.setNick(user.getNick());
@@ -61,22 +61,22 @@ public class SubscribeHandler extends AbstractPacketHandler<InSubscribe> {
 				subscribe.setParty_id(user.getParty_id());
 				subscribe.setSmid(packet.getSmid());
 				subscribeProvider.delete(packet.getMid(), packet.getSmid());
-				outSubscribe.setSubUsrs(Arrays.asList(subUsr));
+				outSubscribe.setSubs(Arrays.asList(subUsr));
 			} else if (packet.isSubQuery()) {
 				List<Subscribe> subs = subscribeProvider.queryMessageList(packet.getMid());
 				if (CollectionUtils.isEmpty(subs)) {
 					return outSubscribe;
 				}
-				List<SubUsr> subsUsr = new ArrayList<SubUsr>();
+				List<SubscribeUser> subsUsr = new ArrayList<SubscribeUser>();
 				for (Subscribe subscribe : subs) {
-					SubUsr subUsr = new SubUsr();
+					SubscribeUser subUsr = new SubscribeUser();
 					subUsr.setAvatar(subscribe.getAvatar());
 					subUsr.setNick(subscribe.getNick());
 					subUsr.setParty_id(subscribe.getParty_id());
 					subUsr.setSmid(subscribe.getSmid());
 					subsUsr.add(subUsr);
 				}
-				outSubscribe.setSubUsrs(subsUsr);
+				outSubscribe.setSubs(subsUsr);
 			} else {
 				outSubscribe.illegalAction();
 			}

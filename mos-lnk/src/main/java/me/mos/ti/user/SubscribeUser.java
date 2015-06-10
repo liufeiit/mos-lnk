@@ -1,4 +1,4 @@
-package me.mos.ti.packet;
+package me.mos.ti.user;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
@@ -10,7 +10,7 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
  * @since 2015年6月4日 下午3:23:16
  */
 @XStreamAlias("sub-usr")
-public class SubUsr {
+public class SubscribeUser {
 	/** 被订阅的用户的唯一ID */
 	@XStreamAlias("smid")
 	@XStreamAsAttribute

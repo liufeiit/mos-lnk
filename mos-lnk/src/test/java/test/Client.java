@@ -15,10 +15,10 @@ import me.mos.ti.packet.OutMessage;
 import me.mos.ti.packet.OutPresence;
 import me.mos.ti.packet.OutRegister;
 import me.mos.ti.packet.OutSubscribe;
-import me.mos.ti.packet.SubUsr;
 import me.mos.ti.srv.Server;
 import me.mos.ti.srv.channel.Channel;
 import me.mos.ti.srv.channel.Channels;
+import me.mos.ti.user.SubscribeUser;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -107,17 +107,17 @@ public class Client {
 		InSubscribe inSubscribe = newInSubscribe();
 		System.out.println(inSubscribe);
 		OutSubscribe outSubscribe = inSubscribe.toOutPacket();
-		SubUsr subUsr = new SubUsr();
+		SubscribeUser subUsr = new SubscribeUser();
 		subUsr.setAvatar("好友头像");
 		subUsr.setNick("好友昵称");
 		subUsr.setParty_id("好友第三方绑定账号");
 		subUsr.setSmid(456);
-		SubUsr subUsr1 = new SubUsr();
+		SubscribeUser subUsr1 = new SubscribeUser();
 		subUsr1.setAvatar("好友头像");
 		subUsr1.setNick("好友昵称");
 		subUsr1.setParty_id("好友第三方绑定账号");
 		subUsr1.setSmid(456);
-		outSubscribe.setSubUsrs(Arrays.asList(subUsr, subUsr1));
+		outSubscribe.setSubs(Arrays.asList(subUsr, subUsr1));
 		System.out.println(outSubscribe);
 		InMessage inMessage = newInMessage();
 		System.out.println(inMessage);

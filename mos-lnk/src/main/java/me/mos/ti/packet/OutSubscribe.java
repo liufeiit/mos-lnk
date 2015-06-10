@@ -2,6 +2,8 @@ package me.mos.ti.packet;
 
 import java.util.List;
 
+import me.mos.ti.user.SubscribeUser;
+
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
@@ -31,7 +33,7 @@ public class OutSubscribe extends AbstractOutPacket {
 	private byte act;
 	
 	@XStreamImplicit(itemFieldName = "sub-usr")
-	private List<SubUsr> subUsrs;
+	private List<SubscribeUser> subs;
 	
 	@XStreamAlias("status")
 	@XStreamAsAttribute
@@ -62,12 +64,12 @@ public class OutSubscribe extends AbstractOutPacket {
 		return Type.Subscribe;
 	}
 
-	public List<SubUsr> getSubUsrs() {
-		return subUsrs;
+	public List<SubscribeUser> getSubs() {
+		return subs;
 	}
 
-	public void setSubUsrs(List<SubUsr> subUsrs) {
-		this.subUsrs = subUsrs;
+	public void setSubs(List<SubscribeUser> subs) {
+		this.subs = subs;
 	}
 
 	public byte getAct() {
