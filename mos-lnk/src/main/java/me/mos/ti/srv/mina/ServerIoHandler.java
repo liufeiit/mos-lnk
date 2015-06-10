@@ -20,7 +20,9 @@ final class ServerIoHandler implements IoHandler {
 
 	@Override
 	public void messageReceived(IoSession session, Object message) throws Exception {
-		
+//		WriteFuture future = session.write(response);//session中必须加入这个代码，才会激活encode方法  
+//		future.addListener(IoFutureListener.CLOSE);//这个的作用是发送完毕后关闭连接，加了就是短连接，不然是长连接  
+//		IoFutureListener里面有个operationComplete(IoFuture future)方法，当流发送完成之后才调用这个方法
 	}
 
 	@Override

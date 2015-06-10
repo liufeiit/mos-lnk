@@ -45,15 +45,15 @@ public class LnkServer implements Server {
 		acceptor.getFilterChain().addLast("codec", new ProtocolCodecFilter(lineCodec));
 		acceptor.getFilterChain().addLast("compression", new CompressionFilter());
 		acceptor.getFilterChain().addLast("exceutor", new ExecutorFilter(Executors.newCachedThreadPool()));
-		LoggingFilter filter = new LoggingFilter();  
-	    filter.setExceptionCaughtLogLevel(LogLevel.DEBUG);  
-	    filter.setMessageReceivedLogLevel(LogLevel.DEBUG);  
-	    filter.setMessageSentLogLevel(LogLevel.DEBUG);  
-	    filter.setSessionClosedLogLevel(LogLevel.DEBUG);  
-	    filter.setSessionCreatedLogLevel(LogLevel.DEBUG);  
-	    filter.setSessionIdleLogLevel(LogLevel.DEBUG);  
-	    filter.setSessionOpenedLogLevel(LogLevel.DEBUG);  
-	    acceptor.getFilterChain().addLast("logger", filter);
+		LoggingFilter filter = new LoggingFilter();
+		filter.setExceptionCaughtLogLevel(LogLevel.DEBUG);
+		filter.setMessageReceivedLogLevel(LogLevel.DEBUG);
+		filter.setMessageSentLogLevel(LogLevel.DEBUG);
+		filter.setSessionClosedLogLevel(LogLevel.DEBUG);
+		filter.setSessionCreatedLogLevel(LogLevel.DEBUG);
+		filter.setSessionIdleLogLevel(LogLevel.DEBUG);
+		filter.setSessionOpenedLogLevel(LogLevel.DEBUG);
+		acceptor.getFilterChain().addLast("logger", filter);
 		acceptor.setHandler(new ServerIoHandler());
 		acceptor.setReuseAddress(true);
 		acceptor.setBacklog(10240);
@@ -69,6 +69,20 @@ public class LnkServer implements Server {
 		} catch (Throwable e) {
 			log.error("LnkServer Starting Error.", e);
 		}
+
+		acceptor.setReuseAddress(true);// 设置的是主服务监听的端口可以重用
+
+		acceptor.getSessionConfig().setReuseAddress(true);// 设置每一个非主监听连接的端口可以重用
+		acceptor.getSessionConfig().setReceiveBufferSize(1024);// 设置输入缓冲区的大小
+		acceptor.getSessionConfig().setSendBufferSize(10240);// 设置输出缓冲区的大小
+		// 设置为非延迟发送，为true则不组装成大包发送，收到东西马上发出
+		acceptor.getSessionConfig().setTcpNoDelay(true);
+		// 设置主服务监听端口的监听队列的最大值为100，如果当前已经有100个连接，再新的连接来将被服务器拒绝
+		acceptor.setBacklog(100);
+		acceptor.setDefaultLocalAddress(new InetSocketAddress(port));
+		// 加入处理器（Handler）到Acceptor
+		acceptor.setHandler(new ServerIoHandler());
+//		acceptor.bind();
 	}
 
 	@Override
