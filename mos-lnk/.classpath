@@ -6,12 +6,26 @@
   <classpathentry kind="src" path="src/main/resources" excluding="**/*.java"/>
   <classpathentry kind="output" path="target/classes"/>
   <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-  <classpathentry kind="var" path="M2_REPO/org/apache/mina/mina-core/2.0.9/mina-core-2.0.9.jar" sourcepath="M2_REPO/org/apache/mina/mina-core/2.0.9/mina-core-2.0.9-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/apache/mina/mina-example/2.0.9/mina-example-2.0.9.jar" sourcepath="M2_REPO/org/apache/mina/mina-example/2.0.9/mina-example-2.0.9-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-api/1.6.4/slf4j-api-1.6.4.jar" sourcepath="M2_REPO/org/slf4j/slf4j-api/1.6.4/slf4j-api-1.6.4-sources.jar">
     <attributes>
       <attribute value="jar:file:/E:/.m2/repository/org/slf4j/slf4j-api/1.6.4/slf4j-api-1.6.4-javadoc.jar!/" name="javadoc_location"/>
     </attributes>
   </classpathentry>
+  <classpathentry kind="var" path="M2_REPO/ognl/ognl/3.0.8/ognl-3.0.8.jar" sourcepath="M2_REPO/ognl/ognl/3.0.8/ognl-3.0.8-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/javassist/javassist/3.11.0.GA/javassist-3.11.0.GA.jar" sourcepath="M2_REPO/javassist/javassist/3.11.0.GA/javassist-3.11.0.GA-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/commons-lang/commons-lang/2.6/commons-lang-2.6.jar" sourcepath="M2_REPO/commons-lang/commons-lang/2.6/commons-lang-2.6-sources.jar">
+    <attributes>
+      <attribute value="jar:file:/E:/.m2/repository/commons-lang/commons-lang/2.6/commons-lang-2.6-javadoc.jar!/" name="javadoc_location"/>
+    </attributes>
+  </classpathentry>
+  <classpathentry kind="var" path="M2_REPO/org/springframework/spring/2.5.6.SEC03/spring-2.5.6.SEC03.jar" sourcepath="M2_REPO/org/springframework/spring/2.5.6.SEC03/spring-2.5.6.SEC03-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/slf4j/jcl-over-slf4j/1.6.4/jcl-over-slf4j-1.6.4.jar" sourcepath="M2_REPO/org/slf4j/jcl-over-slf4j/1.6.4/jcl-over-slf4j-1.6.4-sources.jar">
+    <attributes>
+      <attribute value="jar:file:/E:/.m2/repository/org/slf4j/jcl-over-slf4j/1.6.4/jcl-over-slf4j-1.6.4-javadoc.jar!/" name="javadoc_location"/>
+    </attributes>
+  </classpathentry>
+  <classpathentry kind="var" path="M2_REPO/org/apache/mina/mina-core/2.0.9/mina-core-2.0.9.jar" sourcepath="M2_REPO/org/apache/mina/mina-core/2.0.9/mina-core-2.0.9-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/springframework/spring-jdbc/4.0.7.RELEASE/spring-jdbc-4.0.7.RELEASE.jar" sourcepath="M2_REPO/org/springframework/spring-jdbc/4.0.7.RELEASE/spring-jdbc-4.0.7.RELEASE-sources.jar">
     <attributes>
       <attribute value="jar:file:/E:/.m2/repository/org/springframework/spring-jdbc/4.0.7.RELEASE/spring-jdbc-4.0.7.RELEASE-javadoc.jar!/" name="javadoc_location"/>
@@ -41,11 +55,6 @@
   <classpathentry kind="var" path="M2_REPO/org/apache/tomcat/tomcat-juli/7.0.30/tomcat-juli-7.0.30.jar"/>
   <classpathentry kind="var" path="M2_REPO/mysql/mysql-connector-java/5.1.25/mysql-connector-java-5.1.25.jar"/>
   <classpathentry kind="var" path="M2_REPO/log4j/log4j/1.2.13/log4j-1.2.13.jar" sourcepath="M2_REPO/log4j/log4j/1.2.13/log4j-1.2.13-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/slf4j/jcl-over-slf4j/1.6.4/jcl-over-slf4j-1.6.4.jar" sourcepath="M2_REPO/org/slf4j/jcl-over-slf4j/1.6.4/jcl-over-slf4j-1.6.4-sources.jar">
-    <attributes>
-      <attribute value="jar:file:/E:/.m2/repository/org/slf4j/jcl-over-slf4j/1.6.4/jcl-over-slf4j-1.6.4-javadoc.jar!/" name="javadoc_location"/>
-    </attributes>
-  </classpathentry>
   <classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-log4j12/1.6.4/slf4j-log4j12-1.6.4.jar" sourcepath="M2_REPO/org/slf4j/slf4j-log4j12/1.6.4/slf4j-log4j12-1.6.4-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/com/thoughtworks/xstream/xstream/1.4.2/xstream-1.4.2.jar" sourcepath="M2_REPO/com/thoughtworks/xstream/xstream/1.4.2/xstream-1.4.2-sources.jar">
     <attributes>
