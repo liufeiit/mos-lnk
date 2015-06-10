@@ -10,18 +10,14 @@
 		<commons.lang3.version>3.1</commons.lang3.version>
 		<commons-codec>1.9</commons-codec>
 		<org.slf4j-version>1.6.4</org.slf4j-version>
+		<mina.version>2.0.9</mina.version>
 		<jar.main.class>me.mos.ti.srv.sock.LnkServerStarter</jar.main.class>
 	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.mina</groupId>
 			<artifactId>mina-core</artifactId>
-			<version>2.0.9</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.mina</groupId>
-			<artifactId>mina-filter-compression</artifactId>
-			<version>2.0.9</version>
+			<version>${mina.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>

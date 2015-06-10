@@ -14,8 +14,6 @@ public interface Server {
 
 	int DEFAULT_PORT = 9099;
 
-	String LNK_SERVER_WORKER = "LnkServer-Worker-";
-
 	int DEFAULT_CORE_POOL_SIZE = 50;
 
 	int DEFAULT_MAXIMUM_POOL_SIZE = 1000;
@@ -23,8 +21,12 @@ public interface Server {
 	int DEFAULT_QUEUE_SIZE = 10000;
 
 	int DEFAULT_READ_TIMEOUT = 30;
-
-	long DEFAULT_KEEPALIVETIME = 60L;
+	
+	int DEFAULT_BACKLOG = 5000;
+	
+	int DEFAULT_IDLETIME = 1800;
+	
+	int DEFAULT_OS_SOLINGER = -1;
 
 	void start(ServerProcessor processor);
 	

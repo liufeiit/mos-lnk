@@ -4,14 +4,15 @@ import java.net.InetSocketAddress;
 import java.nio.charset.Charset;
 import java.util.concurrent.Executors;
 
+import me.mos.ti.etc.Profile;
 import me.mos.ti.srv.Server;
+import me.mos.ti.srv.executor.LnkExecutor;
 import me.mos.ti.srv.processor.ServerProcessor;
 
 import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.filter.codec.ProtocolCodecFilter;
 import org.apache.mina.filter.codec.textline.LineDelimiter;
 import org.apache.mina.filter.codec.textline.TextLineCodecFactory;
-import org.apache.mina.filter.compression.CompressionFilter;
 import org.apache.mina.filter.executor.ExecutorFilter;
 import org.apache.mina.filter.logging.LogLevel;
 import org.apache.mina.filter.logging.LoggingFilter;
@@ -26,15 +27,43 @@ import org.slf4j.LoggerFactory;
  * @version 1.0.0
  * @since 2015年6月10日 下午4:15:22
  */
-public class LnkServer implements Server {
+final class LnkServer implements Server {
 
 	private static final Logger log = LoggerFactory.getLogger(LnkServer.class);
 
 	private int port = DEFAULT_PORT;
-	private int idleTime = 1800;
-	private int bufferSize = 1024;
+	
+	/**
+	 * <pre>
+	 * -1 | 0 | nSec 
+	 * -1表示使用OS缺省参数，0表示立即释放，nSec表示等待n秒后释放
+	 * </pre>
+	 */
+	private int soLinger = DEFAULT_OS_SOLINGER;
 
-	private SocketAcceptor acceptor;
+	/**
+	 * 输入连接指示（对连接的请求）的最大队列长度被设置为 backlog参数。如果队列满时收到连接指示，则拒绝该连接。
+	 */
+	private int backlog = DEFAULT_BACKLOG;
+	
+	/**
+	 * 单位秒
+	 */
+	private int idleTime = DEFAULT_IDLETIME;
+	
+	private NioSocketAcceptor acceptor;
+
+	private Profile profile;
+
+	LnkServer() {
+		super();
+		try {
+			profile = Profile.newInstance();
+			log.error("Config LnkServer Success.");
+		} catch (Exception e) {
+			log.error("Create Server Profile from XML Error.", e);
+		}
+	}
 
 	@Override
 	public void start(ServerProcessor processor) {
@@ -43,46 +72,23 @@ public class LnkServer implements Server {
 		lineCodec.setDecoderMaxLineLength(2 * 1024 * 1024);
 		lineCodec.setEncoderMaxLineLength(2 * 1024 * 1024);
 		acceptor.getFilterChain().addLast("codec", new ProtocolCodecFilter(lineCodec));
-		acceptor.getFilterChain().addLast("compression", new CompressionFilter());
-		acceptor.getFilterChain().addLast("exceutor", new ExecutorFilter(Executors.newCachedThreadPool()));
-		LoggingFilter filter = new LoggingFilter();
-		filter.setExceptionCaughtLogLevel(LogLevel.DEBUG);
-		filter.setMessageReceivedLogLevel(LogLevel.DEBUG);
-		filter.setMessageSentLogLevel(LogLevel.DEBUG);
-		filter.setSessionClosedLogLevel(LogLevel.DEBUG);
-		filter.setSessionCreatedLogLevel(LogLevel.DEBUG);
-		filter.setSessionIdleLogLevel(LogLevel.DEBUG);
-		filter.setSessionOpenedLogLevel(LogLevel.DEBUG);
-		acceptor.getFilterChain().addLast("logger", filter);
-		acceptor.setHandler(new ServerIoHandler());
+		acceptor.getFilterChain().addLast("exceutor", new ExecutorFilter(new LnkExecutor(profile)));
+		acceptor.getFilterChain().addLast("logger", new LoggingFilter());
 		acceptor.setReuseAddress(true);
-		acceptor.setBacklog(10240);
+		acceptor.setBacklog(backlog);
 		acceptor.getSessionConfig().setReuseAddress(true);
-		acceptor.getSessionConfig().setReadBufferSize(bufferSize);
-		acceptor.getSessionConfig().setReceiveBufferSize(bufferSize);
+		acceptor.getSessionConfig().setReadBufferSize(10240);
+		acceptor.getSessionConfig().setReceiveBufferSize(10240);
+		acceptor.getSessionConfig().setSendBufferSize(10240);
 		acceptor.getSessionConfig().setTcpNoDelay(true);
-		acceptor.getSessionConfig().setSoLinger(-1);
-		// 单位秒
+		acceptor.getSessionConfig().setSoLinger(soLinger);
 		acceptor.getSessionConfig().setIdleTime(IdleStatus.BOTH_IDLE, idleTime);
 		try {
+			acceptor.setHandler(new ServerIoHandler());
 			acceptor.bind(new InetSocketAddress(port));
 		} catch (Throwable e) {
 			log.error("LnkServer Starting Error.", e);
 		}
-
-		acceptor.setReuseAddress(true);// 设置的是主服务监听的端口可以重用
-
-		acceptor.getSessionConfig().setReuseAddress(true);// 设置每一个非主监听连接的端口可以重用
-		acceptor.getSessionConfig().setReceiveBufferSize(1024);// 设置输入缓冲区的大小
-		acceptor.getSessionConfig().setSendBufferSize(10240);// 设置输出缓冲区的大小
-		// 设置为非延迟发送，为true则不组装成大包发送，收到东西马上发出
-		acceptor.getSessionConfig().setTcpNoDelay(true);
-		// 设置主服务监听端口的监听队列的最大值为100，如果当前已经有100个连接，再新的连接来将被服务器拒绝
-		acceptor.setBacklog(100);
-		acceptor.setDefaultLocalAddress(new InetSocketAddress(port));
-		// 加入处理器（Handler）到Acceptor
-		acceptor.setHandler(new ServerIoHandler());
-//		acceptor.bind();
 	}
 
 	@Override

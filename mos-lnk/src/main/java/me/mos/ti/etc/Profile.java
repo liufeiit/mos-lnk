@@ -45,10 +45,25 @@ public class Profile {
 	private int readTimeout = Server.DEFAULT_READ_TIMEOUT;
 
 	@XStreamAlias("in-encoding")
-	private String inEncoding;
+	private String inEncoding = Charsets.UTF_8_NAME;
 
 	@XStreamAlias("out-encoding")
-	private String outEncoding;
+	private String outEncoding = Charsets.UTF_8_NAME;
+
+	@XStreamAlias("backlog")
+	private int backlog = Server.DEFAULT_BACKLOG;
+
+	@XStreamAlias("idle-time")
+	private int idleTime = Server.DEFAULT_IDLETIME;
+	
+	/**
+	 * <pre>
+	 * -1 | 0 | nSec 
+	 * -1表示使用OS缺省参数，0表示立即释放，nSec表示等待n秒后释放
+	 * </pre>
+	 */
+	@XStreamAlias("so-linger")
+	private int soLinger = Server.DEFAULT_OS_SOLINGER;
 
 	public static Profile newInstance() {
 		try {
@@ -112,5 +127,29 @@ public class Profile {
 
 	public void setOutEncoding(String outEncoding) {
 		this.outEncoding = outEncoding;
+	}
+
+	public int getBacklog() {
+		return backlog;
+	}
+
+	public void setBacklog(int backlog) {
+		this.backlog = backlog;
+	}
+
+	public int getIdleTime() {
+		return idleTime;
+	}
+
+	public void setIdleTime(int idleTime) {
+		this.idleTime = idleTime;
+	}
+
+	public int getSoLinger() {
+		return soLinger;
+	}
+
+	public void setSoLinger(int soLinger) {
+		this.soLinger = soLinger;
 	}
 }

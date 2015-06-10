@@ -6,4 +6,7 @@
   <read-timeout>30</read-timeout>
   <in-encoding>utf8</in-encoding>
   <out-encoding>utf8</out-encoding>
+  <backlog>5000</backlog>
+  <idle-time>1800</idle-time>
+  <so-linger>-1</so-linger>
 </server>

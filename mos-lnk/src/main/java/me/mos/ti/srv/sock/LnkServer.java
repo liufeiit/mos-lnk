@@ -1,19 +1,15 @@
 package me.mos.ti.srv.sock;
 
-import java.lang.Thread.UncaughtExceptionHandler;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.RejectedExecutionHandler;
-import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
 import me.mos.ti.etc.Profile;
 import me.mos.ti.srv.Server;
 import me.mos.ti.srv.channel.Channel;
 import me.mos.ti.srv.channel.ChannelActiveMonitor;
 import me.mos.ti.srv.channel.Channels;
+import me.mos.ti.srv.executor.LnkExecutor;
 import me.mos.ti.srv.processor.ServerProcessor;
 
 import org.slf4j.Logger;
@@ -31,17 +27,10 @@ final class LnkServer implements Server {
 
 	private int port = DEFAULT_PORT;
 
-	private int corePoolSize = DEFAULT_CORE_POOL_SIZE;
-
 	/**
-	 * 最大线程数目
+	 * 输入连接指示（对连接的请求）的最大队列长度被设置为 backlog 参数。如果队列满时收到连接指示，则拒绝该连接。
 	 */
-	private int maximumPoolSize = DEFAULT_MAXIMUM_POOL_SIZE;
-
-	/**
-	 * 缓冲队列大小
-	 */
-	private int queueSize = DEFAULT_QUEUE_SIZE;
+	private int backlog = DEFAULT_BACKLOG;
 
 	/**
 	 * 读取超时(单位:秒)，默认30s
@@ -54,7 +43,7 @@ final class LnkServer implements Server {
 	private ServerSocket server;
 
 	private ThreadPoolExecutor threadPoolExecutor;
-	
+
 	private String inEncoding;
 
 	private String outEncoding;
@@ -65,13 +54,11 @@ final class LnkServer implements Server {
 		super();
 		try {
 			profile = Profile.newInstance();
-			setCorePoolSize(profile.getCorePoolSize());
-			setMaximumPoolSize(profile.getMaximumPoolSize());
 			setPort(profile.getPort());
-			setQueueSize(profile.getQueueSize());
 			setReadTimeout(profile.getReadTimeout());
 			setInEncoding(profile.getInEncoding());
 			setOutEncoding(profile.getOutEncoding());
+			setBacklog(profile.getBacklog());
 			log.error("Config LnkServer Success.");
 		} catch (Exception e) {
 			log.error("Create Server Profile from XML Error.", e);
@@ -82,9 +69,8 @@ final class LnkServer implements Server {
 	public void start(final ServerProcessor processor) {
 		try {
 			log.error("LnkServer starting on port {}", port);
-			threadPoolExecutor = new ThreadPoolExecutor(corePoolSize, maximumPoolSize, DEFAULT_KEEPALIVETIME, TimeUnit.SECONDS, new ArrayBlockingQueue<Runnable>(queueSize), DEFAULT_THREAD_FACTORY,
-					DEFAULT_REJECTED_EXECUTION_HANDLER);
-			server = new ServerSocket(port);
+			threadPoolExecutor = new LnkExecutor(profile);
+			server = new ServerSocket(port, backlog);
 			Thread masterWorker = new Thread() {
 				@Override
 				public void run() {
@@ -143,53 +129,19 @@ final class LnkServer implements Server {
 		this.port = port;
 	}
 
-	public void setCorePoolSize(int corePoolSize) {
-		this.corePoolSize = corePoolSize;
-	}
-
-	public void setMaximumPoolSize(int maximumPoolSize) {
-		this.maximumPoolSize = maximumPoolSize;
-	}
-
-	public void setQueueSize(int queueSize) {
-		this.queueSize = queueSize;
-	}
-
 	public void setReadTimeout(int readTimeout) {
 		this.readTimeout = readTimeout;
 	}
-	
+
 	public void setInEncoding(String inEncoding) {
 		this.inEncoding = inEncoding;
 	}
-	
+
 	public void setOutEncoding(String outEncoding) {
 		this.outEncoding = outEncoding;
 	}
 
-	private static final ThreadFactory DEFAULT_THREAD_FACTORY = new ThreadFactory() {
-		public Thread newThread(Runnable runnable) {
-			final UncaughtExceptionHandler eh = Thread.getDefaultUncaughtExceptionHandler();
-			Thread t = new Thread(Thread.currentThread().getThreadGroup(), runnable);
-			t.setName(LNK_SERVER_WORKER + System.currentTimeMillis());
-			if (t.getPriority() != Thread.NORM_PRIORITY) {
-				t.setPriority(Thread.NORM_PRIORITY);
-			}
-			t.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
-				public void uncaughtException(Thread t, Throwable e) {
-					log.error("LnkServer Worker UncaughtExceptionHandler " + t.getName() + " Error.", e);
-					eh.uncaughtException(t, e);
-				}
-			});
-			return t;
-		}
-	};
-
-	private static final RejectedExecutionHandler DEFAULT_REJECTED_EXECUTION_HANDLER = new ThreadPoolExecutor.CallerRunsPolicy() {
-		@Override
-		public void rejectedExecution(Runnable r, ThreadPoolExecutor e) {
-			super.rejectedExecution(r, e);
-			log.error("Thread Resource and Cache Queue Resource work out...");
-		}
-	};
+	public void setBacklog(int backlog) {
+		this.backlog = backlog;
+	}
 }
