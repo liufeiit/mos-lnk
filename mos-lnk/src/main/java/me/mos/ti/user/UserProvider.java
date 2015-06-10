@@ -12,6 +12,8 @@ public interface UserProvider {
 	User query(long mid);
 	long save(User user);
 	
+	int update(User user);
+	
 	int online(long mid);
 	int offline(long mid);
 	

@@ -76,6 +76,18 @@ public class DefaultUserProvider implements UserProvider {
 
 	private static final String UPDATE_USER_STATUS_SQL = "UPDATE `mos-lnk`.`lnk-user` SET `lnk-user`.`status` = :status, `lnk-user`.`gmt_modified` = NOW() WHERE `lnk-user`.`mid` = :mid;";
 	
+	private static final String UPDATE_USER_SQL = "UPDATE `mos-lnk`.`lnk-user` SET "
+			+ "`party_id` = :party_id, "
+			+ "`nick` = :nick, "
+			+ "`passwd` = :passwd, "
+			+ "`avatar` = :avatar, "
+			+ "`weixin` = :weixin, "
+			+ "`qq` = :qq, "
+			+ "`email` = :email, "
+			+ "`telephone` = :telephone, "
+			+ "`phone` = :phone, "
+			+ "`gmt_modified` = NOW() WHERE `mid` = :mid";
+	
 	private DefaultUserProvider() {
 		super();
 		jdbcTemplate = JdbcTemplateProvider.getJdbcTemplate();
@@ -83,6 +95,11 @@ public class DefaultUserProvider implements UserProvider {
 
 	public static UserProvider getInstance() {
 		return UserProviderHolder.USER_PROVIDER;
+	}
+
+	@Override
+	public int update(User user) {
+		return jdbcTemplate.update(UPDATE_USER_SQL, new BeanPropertySqlParameterSource(user));
 	}
 
 	@Override
