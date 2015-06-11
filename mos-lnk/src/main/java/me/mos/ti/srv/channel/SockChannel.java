@@ -27,8 +27,7 @@ public final class SockChannel implements Channel {
 
 	private static final String DOT = "/";
 
-	private final String inEncoding;
-	private final String outEncoding;
+	private final String charset;
 
 	private String mid;
 
@@ -37,11 +36,10 @@ public final class SockChannel implements Channel {
 	private InputStream in;
 	private OutputStream out;
 
-	public SockChannel(Socket channel, String inEncoding, String outEncoding) {
+	public SockChannel(Socket channel, String charset) {
 		super();
 		this.channel = channel;
-		this.inEncoding = inEncoding;
-		this.outEncoding = outEncoding;
+		this.charset = charset;
 		try {
 			in = channel.getInputStream();
 			out = channel.getOutputStream();
@@ -89,7 +87,7 @@ public final class SockChannel implements Channel {
 					break;
 				}
 			}
-			return packet.toString(inEncoding);
+			return packet.toString(charset);
 		} catch (Throwable ingore) {
 			try {
 				if (!isConnect()) {
@@ -104,7 +102,7 @@ public final class SockChannel implements Channel {
 	@Override
 	public void write(Packet packet) {
 		try {
-			out.write(packet.toPacket().getBytes(outEncoding));
+			out.write(packet.toPacket().getBytes(charset));
 		} catch (Throwable ex) {
 			log.error("Channel Write Packet Error -> " + packet.toPacket(), ex);
 			try {

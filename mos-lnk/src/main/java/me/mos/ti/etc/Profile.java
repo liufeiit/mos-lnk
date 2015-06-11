@@ -44,11 +44,8 @@ public class Profile {
 	@XStreamAlias("read-timeout")
 	private int readTimeout = Server.DEFAULT_READ_TIMEOUT;
 
-	@XStreamAlias("in-encoding")
-	private String inEncoding = Charsets.UTF_8_NAME;
-
-	@XStreamAlias("out-encoding")
-	private String outEncoding = Charsets.UTF_8_NAME;
+	@XStreamAlias("charset")
+	private String charset = Charsets.UTF_8_NAME;
 
 	@XStreamAlias("backlog")
 	private int backlog = Server.DEFAULT_BACKLOG;
@@ -113,20 +110,12 @@ public class Profile {
 		this.readTimeout = readTimeout;
 	}
 
-	public String getInEncoding() {
-		return inEncoding;
+	public String getCharset() {
+		return charset;
 	}
 
-	public void setInEncoding(String inEncoding) {
-		this.inEncoding = inEncoding;
-	}
-
-	public String getOutEncoding() {
-		return outEncoding;
-	}
-
-	public void setOutEncoding(String outEncoding) {
-		this.outEncoding = outEncoding;
+	public void setCharset(String charset) {
+		this.charset = charset;
 	}
 
 	public int getBacklog() {

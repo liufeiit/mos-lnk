@@ -37,16 +37,14 @@ final class LnkServer implements Server {
 	 */
 	private int readTimeout = DEFAULT_READ_TIMEOUT;
 
+	private String charset;
+
 	/**
 	 * Socket服务器
 	 */
 	private ServerSocket server;
 
 	private ThreadPoolExecutor threadPoolExecutor;
-
-	private String inEncoding;
-
-	private String outEncoding;
 
 	private Profile profile;
 
@@ -56,8 +54,7 @@ final class LnkServer implements Server {
 			profile = Profile.newInstance();
 			setPort(profile.getPort());
 			setReadTimeout(profile.getReadTimeout());
-			setInEncoding(profile.getInEncoding());
-			setOutEncoding(profile.getOutEncoding());
+			setCharset(profile.getCharset());
 			setBacklog(profile.getBacklog());
 			log.error("Config LnkServer Success.");
 		} catch (Exception e) {
@@ -79,7 +76,7 @@ final class LnkServer implements Server {
 							Socket socket = server.accept();
 							socket.setSoTimeout(readTimeout * 1000); // 毫秒
 							socket.setKeepAlive(true);
-							Channel channel = Channels.newChannel(socket, inEncoding, outEncoding);
+							Channel channel = Channels.newChannel(socket, charset);
 							threadPoolExecutor.execute(new ServerHandler(channel, processor));
 							log.error(channel + " Connection to LnkServer.");
 						} catch (Throwable t) {
@@ -132,13 +129,9 @@ final class LnkServer implements Server {
 	public void setReadTimeout(int readTimeout) {
 		this.readTimeout = readTimeout;
 	}
-
-	public void setInEncoding(String inEncoding) {
-		this.inEncoding = inEncoding;
-	}
-
-	public void setOutEncoding(String outEncoding) {
-		this.outEncoding = outEncoding;
+	
+	public void setCharset(String charset) {
+		this.charset = charset;
 	}
 
 	public void setBacklog(int backlog) {

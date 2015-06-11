@@ -2,21 +2,17 @@ package me.mos.ti.srv.mina;
 
 import java.net.InetSocketAddress;
 import java.nio.charset.Charset;
-import java.util.concurrent.Executors;
 
 import me.mos.ti.etc.Profile;
 import me.mos.ti.srv.Server;
 import me.mos.ti.srv.executor.LnkExecutor;
+import me.mos.ti.srv.mina.codec.PacketProtocolCodecFilter;
 import me.mos.ti.srv.processor.ServerProcessor;
 
 import org.apache.mina.core.session.IdleStatus;
-import org.apache.mina.filter.codec.ProtocolCodecFilter;
-import org.apache.mina.filter.codec.textline.LineDelimiter;
-import org.apache.mina.filter.codec.textline.TextLineCodecFactory;
 import org.apache.mina.filter.executor.ExecutorFilter;
-import org.apache.mina.filter.logging.LogLevel;
 import org.apache.mina.filter.logging.LoggingFilter;
-import org.apache.mina.transport.socket.SocketAcceptor;
+import org.apache.mina.filter.logging.MdcInjectionFilter;
 import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,6 +46,8 @@ final class LnkServer implements Server {
 	 * 单位秒
 	 */
 	private int idleTime = DEFAULT_IDLETIME;
+
+	private String charset;
 	
 	private NioSocketAcceptor acceptor;
 
@@ -59,6 +57,11 @@ final class LnkServer implements Server {
 		super();
 		try {
 			profile = Profile.newInstance();
+			setPort(profile.getPort());
+			setSoLinger(profile.getSoLinger());
+			setBacklog(profile.getBacklog());
+			setIdleTime(profile.getIdleTime());
+			setCharset(profile.getCharset());
 			log.error("Config LnkServer Success.");
 		} catch (Exception e) {
 			log.error("Create Server Profile from XML Error.", e);
@@ -68,11 +71,9 @@ final class LnkServer implements Server {
 	@Override
 	public void start(ServerProcessor processor) {
 		acceptor = new NioSocketAcceptor(Runtime.getRuntime().availableProcessors() * 2);
-		TextLineCodecFactory lineCodec = new TextLineCodecFactory(Charset.forName("UTF-8"), LineDelimiter.WINDOWS.getValue(), LineDelimiter.WINDOWS.getValue());
-		lineCodec.setDecoderMaxLineLength(2 * 1024 * 1024);
-		lineCodec.setEncoderMaxLineLength(2 * 1024 * 1024);
-		acceptor.getFilterChain().addLast("codec", new ProtocolCodecFilter(lineCodec));
 		acceptor.getFilterChain().addLast("exceutor", new ExecutorFilter(new LnkExecutor(profile)));
+		acceptor.getFilterChain().addLast("mdc", new MdcInjectionFilter());
+		acceptor.getFilterChain().addLast("codec", new PacketProtocolCodecFilter(Charset.forName(charset)));
 		acceptor.getFilterChain().addLast("logger", new LoggingFilter());
 		acceptor.setReuseAddress(true);
 		acceptor.setBacklog(backlog);
@@ -88,11 +89,32 @@ final class LnkServer implements Server {
 			acceptor.bind(new InetSocketAddress(port));
 		} catch (Throwable e) {
 			log.error("LnkServer Starting Error.", e);
+			throw new IllegalStateException(e);
 		}
 	}
 
 	@Override
 	public void stop() {
 		acceptor.dispose();
+	}
+	
+	public void setPort(int port) {
+		this.port = port;
+	}
+	
+	public void setSoLinger(int soLinger) {
+		this.soLinger = soLinger;
+	}
+	
+	public void setBacklog(int backlog) {
+		this.backlog = backlog;
+	}
+	
+	public void setIdleTime(int idleTime) {
+		this.idleTime = idleTime;
+	}
+	
+	public void setCharset(String charset) {
+		this.charset = charset;
 	}
 }
