@@ -1,6 +1,7 @@
 package test;
 
 import java.net.Socket;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Date;
 
@@ -19,8 +20,10 @@ import me.mos.ti.srv.Server;
 import me.mos.ti.srv.channel.Channel;
 import me.mos.ti.srv.channel.Channels;
 import me.mos.ti.user.SubscribeUser;
+import me.mos.ti.utils.ByteUtil;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.NumberUtils;
 
 /**
  * @author 刘飞 E-mail:liufei_it@126.com
@@ -31,8 +34,19 @@ import org.apache.commons.lang3.StringUtils;
 public class Client {
 
 	private static final String PASSWD = "123456";
-
+	
 	public static void main(String[] args) throws Exception {
+		long i = Integer.MAX_VALUE;
+		System.out.println("i = " + i);
+		byte[] bs = ByteUtil.parseBytes(i);
+		for (byte b : bs) {
+			System.out.print(b + " ");
+		}
+		System.out.println();
+		System.out.println("i : " + ByteUtil.toLong(bs));
+	}
+
+	public static void main11(String[] args) throws Exception {
 		Socket socket = new Socket("wjz", Server.DEFAULT_PORT);
 		socket.setKeepAlive(true);
 		socket.setSoTimeout(30000);
