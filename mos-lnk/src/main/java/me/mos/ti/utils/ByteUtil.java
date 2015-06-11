@@ -348,6 +348,22 @@ public class ByteUtil {
 	}
 
 	/**
+	 * 将字节数组转换成长整形
+	 * 
+	 * @param bytes
+	 * @return
+	 */
+	public static int toInt(byte[] bytes) {
+		int num = 0;
+		if (bytes != null) {
+			for (int i = bytes.length - 1, j = 0; i >= 0; i--, j++) {
+				num += (long) (bytes[i] & 0xff) << (j * 8);
+			}
+		}
+		return num;
+	}
+
+	/**
 	 * 将bytes的元素倒序排列
 	 * 
 	 * @param bytes

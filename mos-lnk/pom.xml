@@ -21,33 +21,38 @@
 			<exclusions>
 				<exclusion>
 					<groupId>org.apache.mina</groupId>
-      				<artifactId>mina-core</artifactId>
+					<artifactId>mina-core</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.apache.mina</groupId>
-      				<artifactId>mina-integration-beans</artifactId>
+					<artifactId>mina-integration-beans</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.apache.mina</groupId>
-      				<artifactId>mina-integration-jmx</artifactId>
+					<artifactId>mina-integration-jmx</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.apache.mina</groupId>
-      				<artifactId>mina-statemachine</artifactId>
+					<artifactId>mina-statemachine</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.springframework</groupId>
-      				<artifactId>spring</artifactId>
+					<artifactId>spring</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>jmock</groupId>
-      				<artifactId>jmock</artifactId>
+					<artifactId>jmock</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.slf4j</groupId>
-      				<artifactId>jcl-over-slf4j</artifactId>
+					<artifactId>jcl-over-slf4j</artifactId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.2.4</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.mina</groupId>
