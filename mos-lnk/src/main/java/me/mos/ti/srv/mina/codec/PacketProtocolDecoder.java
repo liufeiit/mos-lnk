@@ -6,6 +6,8 @@ import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.CumulativeProtocolDecoder;
 import org.apache.mina.filter.codec.ProtocolDecoderOutput;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 累计报文编码器, 读取完整的报文信息.
@@ -16,6 +18,8 @@ import org.apache.mina.filter.codec.ProtocolDecoderOutput;
  * @since 2015年6月11日 下午5:42:42
  */
 final class PacketProtocolDecoder extends CumulativeProtocolDecoder {
+	
+	private static final Logger log = LoggerFactory.getLogger(PacketProtocolDecoder.class);
 
 	final Charset charset;
 	

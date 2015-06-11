@@ -5,6 +5,8 @@ import java.nio.charset.Charset;
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.ProtocolEncoder;
 import org.apache.mina.filter.codec.ProtocolEncoderOutput;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 报文消息编码器.
@@ -15,6 +17,8 @@ import org.apache.mina.filter.codec.ProtocolEncoderOutput;
  * @since 2015年6月11日 下午5:45:30
  */
 final class PacketProtocolEncoder implements ProtocolEncoder {
+	
+	private static final Logger log = LoggerFactory.getLogger(PacketProtocolEncoder.class);
 	
 	final Charset charset;
 
