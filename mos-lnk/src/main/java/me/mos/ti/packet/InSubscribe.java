@@ -1,5 +1,7 @@
 package me.mos.ti.packet;
 
+import me.mos.ti.serializer.SerializerAdapter;
+
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
@@ -11,7 +13,7 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
  * @version 1.0.0
  * @since 2015年5月30日 下午11:56:09
  */
-@XStreamAlias(PacketAlias.SUBSCRIBE_NAME)
+@XStreamAlias(Alias.SUBSCRIBE_NAME)
 public class InSubscribe extends AbstractInPacket {
 	
 	private static final byte SUB = 1;
@@ -35,6 +37,14 @@ public class InSubscribe extends AbstractInPacket {
 	@XStreamAsAttribute
 	private byte act;
 
+	public InSubscribe() {
+		super(Type.Subscribe.type);
+	}
+
+	public static InSubscribe fromPacket(String packet) {
+		return SerializerAdapter.currentSerializer().deserialize(InSubscribe.class, packet);
+	}
+
 	@Override
 	public OutSubscribe toOutPacket() {
 		OutSubscribe outSubscribe = new OutSubscribe();
@@ -43,7 +53,7 @@ public class InSubscribe extends AbstractInPacket {
 		return outSubscribe.ok();
 	}
 	
-	public boolean isSub() {
+	public boolean isSubAction() {
 		return SUB == this.act;
 	}
 	
@@ -56,7 +66,7 @@ public class InSubscribe extends AbstractInPacket {
 	}
 
 	@Override
-	public Type getType() {
+	public Type getPacketType() {
 		return Type.Subscribe;
 	}
 

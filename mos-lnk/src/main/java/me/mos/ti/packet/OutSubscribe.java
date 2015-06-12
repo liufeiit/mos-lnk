@@ -16,7 +16,7 @@ import com.thoughtworks.xstream.annotations.XStreamImplicit;
  * @version 1.0.0
  * @since 2015年5月30日 下午11:56:09
  */
-@XStreamAlias(PacketAlias.SUBSCRIBE_NAME)
+@XStreamAlias(Alias.SUBSCRIBE_NAME)
 public class OutSubscribe extends AbstractOutPacket {
 
 	private static final byte ILLEGAL_ACTION = 4;
@@ -39,6 +39,10 @@ public class OutSubscribe extends AbstractOutPacket {
 	@XStreamAsAttribute
 	private byte status;
 	
+	public OutSubscribe() {
+		super(Type.Subscribe.type);
+	}
+
 	public OutSubscribe ok() {
 		status = OK;
 		return this;
@@ -60,7 +64,7 @@ public class OutSubscribe extends AbstractOutPacket {
 	}
 
 	@Override
-	public Type getType() {
+	public Type getPacketType() {
 		return Type.Subscribe;
 	}
 

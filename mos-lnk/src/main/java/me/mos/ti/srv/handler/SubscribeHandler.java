@@ -28,7 +28,7 @@ public class SubscribeHandler extends AbstractPacketHandler<InSubscribe> {
 	public OutPacket process(Channel channel, InSubscribe packet) throws Throwable {
 		OutSubscribe outSubscribe = packet.toOutPacket();
 		try {
-			if (packet.isSub()) {
+			if (packet.isSubAction()) {
 				User user = userProvider.query(packet.getSmid());
 				if (user == null) {
 					return outSubscribe.peerNotExist();

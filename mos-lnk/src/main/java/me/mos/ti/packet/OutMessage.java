@@ -11,7 +11,7 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
  * @version 1.0.0
  * @since 2015年5月30日 下午9:46:53
  */
-@XStreamAlias(PacketAlias.MESSAGE_NAME)
+@XStreamAlias(Alias.MESSAGE_NAME)
 public class OutMessage extends AbstractOutPacket {
 	
 	private static final byte ERR = 2;
@@ -49,6 +49,10 @@ public class OutMessage extends AbstractOutPacket {
 	@XStreamAsAttribute
 	private byte status;
 	
+	public OutMessage() {
+		super(Type.Message.type);
+	}
+
 	public OutMessage ok() {
 		status = OK;
 		return this;
@@ -60,7 +64,7 @@ public class OutMessage extends AbstractOutPacket {
 	}
 
 	@Override
-	public Type getType() {
+	public Type getPacketType() {
 		return Type.Message;
 	}
 

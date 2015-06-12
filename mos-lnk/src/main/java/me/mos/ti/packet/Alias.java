@@ -6,7 +6,7 @@ package me.mos.ti.packet;
  * @version 1.0.0
  * @since 2015年5月31日 下午11:13:40
  */
-public interface PacketAlias {
+public interface Alias {
 
 	String IQ_NAME = "iq";
 	
@@ -19,6 +19,4 @@ public interface PacketAlias {
 	String REGISTER_NAME = "register";
 	
 	String ACKNOWLEDGE_NAME = "ack";
-	
-	String ONLINEUSER_NAME = "online-users";
 }

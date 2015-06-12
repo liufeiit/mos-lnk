@@ -11,7 +11,7 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
  * @version 1.0.0
  * @since 2015年5月31日 上午1:06:02
  */
-@XStreamAlias(PacketAlias.IQ_NAME)
+@XStreamAlias(Alias.IQ_NAME)
 public class OutIQ extends AbstractOutPacket {
 	
 	private static final byte OFFLINE = 2;
@@ -21,8 +21,12 @@ public class OutIQ extends AbstractOutPacket {
 	@XStreamAsAttribute
 	private byte status;
 
+	public OutIQ() {
+		super(Type.IQ.type);
+	}
+
 	@Override
-	public Type getType() {
+	public Type getPacketType() {
 		return Type.IQ;
 	}
 	

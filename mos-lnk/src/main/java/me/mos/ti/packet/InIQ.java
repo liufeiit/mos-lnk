@@ -1,5 +1,7 @@
 package me.mos.ti.packet;
 
+import me.mos.ti.serializer.SerializerAdapter;
+
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
@@ -11,13 +13,21 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
  * @version 1.0.0
  * @since 2015年5月31日 上午1:06:02
  */
-@XStreamAlias(PacketAlias.IQ_NAME)
+@XStreamAlias(Alias.IQ_NAME)
 public class InIQ extends AbstractInPacket {
 	
 	/** 发起报文的用户的唯一ID */
 	@XStreamAlias("mid")
 	@XStreamAsAttribute
 	private long mid;
+
+	public InIQ() {
+		super(Type.IQ.type);
+	}
+
+	public static InIQ fromPacket(String packet) {
+		return SerializerAdapter.currentSerializer().deserialize(InIQ.class, packet);
+	}
 
 	@Override
 	public OutIQ toOutPacket() {
@@ -27,7 +37,7 @@ public class InIQ extends AbstractInPacket {
 	}
 
 	@Override
-	public Type getType() {
+	public Type getPacketType() {
 		return Type.IQ;
 	}
 

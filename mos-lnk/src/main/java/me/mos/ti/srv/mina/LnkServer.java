@@ -4,6 +4,7 @@ import java.net.InetSocketAddress;
 import java.nio.charset.Charset;
 
 import me.mos.ti.etc.Profile;
+import me.mos.ti.parser.PacketParser;
 import me.mos.ti.srv.Server;
 import me.mos.ti.srv.executor.LnkExecutor;
 import me.mos.ti.srv.mina.codec.PacketProtocolCodecFilter;
@@ -52,6 +53,8 @@ final class LnkServer implements Server {
 	private NioSocketAcceptor acceptor;
 
 	private Profile profile;
+	
+	private PacketParser parser;
 
 	LnkServer() {
 		super();
@@ -73,7 +76,7 @@ final class LnkServer implements Server {
 		acceptor = new NioSocketAcceptor(Runtime.getRuntime().availableProcessors() * 2);
 		acceptor.getFilterChain().addLast("exceutor", new ExecutorFilter(new LnkExecutor(profile)));
 		acceptor.getFilterChain().addLast("mdc", new MdcInjectionFilter());
-		acceptor.getFilterChain().addLast("codec", new PacketProtocolCodecFilter(Charset.forName(charset)));
+		acceptor.getFilterChain().addLast("codec", new PacketProtocolCodecFilter(Charset.forName(charset), parser));
 		acceptor.getFilterChain().addLast("logger", new LoggingFilter());
 		acceptor.setReuseAddress(true);
 		acceptor.setBacklog(backlog);

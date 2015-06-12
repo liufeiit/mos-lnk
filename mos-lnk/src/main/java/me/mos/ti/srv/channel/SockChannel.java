@@ -81,12 +81,19 @@ public final class SockChannel implements Channel {
 			ByteArrayOutputStream packet = new ByteArrayOutputStream();
 			byte[] bs = new byte[READ_BUFFER_SIZE];
 			int size;
+			in.mark(20);
 			while ((size = in.read(bs)) != -1) {
 				packet.write(bs, 0, size);
 				if (size < bs.length) {
 					break;
 				}
 			}
+			byte[] packetBytes = packet.toByteArray();
+			if(packetBytes.length < 20) {
+				in.reset();
+				return null;
+			}
+			
 			return packet.toString(charset);
 		} catch (Throwable ingore) {
 			try {

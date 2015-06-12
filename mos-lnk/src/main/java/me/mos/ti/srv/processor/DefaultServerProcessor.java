@@ -51,7 +51,7 @@ public class DefaultServerProcessor implements ServerProcessor {
 	@Override
 	public <I extends InPacket> OutPacket process(Channel channel, I packet) throws Throwable {
 		OutPacket outPacket = null;
-		switch (packet.getType()) {
+		switch (packet.getPacketType()) {
 		case IQ:
 			outPacket = iqHandler.process(channel, (InIQ) packet);
 			break;

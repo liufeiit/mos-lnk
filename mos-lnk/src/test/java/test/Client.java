@@ -4,7 +4,9 @@ import java.net.Socket;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Map;
 
+import me.mos.ti.packet.AbstractInPacket;
 import me.mos.ti.packet.Acknowledge;
 import me.mos.ti.packet.InIQ;
 import me.mos.ti.packet.InMessage;
@@ -16,6 +18,7 @@ import me.mos.ti.packet.OutMessage;
 import me.mos.ti.packet.OutPresence;
 import me.mos.ti.packet.OutRegister;
 import me.mos.ti.packet.OutSubscribe;
+import me.mos.ti.serializer.SerializerAdapter;
 import me.mos.ti.srv.Server;
 import me.mos.ti.srv.channel.Channel;
 import me.mos.ti.srv.channel.Channels;
@@ -35,7 +38,7 @@ public class Client {
 
 	private static final String PASSWD = "123456";
 	
-	public static void main(String[] args) throws Exception {
+	public static void main0(String[] args) throws Exception {
 		long i = Integer.MAX_VALUE;
 		System.out.println("i = " + i);
 		byte[] bs = ByteUtil.parseBytes(i);

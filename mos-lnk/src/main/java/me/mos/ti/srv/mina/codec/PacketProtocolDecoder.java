@@ -2,6 +2,8 @@ package me.mos.ti.srv.mina.codec;
 
 import java.nio.charset.Charset;
 
+import me.mos.ti.packet.InPacket;
+import me.mos.ti.parser.PacketParser;
 import me.mos.ti.srv.Version;
 import me.mos.ti.utils.ByteUtil;
 
@@ -26,6 +28,8 @@ final class PacketProtocolDecoder extends CumulativeProtocolDecoder {
 
 	private final Charset charset;
 
+	private final PacketParser parser;
+
 	/**
 	 * 定义头信息的字节数
 	 */
@@ -35,17 +39,18 @@ final class PacketProtocolDecoder extends CumulativeProtocolDecoder {
 	 * 在头信息中, 前4位表示该报文的长度, 剩余的16位头信息备用
 	 */
 	private static final int PACKET_BYTE_LENGTH = 4;
-	
+
 	/**
 	 * 版本号所在的头位置
 	 */
 	private static final int VERSION_POSITION = 5;
 
-	PacketProtocolDecoder(Charset charset) {
+	PacketProtocolDecoder(Charset charset, PacketParser parser) {
 		super();
 		this.charset = charset;
+		this.parser = parser;
 	}
-	
+
 	@Override
 	protected boolean doDecode(IoSession session, IoBuffer in, ProtocolDecoderOutput out) throws Exception {
 		if (in.remaining() < HEAD_BYTE_LENGTH) {
@@ -67,8 +72,13 @@ final class PacketProtocolDecoder extends CumulativeProtocolDecoder {
 			in.get(packetBytes, 0, length);
 			// 对packet进行转换和解析
 			String packetString = new String(packetBytes, charset);
-			
-			out.write(packetString);
+			try {
+				InPacket inPacket = parser.parse(packetString);
+				out.write(inPacket);
+			} catch (Throwable e) {
+				log.error("Incoming Packet Parse Error【" + packetString + "】.", e);
+				return false;
+			}
 			if (in.remaining() > 0) {// 如果读取内容后还粘了包，进行下一次解析
 				return true;
 			}

@@ -1,5 +1,7 @@
 package me.mos.ti.packet;
 
+import me.mos.ti.serializer.SerializerAdapter;
+
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
@@ -11,7 +13,7 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
  * @version 1.0.0
  * @since 2015年5月31日 上午1:11:50
  */
-@XStreamAlias(PacketAlias.PRESENCE_NAME)
+@XStreamAlias(Alias.PRESENCE_NAME)
 public class InPresence extends AbstractInPacket {
 	
 	/** 发起报文的用户的唯一ID */
@@ -24,6 +26,14 @@ public class InPresence extends AbstractInPacket {
 	@XStreamAsAttribute
 	private String passwd;
 
+	public InPresence() {
+		super(Type.Presence.type);
+	}
+
+	public static InPresence fromPacket(String packet) {
+		return SerializerAdapter.currentSerializer().deserialize(InPresence.class, packet);
+	}
+
 	@Override
 	public OutPresence toOutPacket() {
 		OutPresence outPresence = new OutPresence();
@@ -32,7 +42,7 @@ public class InPresence extends AbstractInPacket {
 	}
 
 	@Override
-	public Type getType() {
+	public Type getPacketType() {
 		return Type.Presence;
 	}
 

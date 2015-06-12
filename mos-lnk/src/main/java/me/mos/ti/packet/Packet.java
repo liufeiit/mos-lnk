@@ -1,5 +1,7 @@
 package me.mos.ti.packet;
 
+import me.mos.ti.serializer.Serializer;
+
 /**
  * @author 刘飞 E-mail:liufei_it@126.com
  * 
@@ -7,6 +9,24 @@ package me.mos.ti.packet;
  * @since 2015年6月2日 上午12:54:04
  */
 public interface Packet {
+	
+	/**
+	 * 将消息格式化为可发送的格式
+	 */
 	String toPacket();
-	Type getType();
+	
+	/**
+	 * 消息类型
+	 */
+	byte getType();
+	
+	/**
+	 * 消息类型
+	 */
+	Type getPacketType();
+	
+	/**
+	 * 序列化器
+	 */
+	Serializer serializer();
 }

@@ -1,6 +1,10 @@
 package me.mos.ti.packet;
 
-import me.mos.ti.xml.XStreamParser;
+import me.mos.ti.serializer.Serializer;
+import me.mos.ti.serializer.SerializerAdapter;
+
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
 /**
  * 上行通讯消息报文基类.
@@ -11,19 +15,28 @@ import me.mos.ti.xml.XStreamParser;
  * @since 2015年5月31日 上午12:52:46
  */
 public abstract class AbstractInPacket implements InPacket {
-
-	@Override
-	@SuppressWarnings("unchecked")
-	public <T extends InPacket> T fromPacket(String packet) {
-		return (T) XStreamParser.toObj(getClass(), packet);
-	}
 	
+	/** 消息类型 */
+	@XStreamAlias("type")
+	@XStreamAsAttribute
+	private byte type;
+
+	public AbstractInPacket(byte type) {
+		super();
+		this.type = type;
+	}
+
 	/**
 	 * 将消息格式化为可发送的格式
 	 */
 	@Override
 	public String toPacket() {
-		return XStreamParser.toXML(this);
+		return serializer().serialize(this);
+	}
+
+	@Override
+	public Serializer serializer() {
+		return SerializerAdapter.currentSerializer();
 	}
 
 	/**
@@ -32,5 +45,13 @@ public abstract class AbstractInPacket implements InPacket {
 	@Override
 	public String toString() {
 		return toPacket();
+	}
+
+	public byte getType() {
+		return type;
+	}
+
+	public void setType(byte type) {
+		this.type = type;
 	}
 }

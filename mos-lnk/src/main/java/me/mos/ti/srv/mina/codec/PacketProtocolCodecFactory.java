@@ -2,6 +2,8 @@ package me.mos.ti.srv.mina.codec;
 
 import java.nio.charset.Charset;
 
+import me.mos.ti.parser.PacketParser;
+
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.ProtocolCodecFactory;
 import org.apache.mina.filter.codec.ProtocolDecoder;
@@ -20,10 +22,10 @@ final class PacketProtocolCodecFactory implements ProtocolCodecFactory {
 	private final ProtocolEncoder encoder;
 	private final ProtocolDecoder decoder;
 
-	PacketProtocolCodecFactory(Charset charset) {
+	PacketProtocolCodecFactory(Charset charset, PacketParser parser) {
 		super();
 		encoder = new PacketProtocolEncoder(charset);
-		decoder = new PacketProtocolDecoder(charset);
+		decoder = new PacketProtocolDecoder(charset, parser);
 	}
 
 	@Override

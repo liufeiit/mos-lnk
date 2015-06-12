@@ -1,6 +1,7 @@
 package me.mos.ti.packet;
 
-import me.mos.ti.xml.XStreamParser;
+import me.mos.ti.serializer.Serializer;
+import me.mos.ti.serializer.SerializerAdapter;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
@@ -19,6 +20,16 @@ public abstract class AbstractOutPacket implements OutPacket {
 	@XStreamAlias("mid")
 	@XStreamAsAttribute
 	private long mid;
+	
+	/** 消息类型 */
+	@XStreamAlias("type")
+	@XStreamAsAttribute
+	private byte type;
+
+	public AbstractOutPacket(byte type) {
+		super();
+		this.type = type;
+	}
 
 	public long getMid() {
 		return mid;
@@ -28,12 +39,14 @@ public abstract class AbstractOutPacket implements OutPacket {
 		this.mid = mid;
 	}
 	
-	/**
-	 * 将消息格式化为可发送的格式
-	 */
 	@Override
 	public String toPacket() {
-		return XStreamParser.toXML(this);
+		return serializer().serialize(this);
+	}
+
+	@Override
+	public Serializer serializer() {
+		return SerializerAdapter.currentSerializer();
 	}
 
 	/**
@@ -42,5 +55,13 @@ public abstract class AbstractOutPacket implements OutPacket {
 	@Override
 	public String toString() {
 		return toPacket();
+	}
+
+	public byte getType() {
+		return type;
+	}
+
+	public void setType(byte type) {
+		this.type = type;
 	}
 }

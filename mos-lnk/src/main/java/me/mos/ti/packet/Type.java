@@ -9,5 +9,21 @@ package me.mos.ti.packet;
  * @since 2015年6月2日 上午12:52:54
  */
 public enum Type {
-	IQ, Message, Presence, Register, Subscribe, Acknowledge, OnlineUser, String;
+
+	IQ((byte) 1), Message((byte) 2), Presence((byte) 3), Register((byte) 4), Subscribe((byte) 5), Acknowledge((byte) 6);
+
+	public final byte type;
+
+	private Type(byte type) {
+		this.type = type;
+	}
+
+	public static Type parse(byte type) {
+		for (Type t : values()) {
+			if (t.type == type) {
+				return t;
+			}
+		}
+		return null;
+	}
 }

@@ -9,8 +9,5 @@ package me.mos.ti.packet;
  * @since 2015年6月1日 下午2:03:13
  */
 public interface InPacket extends Packet {
-
-	<I extends InPacket> I fromPacket(String xml);
-	
 	OutPacket toOutPacket();
 }

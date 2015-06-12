@@ -2,6 +2,8 @@ package me.mos.ti.packet;
 
 import java.util.Date;
 
+import me.mos.ti.serializer.SerializerAdapter;
+
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
@@ -13,7 +15,7 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
  * @version 1.0.0
  * @since 2015年5月31日 下午11:21:27
  */
-@XStreamAlias(PacketAlias.REGISTER_NAME)
+@XStreamAlias(Alias.REGISTER_NAME)
 public class InRegister extends AbstractInPacket {
 
 	/** 第三方系统账号ID */
@@ -52,6 +54,14 @@ public class InRegister extends AbstractInPacket {
 	/** 固话 */
 	@XStreamAlias("phone")
 	private String phone;
+
+	public InRegister() {
+		super(Type.Register.type);
+	}
+
+	public static InRegister fromPacket(String packet) {
+		return SerializerAdapter.currentSerializer().deserialize(InRegister.class, packet);
+	}
 	
 	@Override
 	public OutRegister toOutPacket() {
@@ -69,7 +79,7 @@ public class InRegister extends AbstractInPacket {
 	}
 
 	@Override
-	public Type getType() {
+	public Type getPacketType() {
 		return Type.Register;
 	}
 

@@ -2,6 +2,8 @@ package me.mos.ti.srv.mina.codec;
 
 import java.nio.charset.Charset;
 
+import me.mos.ti.parser.PacketParser;
+
 import org.apache.mina.filter.codec.ProtocolCodecFilter;
 
 /**
@@ -14,7 +16,7 @@ import org.apache.mina.filter.codec.ProtocolCodecFilter;
  */
 public class PacketProtocolCodecFilter extends ProtocolCodecFilter {
 
-	public PacketProtocolCodecFilter(Charset charset) {
-		super(new PacketProtocolCodecFactory(charset));
+	public PacketProtocolCodecFilter(Charset charset, PacketParser parser) {
+		super(new PacketProtocolCodecFactory(charset, parser));
 	}
 }

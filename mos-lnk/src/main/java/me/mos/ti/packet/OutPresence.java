@@ -11,7 +11,7 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
  * @version 1.0.0
  * @since 2015年5月31日 上午1:11:50
  */
-@XStreamAlias(PacketAlias.PRESENCE_NAME)
+@XStreamAlias(Alias.PRESENCE_NAME)
 public class OutPresence extends AbstractOutPacket {
 	
 	private static final byte ERR = 2;
@@ -21,8 +21,12 @@ public class OutPresence extends AbstractOutPacket {
 	@XStreamAsAttribute
 	private byte status;
 
+	public OutPresence() {
+		super(Type.Presence.type);
+	}
+
 	@Override
-	public Type getType() {
+	public Type getPacketType() {
 		return Type.Presence;
 	}
 	

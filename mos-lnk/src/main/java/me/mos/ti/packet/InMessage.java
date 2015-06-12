@@ -1,5 +1,7 @@
 package me.mos.ti.packet;
 
+import me.mos.ti.serializer.SerializerAdapter;
+
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
@@ -11,7 +13,7 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
  * @version 1.0.0
  * @since 2015年5月30日 下午9:46:53
  */
-@XStreamAlias(PacketAlias.MESSAGE_NAME)
+@XStreamAlias(Alias.MESSAGE_NAME)
 public class InMessage extends AbstractInPacket {
 	
 	/** 发起报文的用户的唯一ID */
@@ -33,6 +35,14 @@ public class InMessage extends AbstractInPacket {
 	@XStreamAsAttribute
 	private long gmt_created;
 
+	public InMessage() {
+		super(Type.Message.type);
+	}
+
+	public static InMessage fromPacket(String packet) {
+		return SerializerAdapter.currentSerializer().deserialize(InMessage.class, packet);
+	}
+
 	@Override
 	public OutMessage toOutPacket() {
 		OutMessage outMessage = new OutMessage();
@@ -44,7 +54,7 @@ public class InMessage extends AbstractInPacket {
 	}
 
 	@Override
-	public Type getType() {
+	public Type getPacketType() {
 		return Type.Message;
 	}
 

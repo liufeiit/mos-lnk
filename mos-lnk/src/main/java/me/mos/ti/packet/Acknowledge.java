@@ -11,7 +11,7 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
  * @version 1.0.0
  * @since 2015年6月2日 下午4:12:35
  */
-@XStreamAlias(PacketAlias.ACKNOWLEDGE_NAME)
+@XStreamAlias(Alias.ACKNOWLEDGE_NAME)
 public class Acknowledge extends AbstractOutPacket {
 
 	private static final byte ME_NOT_EXIST = 3;
@@ -26,11 +26,12 @@ public class Acknowledge extends AbstractOutPacket {
 	private byte status;
 
 	public Acknowledge(long mid) {
+		super(Type.Acknowledge.type);
 		setMid(mid);
 	}
 
 	@Override
-	public Type getType() {
+	public Type getPacketType() {
 		return Type.Acknowledge;
 	}
 

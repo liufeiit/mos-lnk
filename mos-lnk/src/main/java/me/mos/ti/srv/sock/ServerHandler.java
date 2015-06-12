@@ -6,14 +6,11 @@ import me.mos.ti.packet.InPacket;
 import me.mos.ti.packet.InPresence;
 import me.mos.ti.packet.InRegister;
 import me.mos.ti.packet.InSubscribe;
-import me.mos.ti.packet.OnlineUser;
 import me.mos.ti.packet.OutPacket;
-import me.mos.ti.packet.PacketAlias;
-import me.mos.ti.packet.StringPacket;
+import me.mos.ti.packet.Alias;
 import me.mos.ti.srv.channel.Channel;
 import me.mos.ti.srv.channel.Channels;
 import me.mos.ti.srv.processor.ServerProcessor;
-import me.mos.ti.utils.Charsets;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -59,31 +56,24 @@ final class ServerHandler implements Runnable {
 				}
 				log.error("Original Incoming Packet : {}", packet);
 				InPacket inPacket = null;
-				if (StringUtils.startsWith(packet, XMLSTART_TAG + PacketAlias.IQ_NAME)) {
-					inPacket = new InIQ().fromPacket(packet);
+				if (StringUtils.startsWith(packet, XMLSTART_TAG + Alias.IQ_NAME)) {
+					inPacket = InIQ.fromPacket(packet);
 					channel.setMID(((InIQ) inPacket).getMid());
 				}
-				if (StringUtils.startsWith(packet, XMLSTART_TAG + PacketAlias.MESSAGE_NAME)) {
-					inPacket = new InMessage().fromPacket(packet);
+				if (StringUtils.startsWith(packet, XMLSTART_TAG + Alias.MESSAGE_NAME)) {
+					inPacket = InMessage.fromPacket(packet);
 					channel.setMID(((InMessage) inPacket).getMid());
 				}
-				if (StringUtils.startsWith(packet, XMLSTART_TAG + PacketAlias.PRESENCE_NAME)) {
-					inPacket = new InPresence().fromPacket(packet);
+				if (StringUtils.startsWith(packet, XMLSTART_TAG + Alias.PRESENCE_NAME)) {
+					inPacket = InPresence.fromPacket(packet);
 					channel.setMID(((InPresence) inPacket).getMid());
 				}
-				if (StringUtils.startsWith(packet, XMLSTART_TAG + PacketAlias.REGISTER_NAME)) {
-					inPacket = new InRegister().fromPacket(packet);
+				if (StringUtils.startsWith(packet, XMLSTART_TAG + Alias.REGISTER_NAME)) {
+					inPacket = InRegister.fromPacket(packet);
 				}
-				if (StringUtils.startsWith(packet, XMLSTART_TAG + PacketAlias.SUBSCRIBE_NAME)) {
-					inPacket = new InSubscribe().fromPacket(packet);
+				if (StringUtils.startsWith(packet, XMLSTART_TAG + Alias.SUBSCRIBE_NAME)) {
+					inPacket = InSubscribe.fromPacket(packet);
 					channel.setMID(((InSubscribe) inPacket).getMid());
-				}
-				if (StringUtils.contains(packet, "/online.xml HTTP/1.1")) {
-					String pkg = "HTTP/1.1 200 OK\n" 
-							+ "Content-Type:text/xml;charset=" + Charsets.UTF_8_NAME 
-							+ "\n\n" + new OnlineUser(Channels.channelList());
-					channel.write(new StringPacket(pkg));
-					channel.close();
 				}
 				if (inPacket == null) {
 					continue;
