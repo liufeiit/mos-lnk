@@ -28,8 +28,8 @@ public class Client {
 
 	private static final String PASSWD = "123456";
 
-	public static void main(String[] args) throws Exception {
-		Socket socket = new Socket("localhost", Server.DEFAULT_PORT);
+	public static void main1223(String[] args) throws Exception {
+		Socket socket = new Socket("wjz", Server.DEFAULT_PORT);
 		socket.setKeepAlive(true);
 		socket.setSoTimeout(30000);
 		SockChannel channel = Channels.newChannel(socket, "utf8");
@@ -82,30 +82,30 @@ public class Client {
 		return inRegister;
 	}
 
-	public static void main1(String[] args) {
+	public static void main(String[] args) {
 		InRegister inRegister = newInRegister();
-		System.out.println(inRegister);
+		System.out.println("inRegister : " + inRegister);
 		OutRegister outRegister = inRegister.toOutPacket();
 		outRegister.setGmt_created(new Date().getTime());
 		outRegister.setMid(123);
-		System.out.println(outRegister);
+		System.out.println("outRegister : " + outRegister);
 		InIQ inIQ = newInIQ();
-		System.out.println(inIQ);
+		System.out.println("inIQ : " + inIQ);
 		OutIQ outIQ = inIQ.toOutPacket();
 		outIQ.online();
-		System.out.println(outIQ);
+		System.out.println("outIQ : " + outIQ);
 		InPresence inPresence = newInPresence();
-		System.out.println(inPresence);
+		System.out.println("inPresence : " + inPresence);
 		OutPresence outPresence = inPresence.toOutPacket();
 		outPresence.ok();
-		System.out.println(outPresence);
+		System.out.println("outPresence : " + outPresence);
 		InMessage inMessage = newInMessage();
-		System.out.println(inMessage);
-		System.out.println(new Acknowledge(1).ok());
+		System.out.println("inMessage : " + inMessage);
+		System.out.println("ack : " + new Acknowledge(1).ok());
 		OutMessage outMessage = inMessage.toOutPacket();
 		outMessage.setAvatar("发送消息的人的头像");
 		outMessage.setNick("发送消息的人的昵称");
 		outMessage.setParty_id("发送消息的人的第三方绑定账号");
-		System.out.println(outMessage);
+		System.out.println("outMessage : " + outMessage);
 	}
 }

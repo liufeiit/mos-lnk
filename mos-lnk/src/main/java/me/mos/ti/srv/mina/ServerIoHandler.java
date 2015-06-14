@@ -49,11 +49,6 @@ final class ServerIoHandler implements IoHandler {
 
 	@Override
 	public void messageReceived(IoSession session, Object message) throws Exception {
-
-	}
-
-	@Override
-	public void messageSent(IoSession session, Object message) throws Exception {
 		NioChannel channel = (NioChannel) session.getAttribute(NIO_CHANNEL);
 		try {
 			InPacket inPacket = (InPacket) message;
@@ -65,6 +60,11 @@ final class ServerIoHandler implements IoHandler {
 			channel.deliver(outPacket);
 		} catch (Throwable e) {
 		}
+	}
+
+	@Override
+	public void messageSent(IoSession session, Object message) throws Exception {
+		
 	}
 
 	@Override

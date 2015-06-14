@@ -7,6 +7,7 @@ import me.mos.ti.etc.Profile;
 import me.mos.ti.parser.JsonPacketParser;
 import me.mos.ti.parser.PacketParser;
 import me.mos.ti.srv.Server;
+import me.mos.ti.srv.channel.ChannelActiveMonitor;
 import me.mos.ti.srv.executor.LnkExecutor;
 import me.mos.ti.srv.mina.codec.PacketProtocolCodecFilter;
 import me.mos.ti.srv.process.DefaultServerProcessor;
@@ -110,6 +111,7 @@ final class LnkServer implements Server {
 		try {
 			acceptor.setHandler(new ServerIoHandler(processor));
 			acceptor.bind(new InetSocketAddress(port));
+			new Thread(new ChannelActiveMonitor()).start();
 			log.error("LnkServer[Mina] started success on port {}.", port);
 		} catch (Throwable e) {
 			log.error("LnkServer Starting Error.", e);
