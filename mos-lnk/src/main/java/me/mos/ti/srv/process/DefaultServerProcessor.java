@@ -1,21 +1,16 @@
-package me.mos.ti.srv.processor;
+package me.mos.ti.srv.process;
 
 import me.mos.ti.packet.InIQ;
 import me.mos.ti.packet.InMessage;
 import me.mos.ti.packet.InPacket;
 import me.mos.ti.packet.InPresence;
 import me.mos.ti.packet.InRegister;
-import me.mos.ti.packet.InSubscribe;
 import me.mos.ti.packet.OutPacket;
 import me.mos.ti.srv.channel.Channel;
 import me.mos.ti.srv.handler.IQHandler;
 import me.mos.ti.srv.handler.MessageHandler;
 import me.mos.ti.srv.handler.PresenceHandler;
 import me.mos.ti.srv.handler.RegisterHandler;
-import me.mos.ti.srv.handler.SubscribeHandler;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Lnk服务通道消息业务处理器.
@@ -27,8 +22,6 @@ import org.slf4j.LoggerFactory;
  */
 public class DefaultServerProcessor implements ServerProcessor {
 	
-	private static final Logger log = LoggerFactory.getLogger(ServerProcessor.class);
-
 	private IQHandler iqHandler;
 
 	private MessageHandler messageHandler;
@@ -37,19 +30,16 @@ public class DefaultServerProcessor implements ServerProcessor {
 
 	private RegisterHandler registerHandler;
 
-	private SubscribeHandler subscribeHandler;
-
 	public DefaultServerProcessor() {
 		super();
 		iqHandler = new IQHandler();
 		messageHandler = new MessageHandler();
 		presenceHandler = new PresenceHandler();
 		registerHandler = new RegisterHandler();
-		subscribeHandler = new SubscribeHandler();
 	}
 
 	@Override
-	public <I extends InPacket> OutPacket process(Channel channel, I packet) throws Throwable {
+	public <I extends InPacket> OutPacket process(Channel<?> channel, I packet) throws Throwable {
 		OutPacket outPacket = null;
 		switch (packet.getPacketType()) {
 		case IQ:
@@ -64,13 +54,9 @@ public class DefaultServerProcessor implements ServerProcessor {
 		case Register:
 			outPacket = registerHandler.process(channel, (InRegister) packet);
 			break;
-		case Subscribe:
-			outPacket = subscribeHandler.process(channel, (InSubscribe) packet);
-			break;
 		default:
 			break;
 		}
-		log.debug("Incoming Packet : {} \nOutcoming Packet : {}", packet, outPacket);
 		return outPacket;
 	}
 }

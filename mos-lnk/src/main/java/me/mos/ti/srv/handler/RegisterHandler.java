@@ -20,7 +20,7 @@ import org.apache.commons.lang3.StringUtils;
 public class RegisterHandler extends AbstractPacketHandler<InRegister> {
 
 	@Override
-	public OutPacket process(Channel channel, InRegister packet) throws Throwable {
+	public OutPacket process(Channel<?> channel, InRegister packet) throws Throwable {
 		OutRegister outRegister = packet.toOutPacket();
 		User user = User.newInstance(packet);
 		user.setAddress(StringUtils.EMPTY);

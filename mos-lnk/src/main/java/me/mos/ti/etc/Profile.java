@@ -2,10 +2,10 @@ package me.mos.ti.etc;
 
 import java.io.FileInputStream;
 
+import me.mos.ti.serializer.SerializerUtils;
 import me.mos.ti.srv.Server;
 import me.mos.ti.utils.Charsets;
 import me.mos.ti.utils.StreamUtils;
-import me.mos.ti.xml.XStreamParser;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
@@ -64,7 +64,7 @@ public class Profile {
 
 	public static Profile newInstance() {
 		try {
-			return XStreamParser.toObj(Profile.class, StreamUtils.copyToString(new FileInputStream("../etc/profile.xml"), Charsets.UTF_8));
+			return SerializerUtils.xstream().deserialize(Profile.class, StreamUtils.copyToString(new FileInputStream("etc/profile.xml"), Charsets.UTF_8));
 		} catch (Exception e) {
 			throw new IllegalStateException(e);
 		}

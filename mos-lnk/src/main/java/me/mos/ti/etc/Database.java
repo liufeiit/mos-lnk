@@ -2,9 +2,9 @@ package me.mos.ti.etc;
 
 import java.io.FileInputStream;
 
+import me.mos.ti.serializer.SerializerUtils;
 import me.mos.ti.utils.Charsets;
 import me.mos.ti.utils.StreamUtils;
-import me.mos.ti.xml.XStreamParser;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
@@ -49,7 +49,7 @@ public class Database {
 
 	public static Database newInstance() {
 		try {
-			return XStreamParser.toObj(Database.class, StreamUtils.copyToString(new FileInputStream("../etc/database.xml"), Charsets.UTF_8));
+			return SerializerUtils.xstream().deserialize(Database.class, StreamUtils.copyToString(new FileInputStream("etc/database.xml"), Charsets.UTF_8));
 		} catch (Exception e) {
 			throw new IllegalStateException(e);
 		}

@@ -20,7 +20,7 @@ import me.mos.ti.user.User;
 public class MessageHandler extends AbstractPacketHandler<InMessage> {
 
 	@Override
-	public OutPacket process(Channel channel, InMessage packet) throws Throwable {
+	public OutPacket process(Channel<?> channel, InMessage packet) throws Throwable {
 		User user = userProvider.query(packet.getMid());
 		if (user == null) {
 			// 非法用户发来的 丢弃消息
@@ -30,13 +30,13 @@ public class MessageHandler extends AbstractPacketHandler<InMessage> {
 		outMessage.setAvatar(user.getAvatar());
 		outMessage.setNick(user.getNick());
 		outMessage.setParty_id(user.getParty_id());
-		Channel peerChannel = Channels.channel(String.valueOf(packet.getTid()));
+		Channel<?> peerChannel = Channels.channel(String.valueOf(packet.getTid()));
 		if (peerChannel == null || !peerChannel.isConnect()) {
 			// 对方不存在离线消息保存并回执
 			messageProvider.save(Message.newInstance(outMessage));
 			return new Acknowledge(packet.getMid()).peerOffline();
 		}
-		peerChannel.write(outMessage);// 发送给对方
+		peerChannel.deliver(outMessage);// 发送给对方
 		return new Acknowledge(packet.getMid()).ok();
 	}
 }

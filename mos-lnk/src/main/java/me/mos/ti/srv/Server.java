@@ -1,6 +1,5 @@
 package me.mos.ti.srv;
 
-import me.mos.ti.srv.processor.ServerProcessor;
 
 /**
  * Mos-Lnk服务器.
@@ -28,7 +27,7 @@ public interface Server {
 	
 	int DEFAULT_OS_SOLINGER = -1;
 
-	void start(ServerProcessor processor);
+	void start();
 	
 	void stop();
 }

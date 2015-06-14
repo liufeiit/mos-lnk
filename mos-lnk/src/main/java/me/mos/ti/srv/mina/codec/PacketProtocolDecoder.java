@@ -4,6 +4,7 @@ import java.nio.charset.Charset;
 
 import me.mos.ti.packet.InPacket;
 import me.mos.ti.parser.PacketParser;
+import me.mos.ti.srv.PacketProtocol;
 import me.mos.ti.srv.Version;
 import me.mos.ti.utils.ByteUtil;
 
@@ -22,28 +23,13 @@ import org.slf4j.LoggerFactory;
  * @version 1.0.0
  * @since 2015年6月11日 下午5:42:42
  */
-final class PacketProtocolDecoder extends CumulativeProtocolDecoder {
+final class PacketProtocolDecoder extends CumulativeProtocolDecoder implements PacketProtocol {
 
 	private static final Logger log = LoggerFactory.getLogger(PacketProtocolDecoder.class);
 
 	private final Charset charset;
 
 	private final PacketParser parser;
-
-	/**
-	 * 定义头信息的字节数
-	 */
-	private static final int HEAD_BYTE_LENGTH = 20;
-
-	/**
-	 * 在头信息中, 前4位表示该报文的长度, 剩余的16位头信息备用
-	 */
-	private static final int PACKET_BYTE_LENGTH = 4;
-
-	/**
-	 * 版本号所在的头位置
-	 */
-	private static final int VERSION_POSITION = 5;
 
 	PacketProtocolDecoder(Charset charset, PacketParser parser) {
 		super();
@@ -61,8 +47,6 @@ final class PacketProtocolDecoder extends CumulativeProtocolDecoder {
 			in.mark();// 标记当前位置，以便reset
 			in.get(head);// 读取头信息
 			int length = ByteUtil.toInt(ByteUtil.getBytes(head, 0, PACKET_BYTE_LENGTH));
-			byte version = head[VERSION_POSITION - 1];
-			log.error("消息版本号[{}].", Version.parse(version));
 			if (length - HEAD_BYTE_LENGTH > in.remaining()) {
 				// 如果消息内容不够，则重置，相当于不读取length
 				in.reset();
@@ -71,7 +55,10 @@ final class PacketProtocolDecoder extends CumulativeProtocolDecoder {
 			byte[] packetBytes = new byte[length];
 			in.get(packetBytes, 0, length);
 			// 对packet进行转换和解析
+			byte version = head[VERSION_POSITION - 1];
+			log.error("消息版本号[{}].", Version.parse(version));
 			String packetString = new String(packetBytes, charset);
+			log.error("Incoming Packet : {}", packetString);
 			try {
 				InPacket inPacket = parser.parse(packetString);
 				out.write(inPacket);

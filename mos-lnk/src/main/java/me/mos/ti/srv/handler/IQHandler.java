@@ -17,7 +17,7 @@ import me.mos.ti.srv.channel.Channels;
 public class IQHandler extends AbstractPacketHandler<InIQ> {
 
 	@Override
-	public OutPacket process(Channel channel, InIQ packet) throws Throwable {
+	public OutPacket process(Channel<?> channel, InIQ packet) throws Throwable {
 		OutIQ outIQ = packet.toOutPacket();
 		if (Channels.isOnline(packet.getMid())) {
 			outIQ.online();

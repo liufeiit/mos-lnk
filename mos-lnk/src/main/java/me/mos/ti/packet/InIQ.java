@@ -1,6 +1,6 @@
 package me.mos.ti.packet;
 
-import me.mos.ti.serializer.SerializerAdapter;
+import me.mos.ti.serializer.SerializerUtils;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
@@ -26,7 +26,7 @@ public class InIQ extends AbstractInPacket {
 	}
 
 	public static InIQ fromPacket(String packet) {
-		return SerializerAdapter.currentSerializer().deserialize(InIQ.class, packet);
+		return SerializerUtils.currentSerializer().deserialize(InIQ.class, packet);
 	}
 
 	@Override

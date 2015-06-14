@@ -1,6 +1,6 @@
 package me.mos.ti.packet;
 
-import me.mos.ti.serializer.SerializerAdapter;
+import me.mos.ti.serializer.SerializerUtils;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
@@ -31,7 +31,7 @@ public class InPresence extends AbstractInPacket {
 	}
 
 	public static InPresence fromPacket(String packet) {
-		return SerializerAdapter.currentSerializer().deserialize(InPresence.class, packet);
+		return SerializerUtils.currentSerializer().deserialize(InPresence.class, packet);
 	}
 
 	@Override

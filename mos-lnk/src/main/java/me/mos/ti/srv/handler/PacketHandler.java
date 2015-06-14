@@ -13,5 +13,5 @@ import me.mos.ti.srv.channel.Channel;
  * @since 2015年6月2日 下午7:15:56
  */
 public interface PacketHandler<I extends InPacket> {
-	OutPacket process(Channel channel, I packet) throws Throwable;
+	OutPacket process(Channel<?> channel, I packet) throws Throwable;
 }

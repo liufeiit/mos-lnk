@@ -1,13 +1,12 @@
 package me.mos.ti.parser;
 
-import net.sf.json.JSONObject;
 import me.mos.ti.packet.InIQ;
 import me.mos.ti.packet.InMessage;
 import me.mos.ti.packet.InPacket;
 import me.mos.ti.packet.InPresence;
 import me.mos.ti.packet.InRegister;
-import me.mos.ti.packet.InSubscribe;
 import me.mos.ti.packet.Type;
+import net.sf.json.JSONObject;
 
 /**
  * @author 刘飞 E-mail:liufei_it@126.com
@@ -34,8 +33,6 @@ public class JsonPacketParser implements PacketParser {
 			return InPresence.fromPacket(packet);
 		case Register:
 			return InRegister.fromPacket(packet);
-		case Subscribe:
-			return InSubscribe.fromPacket(packet);
 		default:
 			throw new IllegalStateException("Error Type of Packet " + packet);
 		}

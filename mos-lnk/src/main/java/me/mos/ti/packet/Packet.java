@@ -16,6 +16,11 @@ public interface Packet {
 	String toPacket();
 	
 	/**
+	 * 消息发出者地址
+	 */
+	long getMid();
+	
+	/**
 	 * 消息类型
 	 */
 	byte getType();

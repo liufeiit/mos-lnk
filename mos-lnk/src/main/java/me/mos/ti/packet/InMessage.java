@@ -1,6 +1,6 @@
 package me.mos.ti.packet;
 
-import me.mos.ti.serializer.SerializerAdapter;
+import me.mos.ti.serializer.SerializerUtils;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
@@ -40,7 +40,7 @@ public class InMessage extends AbstractInPacket {
 	}
 
 	public static InMessage fromPacket(String packet) {
-		return SerializerAdapter.currentSerializer().deserialize(InMessage.class, packet);
+		return SerializerUtils.currentSerializer().deserialize(InMessage.class, packet);
 	}
 
 	@Override

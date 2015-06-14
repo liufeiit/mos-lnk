@@ -18,7 +18,7 @@ import org.springframework.util.CollectionUtils;
  * @version 1.0.0
  * @since 2015年6月5日 下午9:38:13
  */
-public class ChannelActiveMonitor implements Runnable {
+public final class ChannelActiveMonitor implements Runnable {
 
 	private final static Logger log = LoggerFactory.getLogger(ChannelActiveMonitor.class);
 
@@ -34,7 +34,7 @@ public class ChannelActiveMonitor implements Runnable {
 						Enumeration<String> channels = Channels.channels();
 						while (channels.hasMoreElements()) {
 							String mid = channels.nextElement();
-							Channel channel = Channels.channel(mid);
+							Channel<?> channel = Channels.channel(mid);
 							if (channel == null) {
 								Channels.offline(mid);
 							}

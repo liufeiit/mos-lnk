@@ -1,6 +1,5 @@
 package me.mos.ti.srv.sock;
 
-import me.mos.ti.srv.processor.DefaultServerProcessor;
 
 /**
  * 服务器启动入口.
@@ -14,7 +13,7 @@ public class LnkServerStarter {
 
 	public static void main(String[] args) {
 		final LnkServer lnkServer = new LnkServer();
-		lnkServer.start(new DefaultServerProcessor());
+		lnkServer.start();
 		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
 			@Override
 			public void run() {

@@ -1,7 +1,7 @@
 package me.mos.ti.packet;
 
 import me.mos.ti.serializer.Serializer;
-import me.mos.ti.serializer.SerializerAdapter;
+import me.mos.ti.serializer.SerializerUtils;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
@@ -36,7 +36,7 @@ public abstract class AbstractInPacket implements InPacket {
 
 	@Override
 	public Serializer serializer() {
-		return SerializerAdapter.currentSerializer();
+		return SerializerUtils.currentSerializer();
 	}
 
 	/**

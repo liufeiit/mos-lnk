@@ -12,8 +12,6 @@ public interface Alias {
 	
 	String MESSAGE_NAME = "message";
 	
-	String SUBSCRIBE_NAME = "subscribe";
-	
 	String PRESENCE_NAME = "presence";
 	
 	String REGISTER_NAME = "register";

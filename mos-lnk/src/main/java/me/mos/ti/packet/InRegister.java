@@ -2,7 +2,7 @@ package me.mos.ti.packet;
 
 import java.util.Date;
 
-import me.mos.ti.serializer.SerializerAdapter;
+import me.mos.ti.serializer.SerializerUtils;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
@@ -60,7 +60,7 @@ public class InRegister extends AbstractInPacket {
 	}
 
 	public static InRegister fromPacket(String packet) {
-		return SerializerAdapter.currentSerializer().deserialize(InRegister.class, packet);
+		return SerializerUtils.currentSerializer().deserialize(InRegister.class, packet);
 	}
 	
 	@Override
@@ -81,6 +81,11 @@ public class InRegister extends AbstractInPacket {
 	@Override
 	public Type getPacketType() {
 		return Type.Register;
+	}
+
+	@Override
+	public long getMid() {
+		return 0L;
 	}
 
 	public String getParty_id() {

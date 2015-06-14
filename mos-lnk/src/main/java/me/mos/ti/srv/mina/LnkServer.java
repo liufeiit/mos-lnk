@@ -4,12 +4,16 @@ import java.net.InetSocketAddress;
 import java.nio.charset.Charset;
 
 import me.mos.ti.etc.Profile;
+import me.mos.ti.parser.JsonPacketParser;
 import me.mos.ti.parser.PacketParser;
 import me.mos.ti.srv.Server;
 import me.mos.ti.srv.executor.LnkExecutor;
 import me.mos.ti.srv.mina.codec.PacketProtocolCodecFilter;
-import me.mos.ti.srv.processor.ServerProcessor;
+import me.mos.ti.srv.process.DefaultServerProcessor;
+import me.mos.ti.srv.process.ServerProcessor;
 
+import org.apache.mina.core.buffer.IoBuffer;
+import org.apache.mina.core.buffer.SimpleBufferAllocator;
 import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.filter.executor.ExecutorFilter;
 import org.apache.mina.filter.logging.LoggingFilter;
@@ -47,6 +51,11 @@ final class LnkServer implements Server {
 	 * 单位秒
 	 */
 	private int idleTime = DEFAULT_IDLETIME;
+	
+	/**
+	 * 缓冲队列大小
+	 */
+	private int queueSize = DEFAULT_QUEUE_SIZE;
 
 	private String charset;
 	
@@ -54,7 +63,13 @@ final class LnkServer implements Server {
 
 	private Profile profile;
 	
+	private ServerProcessor processor;
+	
 	private PacketParser parser;
+	
+	public static void main(String[] args) {
+		new LnkServer().start();
+	}
 
 	LnkServer() {
 		super();
@@ -65,15 +80,20 @@ final class LnkServer implements Server {
 			setBacklog(profile.getBacklog());
 			setIdleTime(profile.getIdleTime());
 			setCharset(profile.getCharset());
+			setQueueSize(profile.getQueueSize());
+			setProcessor(new DefaultServerProcessor());
+			setParser(new JsonPacketParser());
 			log.error("Config LnkServer Success.");
+			IoBuffer.setUseDirectBuffer(false);
+			IoBuffer.setAllocator(new SimpleBufferAllocator());
 		} catch (Exception e) {
 			log.error("Create Server Profile from XML Error.", e);
 		}
 	}
 
 	@Override
-	public void start(ServerProcessor processor) {
-		acceptor = new NioSocketAcceptor(Runtime.getRuntime().availableProcessors() * 2);
+	public void start() {
+		acceptor = new NioSocketAcceptor(queueSize);
 		acceptor.getFilterChain().addLast("exceutor", new ExecutorFilter(new LnkExecutor(profile)));
 		acceptor.getFilterChain().addLast("mdc", new MdcInjectionFilter());
 		acceptor.getFilterChain().addLast("codec", new PacketProtocolCodecFilter(Charset.forName(charset), parser));
@@ -88,8 +108,9 @@ final class LnkServer implements Server {
 		acceptor.getSessionConfig().setSoLinger(soLinger);
 		acceptor.getSessionConfig().setIdleTime(IdleStatus.BOTH_IDLE, idleTime);
 		try {
-			acceptor.setHandler(new ServerIoHandler());
+			acceptor.setHandler(new ServerIoHandler(processor));
 			acceptor.bind(new InetSocketAddress(port));
+			log.error("LnkServer Start Success.");
 		} catch (Throwable e) {
 			log.error("LnkServer Starting Error.", e);
 			throw new IllegalStateException(e);
@@ -119,5 +140,17 @@ final class LnkServer implements Server {
 	
 	public void setCharset(String charset) {
 		this.charset = charset;
+	}
+	
+	public void setQueueSize(int queueSize) {
+		this.queueSize = queueSize;
+	}
+	
+	public void setProcessor(ServerProcessor processor) {
+		this.processor = processor;
+	}
+	
+	public void setParser(PacketParser parser) {
+		this.parser = parser;
 	}
 }

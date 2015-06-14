@@ -1,32 +1,22 @@
 package test;
 
 import java.net.Socket;
-import java.nio.charset.Charset;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.Map;
 
-import me.mos.ti.packet.AbstractInPacket;
 import me.mos.ti.packet.Acknowledge;
 import me.mos.ti.packet.InIQ;
 import me.mos.ti.packet.InMessage;
 import me.mos.ti.packet.InPresence;
 import me.mos.ti.packet.InRegister;
-import me.mos.ti.packet.InSubscribe;
 import me.mos.ti.packet.OutIQ;
 import me.mos.ti.packet.OutMessage;
 import me.mos.ti.packet.OutPresence;
 import me.mos.ti.packet.OutRegister;
-import me.mos.ti.packet.OutSubscribe;
-import me.mos.ti.serializer.SerializerAdapter;
 import me.mos.ti.srv.Server;
-import me.mos.ti.srv.channel.Channel;
 import me.mos.ti.srv.channel.Channels;
-import me.mos.ti.user.SubscribeUser;
-import me.mos.ti.utils.ByteUtil;
+import me.mos.ti.srv.channel.SockChannel;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.util.NumberUtils;
 
 /**
  * @author 刘飞 E-mail:liufei_it@126.com
@@ -37,29 +27,17 @@ import org.springframework.util.NumberUtils;
 public class Client {
 
 	private static final String PASSWD = "123456";
-	
-	public static void main0(String[] args) throws Exception {
-		long i = Integer.MAX_VALUE;
-		System.out.println("i = " + i);
-		byte[] bs = ByteUtil.parseBytes(i);
-		for (byte b : bs) {
-			System.out.print(b + " ");
-		}
-		System.out.println();
-		System.out.println("i : " + ByteUtil.toLong(bs));
-	}
 
-	public static void main11(String[] args) throws Exception {
-		Socket socket = new Socket("wjz", Server.DEFAULT_PORT);
+	public static void main(String[] args) throws Exception {
+		Socket socket = new Socket("localhost", Server.DEFAULT_PORT);
 		socket.setKeepAlive(true);
 		socket.setSoTimeout(30000);
-		Channel channel = Channels.newChannel(socket, "utf8");
-		channel.write(newInPresence());
-//		channel.write(newInSubscribe());
-//		channel.write(newInRegister());
-//		channel.write(newInIQ());
-//		channel.write(newInMessage());
-		while(true) {
+		SockChannel channel = Channels.newChannel(socket, "utf8");
+		channel.deliver(newInIQ());
+		// channel.write(newInRegister());
+		// channel.write(newInIQ());
+		// channel.write(newInMessage());
+		while (true) {
 			String response = channel.read();
 			if (StringUtils.isBlank(response)) {
 				continue;
@@ -67,7 +45,7 @@ public class Client {
 			System.err.println("Response : " + response);
 		}
 	}
-	
+
 	public static InMessage newInMessage() {
 		InMessage inMessage = new InMessage();
 		inMessage.setMid(1);
@@ -76,20 +54,20 @@ public class Client {
 		inMessage.setGmt_created(new Date().getTime());
 		return inMessage;
 	}
-	
+
 	public static InPresence newInPresence() {
 		InPresence inPresence = new InPresence();
 		inPresence.setMid(1);
 		inPresence.setPasswd(PASSWD);
 		return inPresence;
 	}
-	
+
 	public static InIQ newInIQ() {
 		InIQ inIQ = new InIQ();
 		inIQ.setMid(123);
 		return inIQ;
 	}
-	
+
 	public static InRegister newInRegister() {
 		InRegister inRegister = new InRegister();
 		inRegister.setNick("大飞哥儿1");
@@ -103,7 +81,7 @@ public class Client {
 		inRegister.setWeixin("微信");
 		return inRegister;
 	}
-	
+
 	public static void main1(String[] args) {
 		InRegister inRegister = newInRegister();
 		System.out.println(inRegister);
@@ -121,21 +99,6 @@ public class Client {
 		OutPresence outPresence = inPresence.toOutPacket();
 		outPresence.ok();
 		System.out.println(outPresence);
-		InSubscribe inSubscribe = newInSubscribe();
-		System.out.println(inSubscribe);
-		OutSubscribe outSubscribe = inSubscribe.toOutPacket();
-		SubscribeUser subUsr = new SubscribeUser();
-		subUsr.setAvatar("好友头像");
-		subUsr.setNick("好友昵称");
-		subUsr.setParty_id("好友第三方绑定账号");
-		subUsr.setSmid(456);
-		SubscribeUser subUsr1 = new SubscribeUser();
-		subUsr1.setAvatar("好友头像");
-		subUsr1.setNick("好友昵称");
-		subUsr1.setParty_id("好友第三方绑定账号");
-		subUsr1.setSmid(456);
-		outSubscribe.setSubs(Arrays.asList(subUsr, subUsr1));
-		System.out.println(outSubscribe);
 		InMessage inMessage = newInMessage();
 		System.out.println(inMessage);
 		System.out.println(new Acknowledge(1).ok());
@@ -144,14 +107,5 @@ public class Client {
 		outMessage.setNick("发送消息的人的昵称");
 		outMessage.setParty_id("发送消息的人的第三方绑定账号");
 		System.out.println(outMessage);
-	}
-	
-	public static InSubscribe newInSubscribe() {
-		InSubscribe inSubscribe = new InSubscribe();
-		inSubscribe.setMid(1);
-		inSubscribe.setSmid(2);
-		byte sub = 3;
-		inSubscribe.setAct(sub);
-		return inSubscribe;
 	}
 }

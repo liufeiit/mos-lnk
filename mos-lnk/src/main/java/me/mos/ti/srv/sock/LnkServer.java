@@ -5,12 +5,15 @@ import java.net.Socket;
 import java.util.concurrent.ThreadPoolExecutor;
 
 import me.mos.ti.etc.Profile;
+import me.mos.ti.parser.JsonPacketParser;
+import me.mos.ti.parser.PacketParser;
 import me.mos.ti.srv.Server;
-import me.mos.ti.srv.channel.Channel;
 import me.mos.ti.srv.channel.ChannelActiveMonitor;
 import me.mos.ti.srv.channel.Channels;
+import me.mos.ti.srv.channel.SockChannel;
 import me.mos.ti.srv.executor.LnkExecutor;
-import me.mos.ti.srv.processor.ServerProcessor;
+import me.mos.ti.srv.process.DefaultServerProcessor;
+import me.mos.ti.srv.process.ServerProcessor;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,6 +50,10 @@ final class LnkServer implements Server {
 	private ThreadPoolExecutor threadPoolExecutor;
 
 	private Profile profile;
+	
+	private ServerProcessor processor;
+	
+	private PacketParser parser;
 
 	LnkServer() {
 		super();
@@ -56,6 +63,8 @@ final class LnkServer implements Server {
 			setReadTimeout(profile.getReadTimeout());
 			setCharset(profile.getCharset());
 			setBacklog(profile.getBacklog());
+			setProcessor(new DefaultServerProcessor());
+			setParser(new JsonPacketParser());
 			log.error("Config LnkServer Success.");
 		} catch (Exception e) {
 			log.error("Create Server Profile from XML Error.", e);
@@ -63,7 +72,7 @@ final class LnkServer implements Server {
 	}
 
 	@Override
-	public void start(final ServerProcessor processor) {
+	public void start() {
 		try {
 			log.error("LnkServer starting on port {}", port);
 			threadPoolExecutor = new LnkExecutor(profile);
@@ -76,8 +85,8 @@ final class LnkServer implements Server {
 							Socket socket = server.accept();
 							socket.setSoTimeout(readTimeout * 1000); // 毫秒
 							socket.setKeepAlive(true);
-							Channel channel = Channels.newChannel(socket, charset);
-							threadPoolExecutor.execute(new ServerHandler(channel, processor));
+							SockChannel channel = Channels.newChannel(socket, charset);
+							threadPoolExecutor.execute(new ServerHandler(channel, processor, parser));
 							log.error(channel + " Connection to LnkServer.");
 						} catch (Throwable t) {
 							if (server.isClosed()) {
@@ -136,5 +145,13 @@ final class LnkServer implements Server {
 
 	public void setBacklog(int backlog) {
 		this.backlog = backlog;
+	}
+	
+	public void setProcessor(ServerProcessor processor) {
+		this.processor = processor;
+	}
+	
+	public void setParser(PacketParser parser) {
+		this.parser = parser;
 	}
 }

@@ -1,4 +1,4 @@
-package me.mos.ti.srv.processor;
+package me.mos.ti.srv.process;
 
 import me.mos.ti.packet.InPacket;
 import me.mos.ti.packet.OutPacket;
@@ -17,5 +17,5 @@ public interface ServerProcessor {
 	/**
 	 * 处理数据包接收和分发.
 	 */
-	<I extends InPacket> OutPacket process(Channel channel, I packet) throws Throwable;
+	<I extends InPacket> OutPacket process(Channel<?> channel, I packet) throws Throwable;
 }
