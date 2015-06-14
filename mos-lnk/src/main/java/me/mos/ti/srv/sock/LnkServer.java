@@ -104,7 +104,7 @@ final class LnkServer implements Server {
 			masterWorker.setDaemon(true);
 			masterWorker.start();
 			threadPoolExecutor.execute(new ChannelActiveMonitor());
-			log.error("LnkServer started success on port {}.", port);
+			log.error("LnkServer[Sock] started success on port {}.", port);
 		} catch (Exception e) {
 			log.error("Start LnkServer Failed.", e);
 			throw new IllegalStateException(e);

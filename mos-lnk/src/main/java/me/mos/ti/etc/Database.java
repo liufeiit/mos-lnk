@@ -49,7 +49,7 @@ public class Database {
 
 	public static Database newInstance() {
 		try {
-			return SerializerUtils.xstream().deserialize(Database.class, StreamUtils.copyToString(new FileInputStream("etc/database.xml"), Charsets.UTF_8));
+			return SerializerUtils.xstream().deserialize(Database.class, StreamUtils.copyToString(new FileInputStream("../etc/database.xml"), Charsets.UTF_8));
 		} catch (Exception e) {
 			throw new IllegalStateException(e);
 		}

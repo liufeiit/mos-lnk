@@ -64,7 +64,7 @@ public class Profile {
 
 	public static Profile newInstance() {
 		try {
-			return SerializerUtils.xstream().deserialize(Profile.class, StreamUtils.copyToString(new FileInputStream("etc/profile.xml"), Charsets.UTF_8));
+			return SerializerUtils.xstream().deserialize(Profile.class, StreamUtils.copyToString(new FileInputStream("../etc/profile.xml"), Charsets.UTF_8));
 		} catch (Exception e) {
 			throw new IllegalStateException(e);
 		}

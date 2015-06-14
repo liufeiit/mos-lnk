@@ -11,7 +11,7 @@
 		<commons-codec>1.9</commons-codec>
 		<org.slf4j-version>1.6.4</org.slf4j-version>
 		<mina.version>2.0.9</mina.version>
-		<jar.main.class>me.mos.ti.srv.sock.LnkServerStarter</jar.main.class>
+		<jar.main.class>me.mos.ti.srv.mina.LnkServerStarter</jar.main.class>
 	</properties>
 	<dependencies>
 		<dependency>

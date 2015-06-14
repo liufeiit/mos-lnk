@@ -110,7 +110,7 @@ final class LnkServer implements Server {
 		try {
 			acceptor.setHandler(new ServerIoHandler(processor));
 			acceptor.bind(new InetSocketAddress(port));
-			log.error("LnkServer Start Success.");
+			log.error("LnkServer[Mina] started success on port {}.", port);
 		} catch (Throwable e) {
 			log.error("LnkServer Starting Error.", e);
 			throw new IllegalStateException(e);
