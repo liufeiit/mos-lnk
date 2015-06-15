@@ -14,12 +14,12 @@ public class ServerStarter {
 
 	public static void main(String[] args) {
 		Profile profile = Profile.newInstance();
-		if (profile.isMinaSrv()) {
+		if (profile.minaSrv()) {
 			me.mos.ti.srv.mina.LnkServerStarter.main(args);
 			System.err.println("Mina Lnk Server Started Success!!!");
 			return;
 		}
-		if (profile.isSockSrv()) {
+		if (profile.sockSrv()) {
 			me.mos.ti.srv.sock.LnkServerStarter.main(args);
 			System.err.println("Sock Lnk Server Started Success!!!");
 			return;

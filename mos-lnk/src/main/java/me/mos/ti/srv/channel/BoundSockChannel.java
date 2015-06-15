@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.nio.charset.Charset;
 
 import me.mos.ti.packet.Packet;
 import me.mos.ti.srv.Version;
@@ -19,7 +20,7 @@ import me.mos.ti.utils.ByteUtil;
  */
 final class BoundSockChannel extends AbstractChannel<Socket> implements SockChannel {
 
-	private final String charset;
+	private final Charset charset;
 
 	private String mid;
 
@@ -29,7 +30,7 @@ final class BoundSockChannel extends AbstractChannel<Socket> implements SockChan
 
 	private OutputStream out;
 
-	public BoundSockChannel(Socket channel, String charset) {
+	public BoundSockChannel(Socket channel, Charset charset) {
 		super();
 		this.channel = channel;
 		this.charset = charset;

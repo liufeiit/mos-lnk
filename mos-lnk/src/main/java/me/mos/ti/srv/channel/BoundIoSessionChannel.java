@@ -14,7 +14,7 @@ import org.apache.mina.core.session.IoSession;
  * @version 1.0.0
  * @since 2015年6月14日 下午12:39:39
  */
-final class BoundNioChannel extends AbstractChannel<IoSession> implements NioChannel {
+final class BoundIoSessionChannel extends AbstractChannel<IoSession> implements IoSessionChannel {
 
 	private String mid;
 
@@ -22,7 +22,7 @@ final class BoundNioChannel extends AbstractChannel<IoSession> implements NioCha
 
 	private boolean closed;
 
-	public BoundNioChannel(IoSession session) {
+	public BoundIoSessionChannel(IoSession session) {
 		super();
 		this.session = session;
 		this.closed = false;
@@ -44,7 +44,7 @@ final class BoundNioChannel extends AbstractChannel<IoSession> implements NioCha
 	}
 
 	@Override
-	public BoundNioChannel setMID(long mid) {
+	public BoundIoSessionChannel setMID(long mid) {
 		this.mid = String.valueOf(mid);
 		return this;
 	}

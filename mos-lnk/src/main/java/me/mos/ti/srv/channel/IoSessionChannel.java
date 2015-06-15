@@ -12,6 +12,6 @@ import org.apache.mina.core.session.IoSession;
  * @version 1.0.0
  * @since 2015年6月14日 下午12:13:29
  */
-public interface NioChannel extends Channel<IoSession> {
+public interface IoSessionChannel extends Channel<IoSession> {
 	
 }

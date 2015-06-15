@@ -1,6 +1,6 @@
 package me.mos.ti.etc;
 
-import me.mos.ti.conf.ConfigTools;
+import me.mos.ti.conf.ConfTools;
 import me.mos.ti.conf.Resource;
 import me.mos.ti.utils.Charsets;
 
@@ -47,7 +47,7 @@ public class Database {
 	private String password;
 
 	public static Database newInstance() {
-		return ConfigTools.conf(Database.class, Charsets.UTF_8);
+		return ConfTools.conf(Database.class, Charsets.UTF_8);
 	}
 
 	public String getDriverClassName() {

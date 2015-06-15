@@ -15,6 +15,7 @@ import me.mos.ti.packet.OutRegister;
 import me.mos.ti.srv.Server;
 import me.mos.ti.srv.channel.Channels;
 import me.mos.ti.srv.channel.SockChannel;
+import me.mos.ti.utils.Charsets;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -32,7 +33,7 @@ public class Client {
 		Socket socket = new Socket("wjz", Server.DEFAULT_PORT);
 		socket.setKeepAlive(true);
 		socket.setSoTimeout(30000);
-		SockChannel channel = Channels.newChannel(socket, "utf8");
+		SockChannel channel = Channels.newChannel(socket, Charsets.UTF_8);
 		channel.deliver(newInIQ());
 		// channel.write(newInRegister());
 		// channel.write(newInIQ());

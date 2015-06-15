@@ -12,7 +12,7 @@ import me.mos.ti.utils.StreamUtils;
  * @version 1.0.0
  * @since 2015年6月15日 下午1:41:57
  */
-public class ConfigTools {
+public class ConfTools {
 
 	public static <T> T conf(Class<T> type, Charset charset) {
 		try {

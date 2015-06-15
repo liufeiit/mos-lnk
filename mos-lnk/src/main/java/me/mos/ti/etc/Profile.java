@@ -2,7 +2,7 @@ package me.mos.ti.etc;
 
 import org.apache.commons.lang3.StringUtils;
 
-import me.mos.ti.conf.ConfigTools;
+import me.mos.ti.conf.ConfTools;
 import me.mos.ti.conf.Resource;
 import me.mos.ti.srv.Server;
 import me.mos.ti.utils.Charsets;
@@ -67,14 +67,14 @@ public class Profile {
 	private String srvProvider;
 
 	public static Profile newInstance() {
-		return ConfigTools.conf(Profile.class, Charsets.UTF_8);
+		return ConfTools.conf(Profile.class, Charsets.UTF_8);
 	}
 	
-	public boolean isMinaSrv() {
+	public boolean minaSrv() {
 		return StringUtils.equalsIgnoreCase("mina", srvProvider);
 	}
 	
-	public boolean isSockSrv() {
+	public boolean sockSrv() {
 		return StringUtils.equalsIgnoreCase("sock", srvProvider);
 	}
 

@@ -2,6 +2,7 @@ package me.mos.ti.srv.sock;
 
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.charset.Charset;
 import java.util.concurrent.ThreadPoolExecutor;
 
 import me.mos.ti.etc.Profile;
@@ -77,6 +78,7 @@ final class LnkServer implements Server {
 			log.error("LnkServer starting on port {}", port);
 			threadPoolExecutor = new LnkExecutor(profile);
 			server = new ServerSocket(port, backlog);
+			server.setReuseAddress(true);
 			Thread masterWorker = new Thread() {
 				@Override
 				public void run() {
@@ -85,7 +87,7 @@ final class LnkServer implements Server {
 							Socket socket = server.accept();
 							socket.setSoTimeout(readTimeout * 1000); // 毫秒
 							socket.setKeepAlive(true);
-							SockChannel channel = Channels.newChannel(socket, charset);
+							SockChannel channel = Channels.newChannel(socket, Charset.forName(charset));
 							threadPoolExecutor.execute(new ServerHandler(channel, processor, parser));
 							log.error(channel + " Connection to LnkServer.");
 						} catch (Throwable t) {

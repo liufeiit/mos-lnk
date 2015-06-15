@@ -1,6 +1,7 @@
 package me.mos.ti.srv.channel;
 
 import java.net.Socket;
+import java.nio.charset.Charset;
 import java.util.Enumeration;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -25,12 +26,12 @@ public class Channels {
 
 	private static final ConcurrentHashMap<String, Channel<?>> channels = new ConcurrentHashMap<String, Channel<?>>(2000);
 
-	public static SockChannel newChannel(Socket channel, String charset) {
+	public static SockChannel newChannel(Socket channel, Charset charset) {
 		return new BoundSockChannel(channel, charset);
 	}
 	
-	public static NioChannel newChannel(IoSession session) {
-		return new BoundNioChannel(session);
+	public static IoSessionChannel newChannel(IoSession session) {
+		return new BoundIoSessionChannel(session);
 	}
 	
 	public static Enumeration<String> channels() {
