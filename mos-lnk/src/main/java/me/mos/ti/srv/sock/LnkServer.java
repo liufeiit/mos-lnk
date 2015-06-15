@@ -41,7 +41,7 @@ final class LnkServer implements Server {
 	 */
 	private int readTimeout = DEFAULT_READ_TIMEOUT;
 
-	private String charset;
+	private String charset = DEFAULT_CHARSET;
 
 	/**
 	 * Socket服务器

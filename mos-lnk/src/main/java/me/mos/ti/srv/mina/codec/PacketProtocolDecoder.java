@@ -52,7 +52,7 @@ final class PacketProtocolDecoder extends CumulativeProtocolDecoder implements P
 				return false;
 			}
 			byte[] packetBytes = new byte[length];
-			in.get(packetBytes, 0, length);
+			in.get(packetBytes);
 			byte version = head[VERSION_POSITION - 1];
 			log.error("消息版本号[{}].", Version.parse(version));
 			String packetString = new String(packetBytes, charset);

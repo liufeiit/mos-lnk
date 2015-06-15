@@ -1,6 +1,7 @@
 package me.mos.ti.srv.channel;
 
 import java.net.Socket;
+import java.nio.channels.SelectionKey;
 import java.nio.charset.Charset;
 import java.util.Enumeration;
 import java.util.concurrent.ConcurrentHashMap;
@@ -32,6 +33,10 @@ public class Channels {
 	
 	public static IoSessionChannel newChannel(IoSession session) {
 		return new BoundIoSessionChannel(session);
+	}
+	
+	public static NioSockChannel newChannel(SelectionKey key, Charset charset) {
+		return new BoundNioSockChannel(key, charset);
 	}
 	
 	public static Enumeration<String> channels() {

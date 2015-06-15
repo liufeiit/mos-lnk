@@ -53,7 +53,7 @@ final class LnkServer implements Server {
 	 */
 	private int idleTime = DEFAULT_IDLETIME;
 	
-	private String charset;
+	private String charset = DEFAULT_CHARSET;
 	
 	private NioSocketAcceptor acceptor;
 

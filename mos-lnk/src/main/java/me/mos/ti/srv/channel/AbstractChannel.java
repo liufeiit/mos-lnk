@@ -24,6 +24,9 @@ public abstract class AbstractChannel<I> implements Channel<I> {
 
 	@Override
 	public AbstractChannel<I> setMID(long mid) {
+		if (mid <= 0L) {
+			return this;
+		}
 		this.mid = String.valueOf(mid);
 		return this;
 	}

@@ -1,15 +1,14 @@
 package me.mos.ti.srv.nio;
 
-import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
-import java.net.Socket;
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.nio.channels.spi.SelectorProvider;
+import java.nio.charset.Charset;
 import java.util.Iterator;
 import java.util.concurrent.ThreadPoolExecutor;
 
@@ -18,16 +17,19 @@ import me.mos.ti.parser.JsonPacketParser;
 import me.mos.ti.parser.PacketParser;
 import me.mos.ti.srv.Server;
 import me.mos.ti.srv.channel.ChannelActiveMonitor;
+import me.mos.ti.srv.channel.Channels;
+import me.mos.ti.srv.channel.NioSockChannel;
 import me.mos.ti.srv.executor.LnkExecutor;
 import me.mos.ti.srv.process.DefaultServerProcessor;
 import me.mos.ti.srv.process.ServerProcessor;
 
+import org.apache.mina.core.buffer.IoBuffer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * @author 刘飞 E-mail:liufei_it@126.com
- *
+ * 
  * @version 1.0.0
  * @since 2015年6月15日 下午5:18:59
  */
@@ -47,7 +49,7 @@ class LnkServer implements Server {
 	 */
 	private int readTimeout = DEFAULT_READ_TIMEOUT;
 
-	private String charset;
+	private String charset = DEFAULT_CHARSET;
 
 	private ThreadPoolExecutor threadPoolExecutor;
 
@@ -106,9 +108,22 @@ class LnkServer implements Server {
 									continue;
 								}
 								if (key.isAcceptable()) {
-									accept(key);
+									ServerSocketChannel server = (ServerSocketChannel) key.channel();
+									SocketChannel channel = server.accept();
+									channel.configureBlocking(false);
+									channel.register(selector, SelectionKey.OP_READ);
 								} else if (key.isReadable()) {
-								} else if (key.isWritable()) {
+									NioSockChannel nioChannel = Channels.newChannel(key, Charset.forName(charset));
+									SocketChannel channel = nioChannel.getChannel();
+									ByteBuffer buf = ByteBuffer.allocate(READ_BYTE_BUF);
+									try {
+										while(channel.read(buf) > 0) {
+											buf.flip();
+//											buf.get(dst, offset, length);
+										}
+									} catch (Throwable e) {
+										
+									}
 								}
 							}
 						} catch (Throwable t) {
@@ -128,14 +143,6 @@ class LnkServer implements Server {
 			log.error("Start LnkServer Failed.", e);
 			throw new IllegalStateException(e);
 		}
-	}
-
-	private void accept(SelectionKey key) throws IOException {
-		ServerSocketChannel serverSocketChannel = (ServerSocketChannel) key.channel();
-		SocketChannel socketChannel = serverSocketChannel.accept();
-		Socket socket = socketChannel.socket();
-		socketChannel.configureBlocking(false);
-		socketChannel.register(selector, SelectionKey.OP_READ);
 	}
 
 	@Override

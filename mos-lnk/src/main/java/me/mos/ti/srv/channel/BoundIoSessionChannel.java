@@ -16,16 +16,19 @@ import org.apache.mina.core.session.IoSession;
  */
 final class BoundIoSessionChannel extends AbstractChannel<IoSession> implements IoSessionChannel {
 
-	private String mid;
-
 	private IoSession session;
 
 	private boolean closed;
 
-	public BoundIoSessionChannel(IoSession session) {
+	BoundIoSessionChannel(IoSession session) {
 		super();
 		this.session = session;
 		this.closed = false;
+	}
+
+	@Override
+	public void deliver(Packet packet) {
+		session.write(packet);
 	}
 
 	@Override
@@ -36,22 +39,6 @@ final class BoundIoSessionChannel extends AbstractChannel<IoSession> implements 
 	@Override
 	public IoSession getChannel() {
 		return session;
-	}
-
-	@Override
-	public String getMID() {
-		return mid;
-	}
-
-	@Override
-	public BoundIoSessionChannel setMID(long mid) {
-		this.mid = String.valueOf(mid);
-		return this;
-	}
-
-	@Override
-	public void deliver(Packet packet) {
-		session.write(packet);
 	}
 
 	@Override

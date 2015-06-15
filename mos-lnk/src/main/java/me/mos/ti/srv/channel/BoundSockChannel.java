@@ -22,8 +22,6 @@ final class BoundSockChannel extends AbstractChannel<Socket> implements SockChan
 
 	private final Charset charset;
 
-	private String mid;
-
 	private Socket channel;
 
 	private InputStream in;
@@ -40,20 +38,6 @@ final class BoundSockChannel extends AbstractChannel<Socket> implements SockChan
 		} catch (Throwable e) {
 			log.error(toString() + " Bound Channel Error.", e);
 		}
-	}
-
-	@Override
-	public String getMID() {
-		return this.mid;
-	}
-
-	@Override
-	public BoundSockChannel setMID(long mid) {
-		if (mid <= 0L) {
-			return this;
-		}
-		this.mid = String.valueOf(mid);
-		return this;
 	}
 
 	@Override
@@ -133,8 +117,8 @@ final class BoundSockChannel extends AbstractChannel<Socket> implements SockChan
 			channel.sendUrgentData(0xFF);
 			return true;
 		} catch (Throwable e) {
-			return false;
 		}
+		return false;
 	}
 
 	@Override
