@@ -18,6 +18,10 @@ final class LnkThreadFactory implements ThreadFactory {
 
 	private static final String LNK_SERVER_WORKER = "LnkServer-Worker-";
 
+	LnkThreadFactory() {
+		super();
+	}
+
 	@Override
 	public Thread newThread(Runnable r) {
 		final UncaughtExceptionHandler eh = Thread.getDefaultUncaughtExceptionHandler();

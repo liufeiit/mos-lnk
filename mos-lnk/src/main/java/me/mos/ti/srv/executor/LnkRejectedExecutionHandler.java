@@ -16,6 +16,10 @@ public class LnkRejectedExecutionHandler extends CallerRunsPolicy {
 
 	private final Logger log = LoggerFactory.getLogger(LnkExecutor.class);
 	
+	LnkRejectedExecutionHandler() {
+		super();
+	}
+
 	@Override
 	public void rejectedExecution(Runnable r, ThreadPoolExecutor e) {
 		super.rejectedExecution(r, e);
