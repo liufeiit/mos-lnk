@@ -40,21 +40,19 @@ final class PacketProtocolDecoder extends CumulativeProtocolDecoder implements P
 	@Override
 	protected boolean doDecode(IoSession session, IoBuffer in, ProtocolDecoderOutput out) throws Exception {
 		if (in.remaining() < HEAD_BYTE_LENGTH) {
-			return false;// 接收新数据，以拼凑成完整数据
+			return false;
 		}
 		if (in.remaining() > 0) {
 			byte[] head = new byte[HEAD_BYTE_LENGTH];
-			in.mark();// 标记当前位置，以便reset
-			in.get(head);// 读取头信息
+			in.mark();
+			in.get(head);
 			int length = ByteUtil.toInt(ByteUtil.getBytes(head, 0, PACKET_BYTE_LENGTH));
 			if (length - HEAD_BYTE_LENGTH > in.remaining()) {
-				// 如果消息内容不够，则重置，相当于不读取length
 				in.reset();
-				return false;// 接收新数据，以拼凑成完整数据
+				return false;
 			}
 			byte[] packetBytes = new byte[length];
 			in.get(packetBytes, 0, length);
-			// 对packet进行转换和解析
 			byte version = head[VERSION_POSITION - 1];
 			log.error("消息版本号[{}].", Version.parse(version));
 			String packetString = new String(packetBytes, charset);
@@ -66,10 +64,10 @@ final class PacketProtocolDecoder extends CumulativeProtocolDecoder implements P
 				log.error("Incoming Packet Parse Error【" + packetString + "】.", e);
 				return false;
 			}
-			if (in.remaining() > 0) {// 如果读取内容后还粘了包，进行下一次解析
+			if (in.remaining() > 0) {
 				return true;
 			}
 		}
-		return false;// 处理成功，让父类进行接收下个包
+		return false;
 	}
 }

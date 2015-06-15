@@ -6,8 +6,6 @@
   <classpathentry kind="src" path="src/main/resources" excluding="**/*.java"/>
   <classpathentry kind="output" path="target/classes"/>
   <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
-  <classpathentry kind="var" path="M2_REPO/org/apache/mina/mina-example/2.0.9/mina-example-2.0.9.jar" sourcepath="M2_REPO/org/apache/mina/mina-example/2.0.9/mina-example-2.0.9-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-api/1.6.4/slf4j-api-1.6.4.jar" sourcepath="M2_REPO/org/slf4j/slf4j-api/1.6.4/slf4j-api-1.6.4-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/net/sf/json-lib/json-lib/2.4/json-lib-2.4-jdk15.jar" sourcepath="M2_REPO/net/sf/json-lib/json-lib/2.4/json-lib-2.4-jdk15-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/commons-beanutils/commons-beanutils/1.8.0/commons-beanutils-1.8.0.jar" sourcepath="M2_REPO/commons-beanutils/commons-beanutils/1.8.0/commons-beanutils-1.8.0-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1.jar" sourcepath="M2_REPO/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1-sources.jar"/>
@@ -16,6 +14,7 @@
   <classpathentry kind="var" path="M2_REPO/net/sf/ezmorph/ezmorph/1.0.6/ezmorph-1.0.6.jar" sourcepath="M2_REPO/net/sf/ezmorph/ezmorph/1.0.6/ezmorph-1.0.6-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/com/google/code/gson/gson/2.2.4/gson-2.2.4.jar" sourcepath="M2_REPO/com/google/code/gson/gson/2.2.4/gson-2.2.4-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/apache/mina/mina-core/2.0.9/mina-core-2.0.9.jar" sourcepath="M2_REPO/org/apache/mina/mina-core/2.0.9/mina-core-2.0.9-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-api/1.6.4/slf4j-api-1.6.4.jar" sourcepath="M2_REPO/org/slf4j/slf4j-api/1.6.4/slf4j-api-1.6.4-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/springframework/spring-jdbc/4.0.7.RELEASE/spring-jdbc-4.0.7.RELEASE.jar" sourcepath="M2_REPO/org/springframework/spring-jdbc/4.0.7.RELEASE/spring-jdbc-4.0.7.RELEASE-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/springframework/spring-beans/4.0.7.RELEASE/spring-beans-4.0.7.RELEASE.jar" sourcepath="M2_REPO/org/springframework/spring-beans/4.0.7.RELEASE/spring-beans-4.0.7.RELEASE-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/springframework/spring-core/4.0.7.RELEASE/spring-core-4.0.7.RELEASE.jar" sourcepath="M2_REPO/org/springframework/spring-core/4.0.7.RELEASE/spring-core-4.0.7.RELEASE-sources.jar"/>

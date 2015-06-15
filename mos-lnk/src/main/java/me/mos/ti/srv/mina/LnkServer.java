@@ -53,11 +53,6 @@ final class LnkServer implements Server {
 	 */
 	private int idleTime = DEFAULT_IDLETIME;
 	
-	/**
-	 * 缓冲队列大小
-	 */
-	private int queueSize = DEFAULT_QUEUE_SIZE;
-
 	private String charset;
 	
 	private NioSocketAcceptor acceptor;
@@ -81,7 +76,6 @@ final class LnkServer implements Server {
 			setBacklog(profile.getBacklog());
 			setIdleTime(profile.getIdleTime());
 			setCharset(profile.getCharset());
-			setQueueSize(profile.getQueueSize());
 			setProcessor(new DefaultServerProcessor());
 			setParser(new JsonPacketParser());
 			log.error("Config LnkServer Success.");
@@ -94,7 +88,7 @@ final class LnkServer implements Server {
 
 	@Override
 	public void start() {
-		acceptor = new NioSocketAcceptor(queueSize);
+		acceptor = new NioSocketAcceptor(Runtime.getRuntime().availableProcessors() * 2);
 		acceptor.getFilterChain().addLast("exceutor", new ExecutorFilter(new LnkExecutor(profile)));
 		acceptor.getFilterChain().addLast("mdc", new MdcInjectionFilter());
 		acceptor.getFilterChain().addLast("codec", new PacketProtocolCodecFilter(Charset.forName(charset), parser));
@@ -142,10 +136,6 @@ final class LnkServer implements Server {
 	
 	public void setCharset(String charset) {
 		this.charset = charset;
-	}
-	
-	public void setQueueSize(int queueSize) {
-		this.queueSize = queueSize;
 	}
 	
 	public void setProcessor(ServerProcessor processor) {

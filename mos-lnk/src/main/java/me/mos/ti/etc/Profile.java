@@ -1,11 +1,11 @@
 package me.mos.ti.etc;
 
-import java.io.FileInputStream;
+import org.apache.commons.lang3.StringUtils;
 
-import me.mos.ti.serializer.SerializerUtils;
+import me.mos.ti.conf.ConfigTools;
+import me.mos.ti.conf.Resource;
 import me.mos.ti.srv.Server;
 import me.mos.ti.utils.Charsets;
-import me.mos.ti.utils.StreamUtils;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
@@ -17,6 +17,7 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
  * @since 2015年5月30日 下午7:14:01
  */
 @XStreamAlias("server")
+@Resource(location = "../etc/profile.xml")
 public class Profile {
 
 	@XStreamAlias("port")
@@ -61,13 +62,20 @@ public class Profile {
 	 */
 	@XStreamAlias("so-linger")
 	private int soLinger = Server.DEFAULT_OS_SOLINGER;
+	
+	@XStreamAlias("srv-provider")
+	private String srvProvider;
 
 	public static Profile newInstance() {
-		try {
-			return SerializerUtils.xstream().deserialize(Profile.class, StreamUtils.copyToString(new FileInputStream("../etc/profile.xml"), Charsets.UTF_8));
-		} catch (Exception e) {
-			throw new IllegalStateException(e);
-		}
+		return ConfigTools.conf(Profile.class, Charsets.UTF_8);
+	}
+	
+	public boolean isMinaSrv() {
+		return StringUtils.equalsIgnoreCase("mina", srvProvider);
+	}
+	
+	public boolean isSockSrv() {
+		return StringUtils.equalsIgnoreCase("sock", srvProvider);
 	}
 
 	public int getPort() {
@@ -76,6 +84,14 @@ public class Profile {
 
 	public void setPort(int port) {
 		this.port = port;
+	}
+
+	public String getSrvProvider() {
+		return srvProvider;
+	}
+
+	public void setSrvProvider(String srvProvider) {
+		this.srvProvider = srvProvider;
 	}
 
 	public int getCorePoolSize() {

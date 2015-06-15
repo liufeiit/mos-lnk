@@ -78,12 +78,8 @@ final class BoundSockChannel extends AbstractChannel<Socket> implements SockChan
 				return null;
 			}
 			int length = ByteUtil.toInt(ByteUtil.getBytes(headBytes, 0, PACKET_BYTE_LENGTH));
-			in.mark(length);
 			byte[] packetBytes = new byte[length];
-			if (in.read(packetBytes) != length) {
-				in.reset();
-				return null;
-			}
+			in.read(packetBytes);
 			byte version = headBytes[VERSION_POSITION - 1];
 			log.error("消息版本号[{}].", Version.parse(version));
 			return new String(packetBytes, charset);

@@ -28,7 +28,7 @@ public class Client {
 
 	private static final String PASSWD = "123456";
 
-	public static void main1223(String[] args) throws Exception {
+	public static void main(String[] args) throws Exception {
 		Socket socket = new Socket("wjz", Server.DEFAULT_PORT);
 		socket.setKeepAlive(true);
 		socket.setSoTimeout(30000);
@@ -82,7 +82,7 @@ public class Client {
 		return inRegister;
 	}
 
-	public static void main(String[] args) {
+	public static void main1(String[] args) {
 		InRegister inRegister = newInRegister();
 		System.out.println("inRegister : " + inRegister);
 		OutRegister outRegister = inRegister.toOutPacket();

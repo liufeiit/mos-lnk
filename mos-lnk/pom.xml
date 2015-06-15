@@ -11,44 +11,9 @@
 		<commons-codec>1.9</commons-codec>
 		<org.slf4j-version>1.6.4</org.slf4j-version>
 		<mina.version>2.0.9</mina.version>
-		<jar.main.class>me.mos.ti.srv.sock.LnkServerStarter</jar.main.class>
+		<jar.main.class>me.mos.ti.srv.ServerStarter</jar.main.class>
 	</properties>
 	<dependencies>
-		<dependency>
-			<groupId>org.apache.mina</groupId>
-			<artifactId>mina-example</artifactId>
-			<version>2.0.9</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.apache.mina</groupId>
-					<artifactId>mina-core</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.apache.mina</groupId>
-					<artifactId>mina-integration-beans</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.apache.mina</groupId>
-					<artifactId>mina-integration-jmx</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.apache.mina</groupId>
-					<artifactId>mina-statemachine</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.springframework</groupId>
-					<artifactId>spring</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>jmock</groupId>
-					<artifactId>jmock</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>jcl-over-slf4j</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
 		<dependency>
 			<groupId>net.sf.json-lib</groupId>
 			<artifactId>json-lib</artifactId>

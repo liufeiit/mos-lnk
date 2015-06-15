@@ -1,10 +1,8 @@
 package me.mos.ti.etc;
 
-import java.io.FileInputStream;
-
-import me.mos.ti.serializer.SerializerUtils;
+import me.mos.ti.conf.ConfigTools;
+import me.mos.ti.conf.Resource;
 import me.mos.ti.utils.Charsets;
-import me.mos.ti.utils.StreamUtils;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
@@ -15,6 +13,7 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
  * @since 2015年5月30日 下午7:14:01
  */
 @XStreamAlias("database")
+@Resource(location = "../etc/database.xml")
 public class Database {
 
 	@XStreamAlias("driver")
@@ -48,11 +47,7 @@ public class Database {
 	private String password;
 
 	public static Database newInstance() {
-		try {
-			return SerializerUtils.xstream().deserialize(Database.class, StreamUtils.copyToString(new FileInputStream("../etc/database.xml"), Charsets.UTF_8));
-		} catch (Exception e) {
-			throw new IllegalStateException(e);
-		}
+		return ConfigTools.conf(Database.class, Charsets.UTF_8);
 	}
 
 	public String getDriverClassName() {

@@ -1,7 +1,6 @@
 package me.mos.ti.srv.mina.codec;
 
 import java.nio.charset.Charset;
-import java.nio.charset.CharsetEncoder;
 
 import me.mos.ti.packet.OutPacket;
 import me.mos.ti.srv.PacketProtocol;
@@ -9,7 +8,6 @@ import me.mos.ti.srv.Version;
 import me.mos.ti.utils.ByteUtil;
 
 import org.apache.mina.core.buffer.IoBuffer;
-import org.apache.mina.core.session.AttributeKey;
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.ProtocolEncoder;
 import org.apache.mina.filter.codec.ProtocolEncoderOutput;
@@ -28,8 +26,6 @@ final class PacketProtocolEncoder implements ProtocolEncoder, PacketProtocol {
 
 	private static final Logger log = LoggerFactory.getLogger(PacketProtocolEncoder.class);
 
-	private static final AttributeKey ENCODER = new AttributeKey(PacketProtocolEncoder.class, "encoder");
-
 	final Charset charset;
 
 	PacketProtocolEncoder(Charset charset) {
@@ -39,11 +35,6 @@ final class PacketProtocolEncoder implements ProtocolEncoder, PacketProtocol {
 
 	@Override
 	public void encode(IoSession session, Object message, ProtocolEncoderOutput out) throws Exception {
-		CharsetEncoder encoder = (CharsetEncoder) session.getAttribute(ENCODER);
-		if (encoder == null) {
-			encoder = charset.newEncoder();
-			session.setAttribute(ENCODER, encoder);
-		}
 		OutPacket outPacket = (OutPacket) message;
 		String packet = outPacket.toPacket();
 		log.error("Outcoming Packet : {}", packet);
