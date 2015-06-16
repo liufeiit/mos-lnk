@@ -8,5 +8,5 @@
   <backlog>5000</backlog>
   <idle-time>1800</idle-time>
   <so-linger>-1</so-linger>
-  <srv-provider>sock</srv-provider>
+  <srv-provider>mina</srv-provider>
 </server>

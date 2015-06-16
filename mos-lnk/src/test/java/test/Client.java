@@ -30,6 +30,7 @@ public class Client {
 	private static final String PASSWD = "123456";
 
 	public static void main(String[] args) throws Exception {
+//		Socket socket = new Socket("127.0.0.1", Server.DEFAULT_PORT);
 		Socket socket = new Socket("wjz", Server.DEFAULT_PORT);
 		socket.setKeepAlive(true);
 		socket.setSoTimeout(30000);

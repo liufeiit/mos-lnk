@@ -59,6 +59,7 @@ final class ServerIoHandler implements IoHandler {
 			}
 			channel.deliver(outPacket);
 		} catch (Throwable e) {
+			log.error("ServerIoHandler MessageReceived Error.", e);
 		}
 	}
 

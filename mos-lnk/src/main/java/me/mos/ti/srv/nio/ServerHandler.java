@@ -79,7 +79,7 @@ final class ServerHandler implements Runnable, PacketProtocol {
 				// buf.get(dst, offset, length);
 			}
 		} catch (Throwable e) {
-
+			log.error("ServerHandler read Message Error.", e);
 		} finally {
 			this.channel.interestOps(SelectionKey.OP_READ | SelectionKey.OP_WRITE);
 		}
