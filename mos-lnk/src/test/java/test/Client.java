@@ -66,7 +66,7 @@ public class Client {
 
 	public static InIQ newInIQ() {
 		InIQ inIQ = new InIQ();
-		inIQ.setMid(123);
+		inIQ.setMid(1);
 		return inIQ;
 	}
 

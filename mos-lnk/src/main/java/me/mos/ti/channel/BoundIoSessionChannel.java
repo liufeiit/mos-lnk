@@ -42,13 +42,9 @@ final class BoundIoSessionChannel extends AbstractChannel<IoSession> implements 
 	}
 
 	@Override
-	public void close() {
-		synchronized (this) {
-			if (isConnect()) {
-				session.close(false);
-				closed = true;
-			}
-		}
+	protected void _close() {
+		session.close(false);
+		closed = true;
 	}
 
 	@Override

@@ -4,6 +4,7 @@ import java.net.InetSocketAddress;
 
 import me.mos.ti.packet.Packet;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,14 +41,32 @@ public abstract class AbstractChannel<I> implements Channel<I> {
 	}
 
 	@Override
+	public final void close() {
+		synchronized (this) {
+			try {
+				Channels.offline(this);
+			} catch (Throwable e) {
+			}
+			if (isConnect()) {
+				_close();
+			}
+		}
+	}
+
+	protected abstract void _close();
+
+	@Override
 	public String toString() {
 		InetSocketAddress address = getPeerAddress();
 		if (address != null) {
-			return address.getAddress() + DOT + getChannelId();
+			return address + DOT + getChannelId();
 		}
 		if (getChannel() != null) {
-			return getChannel().toString() + DOT + getChannelId();
+			return getChannel() + DOT + getChannelId();
 		}
-		return super.toString() + DOT + getChannelId();
+		if (StringUtils.isNotBlank(getChannelId())) {
+			return getChannelId();
+		}
+		return super.toString();
 	}
 }

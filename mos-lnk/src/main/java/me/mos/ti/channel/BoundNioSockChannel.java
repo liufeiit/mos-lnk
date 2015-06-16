@@ -99,16 +99,14 @@ final class BoundNioSockChannel extends AbstractChannel<SocketChannel> implement
 	}
 
 	@Override
-	public void close() {
-		synchronized (this) {
-			if (channel != null) {
-				try {
-					channel.close();
-				} catch (Throwable e) {
-					log.error("Channel Named " + toString() + " close Error.", e);
-				}
-				channel = null;
+	protected void _close() {
+		if (channel != null) {
+			try {
+				channel.close();
+			} catch (Throwable e) {
+				log.error("Channel Named " + toString() + " close Error.", e);
 			}
+			channel = null;
 		}
 	}
 }

@@ -122,33 +122,31 @@ final class BoundSockChannel extends AbstractChannel<Socket> implements SockChan
 	}
 
 	@Override
-	public void close() {
-		synchronized (this) {
-			if (in != null) {
-				try {
-					in.close();
-				} catch (Throwable e) {
-					log.error("Channel Reader " + toString() + " close Error.", e);
-				}
-				in = null;
+	protected void _close() {
+		if (in != null) {
+			try {
+				in.close();
+			} catch (Throwable e) {
+				log.error("Channel Reader " + toString() + " close Error.", e);
 			}
-			if (out != null) {
-				try {
-					out.flush();
-					out.close();
-				} catch (Throwable e) {
-					log.error("Channel Writer " + toString() + " close Error.", e);
-				}
-				out = null;
+			in = null;
+		}
+		if (out != null) {
+			try {
+				out.flush();
+				out.close();
+			} catch (Throwable e) {
+				log.error("Channel Writer " + toString() + " close Error.", e);
 			}
-			if (channel != null) {
-				try {
-					channel.close();
-				} catch (Throwable e) {
-					log.error("Channel Named " + toString() + " close Error.", e);
-				}
-				channel = null;
+			out = null;
+		}
+		if (channel != null) {
+			try {
+				channel.close();
+			} catch (Throwable e) {
+				log.error("Channel Named " + toString() + " close Error.", e);
 			}
+			channel = null;
 		}
 	}
 }
