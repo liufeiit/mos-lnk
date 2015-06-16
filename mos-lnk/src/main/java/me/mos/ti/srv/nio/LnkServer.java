@@ -2,7 +2,6 @@ package me.mos.ti.srv.nio;
 
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
-import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
@@ -23,7 +22,6 @@ import me.mos.ti.srv.executor.LnkExecutor;
 import me.mos.ti.srv.process.DefaultServerProcessor;
 import me.mos.ti.srv.process.ServerProcessor;
 
-import org.apache.mina.core.buffer.IoBuffer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,11 +42,6 @@ class LnkServer implements Server {
 	 */
 	private int backlog = DEFAULT_BACKLOG;
 
-	/**
-	 * 读取超时(单位:秒)，默认30s
-	 */
-	private int readTimeout = DEFAULT_READ_TIMEOUT;
-
 	private String charset = DEFAULT_CHARSET;
 
 	private ThreadPoolExecutor threadPoolExecutor;
@@ -63,14 +56,11 @@ class LnkServer implements Server {
 
 	private Selector selector;
 
-	private ByteBuffer readBuffer = ByteBuffer.allocate(8192);
-
 	LnkServer() {
 		super();
 		try {
 			profile = Profile.newInstance();
 			setPort(profile.getPort());
-			setReadTimeout(profile.getReadTimeout());
 			setCharset(profile.getCharset());
 			setBacklog(profile.getBacklog());
 			setProcessor(new DefaultServerProcessor());
@@ -90,7 +80,7 @@ class LnkServer implements Server {
 			server = ServerSocketChannel.open();
 			server.configureBlocking(false);
 			ServerSocket socket = server.socket();
-			socket.bind(new InetSocketAddress(port));
+			socket.bind(new InetSocketAddress(port), backlog);
 			socket.setReuseAddress(true);
 			socket.setReceiveBufferSize(1024 * 1024);
 			server.register(selector, SelectionKey.OP_ACCEPT);
@@ -113,17 +103,9 @@ class LnkServer implements Server {
 									channel.configureBlocking(false);
 									channel.register(selector, SelectionKey.OP_READ);
 								} else if (key.isReadable()) {
-									NioSockChannel nioChannel = Channels.newChannel(key, Charset.forName(charset));
-									SocketChannel channel = nioChannel.getChannel();
-									ByteBuffer buf = ByteBuffer.allocate(READ_BYTE_BUF);
-									try {
-										while(channel.read(buf) > 0) {
-											buf.flip();
-//											buf.get(dst, offset, length);
-										}
-									} catch (Throwable e) {
-										
-									}
+									NioSockChannel channel = Channels.newChannel(key, Charset.forName(charset));
+									threadPoolExecutor.execute(new ServerHandler(channel, processor, parser));
+									log.error(channel + " Connection to LnkServer.");
 								}
 							}
 						} catch (Throwable t) {
@@ -167,10 +149,6 @@ class LnkServer implements Server {
 
 	public void setPort(int port) {
 		this.port = port;
-	}
-
-	public void setReadTimeout(int readTimeout) {
-		this.readTimeout = readTimeout;
 	}
 
 	public void setCharset(String charset) {

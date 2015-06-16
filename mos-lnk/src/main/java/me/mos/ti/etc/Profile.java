@@ -77,6 +77,10 @@ public class Profile {
 	public boolean sockSrv() {
 		return StringUtils.equalsIgnoreCase("sock", srvProvider);
 	}
+	
+	public boolean nioSockSrv() {
+		return StringUtils.equalsIgnoreCase("nio-sock", srvProvider);
+	}
 
 	public int getPort() {
 		return port;

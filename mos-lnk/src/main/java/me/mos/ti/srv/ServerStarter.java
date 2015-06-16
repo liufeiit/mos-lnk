@@ -24,6 +24,11 @@ public class ServerStarter {
 			System.err.println("Sock Lnk Server Started Success!!!");
 			return;
 		}
+		if (profile.nioSockSrv()) {
+			me.mos.ti.srv.nio.LnkServerStarter.main(args);
+			System.err.println("Nio Sock Lnk Server Started Success!!!");
+			return;
+		}
 		System.err.println("Non Lnk Server to Started!!!");
 	}
 }
