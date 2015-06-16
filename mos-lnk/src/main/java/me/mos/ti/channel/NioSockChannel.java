@@ -1,4 +1,4 @@
-package me.mos.ti.srv.channel;
+package me.mos.ti.channel;
 
 import java.nio.channels.SocketChannel;
 
@@ -11,5 +11,5 @@ import java.nio.channels.SocketChannel;
  * @since 2015年6月1日 下午5:33:03
  */
 public interface NioSockChannel extends Channel<SocketChannel> {
-	
+	NioSockChannel interestOps(int ops);
 }

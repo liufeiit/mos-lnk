@@ -1,4 +1,4 @@
-package me.mos.ti.srv.channel;
+package me.mos.ti.channel;
 
 import java.net.InetSocketAddress;
 
@@ -17,12 +17,12 @@ public interface Channel<I> extends PacketProtocol {
 	/**
 	 * 获取用户通道ID
 	 */
-	String getMID();
+	String getChannelId();
 
 	/**
 	 * 注入用户通道ID
 	 */
-	Channel<I> setMID(long mid);
+	Channel<I> setChannelId(long mid);
 	
 	/**
 	 * 获取通道内部包装对象
@@ -38,6 +38,11 @@ public interface Channel<I> extends PacketProtocol {
 	 * 将消息投递到通道
 	 */
 	void deliver(Packet packet);
+	
+	/**
+	 * 将消息投递到通道
+	 */
+	void deliver(Packet packet, boolean closeAfterDeliver);
 
 	/**
 	 * 通道是否处于连接状态

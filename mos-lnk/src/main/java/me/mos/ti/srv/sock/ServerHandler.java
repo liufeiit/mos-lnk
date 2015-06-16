@@ -1,10 +1,10 @@
 package me.mos.ti.srv.sock;
 
+import me.mos.ti.channel.Channels;
+import me.mos.ti.channel.SockChannel;
 import me.mos.ti.packet.InPacket;
 import me.mos.ti.packet.OutPacket;
 import me.mos.ti.parser.PacketParser;
-import me.mos.ti.srv.channel.Channels;
-import me.mos.ti.srv.channel.SockChannel;
 import me.mos.ti.srv.process.ServerProcessor;
 
 import org.apache.commons.lang3.StringUtils;
@@ -55,7 +55,7 @@ final class ServerHandler implements Runnable {
 				if (inPacket == null) {
 					continue;
 				}
-				channel.setMID(inPacket.getMid());
+				channel.setChannelId(inPacket.getMid());
 				OutPacket outPacket = processor.process(channel, inPacket);
 				if (outPacket == null) {
 					continue;

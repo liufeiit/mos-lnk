@@ -2,10 +2,10 @@ package me.mos.ti.srv.mina;
 
 import java.io.IOException;
 
+import me.mos.ti.channel.Channels;
+import me.mos.ti.channel.IoSessionChannel;
 import me.mos.ti.packet.InPacket;
 import me.mos.ti.packet.OutPacket;
-import me.mos.ti.srv.channel.Channels;
-import me.mos.ti.srv.channel.IoSessionChannel;
 import me.mos.ti.srv.process.ServerProcessor;
 
 import org.apache.mina.core.service.IoHandler;
@@ -52,7 +52,7 @@ final class ServerIoHandler implements IoHandler {
 		IoSessionChannel channel = (IoSessionChannel) session.getAttribute(NIO_CHANNEL);
 		try {
 			InPacket inPacket = (InPacket) message;
-			channel.setMID(inPacket.getMid());
+			channel.setChannelId(inPacket.getMid());
 			OutPacket outPacket = processor.process(channel, inPacket);
 			if (outPacket == null) {
 				return;

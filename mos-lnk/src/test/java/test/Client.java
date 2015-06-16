@@ -3,6 +3,8 @@ package test;
 import java.net.Socket;
 import java.util.Date;
 
+import me.mos.ti.channel.Channels;
+import me.mos.ti.channel.SockChannel;
 import me.mos.ti.packet.Acknowledge;
 import me.mos.ti.packet.InIQ;
 import me.mos.ti.packet.InMessage;
@@ -13,8 +15,6 @@ import me.mos.ti.packet.OutMessage;
 import me.mos.ti.packet.OutPresence;
 import me.mos.ti.packet.OutRegister;
 import me.mos.ti.srv.Server;
-import me.mos.ti.srv.channel.Channels;
-import me.mos.ti.srv.channel.SockChannel;
 import me.mos.ti.utils.Charsets;
 
 import org.apache.commons.lang3.StringUtils;

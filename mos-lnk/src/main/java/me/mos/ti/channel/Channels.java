@@ -1,4 +1,4 @@
-package me.mos.ti.srv.channel;
+package me.mos.ti.channel;
 
 import java.net.Socket;
 import java.nio.channels.SelectionKey;
@@ -44,7 +44,7 @@ public class Channels {
 	}
 
 	public static void online(Channel<?> channel) {
-		String mid = channel.getMID();
+		String mid = channel.getChannelId();
 		if (StringUtils.isBlank(mid)) {
 			return;
 		}
@@ -58,7 +58,7 @@ public class Channels {
 	}
 
 	public static void offline(Channel<?> channel) {
-		String mid = channel.getMID();
+		String mid = channel.getChannelId();
 		if (StringUtils.isBlank(mid)) {
 			return;
 		}
@@ -95,7 +95,7 @@ public class Channels {
 	}
 
 	public static boolean isOnline(Channel<?> channel) {
-		String mid = channel.getMID();
+		String mid = channel.getChannelId();
 		if (StringUtils.isBlank(mid)) {
 			return false;
 		}

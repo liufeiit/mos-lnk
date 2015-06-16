@@ -1,4 +1,4 @@
-package me.mos.ti.srv.channel;
+package me.mos.ti.channel;
 
 import java.util.Enumeration;
 import java.util.List;

@@ -1,4 +1,4 @@
-package me.mos.ti.srv.channel;
+package me.mos.ti.channel;
 
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
@@ -70,8 +70,14 @@ final class BoundNioSockChannel extends AbstractChannel<SocketChannel> implement
 			} catch (Throwable e) {
 			}
 		} finally {
-			key.interestOps(SelectionKey.OP_READ);
+			interestOps(SelectionKey.OP_READ | SelectionKey.OP_WRITE);
 		}
+	}
+
+	@Override
+	public BoundNioSockChannel interestOps(int ops) {
+		key.interestOps(ops);
+		return this;
 	}
 
 	@Override

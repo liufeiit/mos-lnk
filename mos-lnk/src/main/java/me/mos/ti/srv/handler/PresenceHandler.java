@@ -2,13 +2,13 @@ package me.mos.ti.srv.handler;
 
 import java.util.List;
 
+import me.mos.ti.channel.Channel;
+import me.mos.ti.channel.Channels;
 import me.mos.ti.message.Message;
 import me.mos.ti.packet.InPresence;
 import me.mos.ti.packet.OutMessage;
 import me.mos.ti.packet.OutPacket;
 import me.mos.ti.packet.OutPresence;
-import me.mos.ti.srv.channel.Channel;
-import me.mos.ti.srv.channel.Channels;
 
 import org.springframework.util.CollectionUtils;
 

@@ -1,4 +1,4 @@
-package me.mos.ti.srv.executor;
+package me.mos.ti.executor;
 
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.concurrent.ThreadFactory;

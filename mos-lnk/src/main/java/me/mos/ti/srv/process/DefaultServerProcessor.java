@@ -1,12 +1,12 @@
 package me.mos.ti.srv.process;
 
+import me.mos.ti.channel.Channel;
 import me.mos.ti.packet.InIQ;
 import me.mos.ti.packet.InMessage;
 import me.mos.ti.packet.InPacket;
 import me.mos.ti.packet.InPresence;
 import me.mos.ti.packet.InRegister;
 import me.mos.ti.packet.OutPacket;
-import me.mos.ti.srv.channel.Channel;
 import me.mos.ti.srv.handler.IQHandler;
 import me.mos.ti.srv.handler.MessageHandler;
 import me.mos.ti.srv.handler.PresenceHandler;

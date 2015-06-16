@@ -1,6 +1,6 @@
-package me.mos.ti.srv.channel;
+package me.mos.ti.channel;
 
-import me.mos.ti.srv.channel.Channel;
+import me.mos.ti.channel.Channel;
 
 import org.apache.mina.core.session.IoSession;
 

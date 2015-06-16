@@ -1,14 +1,15 @@
 package me.mos.ti.srv.nio;
 
 import java.nio.ByteBuffer;
+import java.nio.channels.SelectionKey;
 import java.nio.channels.SocketChannel;
 
+import me.mos.ti.channel.Channels;
+import me.mos.ti.channel.NioSockChannel;
 import me.mos.ti.packet.InPacket;
 import me.mos.ti.packet.OutPacket;
 import me.mos.ti.parser.PacketParser;
 import me.mos.ti.srv.PacketProtocol;
-import me.mos.ti.srv.channel.Channels;
-import me.mos.ti.srv.channel.NioSockChannel;
 import me.mos.ti.srv.process.ServerProcessor;
 
 import org.apache.commons.lang3.StringUtils;
@@ -58,7 +59,7 @@ final class ServerHandler implements Runnable, PacketProtocol {
 			if (inPacket == null) {
 				return;
 			}
-			channel.setMID(inPacket.getMid());
+			channel.setChannelId(inPacket.getMid());
 			OutPacket outPacket = processor.process(channel, inPacket);
 			if (outPacket == null) {
 				return;
@@ -79,6 +80,8 @@ final class ServerHandler implements Runnable, PacketProtocol {
 			}
 		} catch (Throwable e) {
 
+		} finally {
+			this.channel.interestOps(SelectionKey.OP_READ | SelectionKey.OP_WRITE);
 		}
 		return null;
 	}

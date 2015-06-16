@@ -1,4 +1,4 @@
-package me.mos.ti.srv.executor;
+package me.mos.ti.executor;
 
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.ThreadPoolExecutor.CallerRunsPolicy;

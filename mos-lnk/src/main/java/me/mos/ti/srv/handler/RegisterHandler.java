@@ -1,10 +1,10 @@
 package me.mos.ti.srv.handler;
 
+import me.mos.ti.channel.Channel;
+import me.mos.ti.channel.Channels;
 import me.mos.ti.packet.InRegister;
 import me.mos.ti.packet.OutPacket;
 import me.mos.ti.packet.OutRegister;
-import me.mos.ti.srv.channel.Channel;
-import me.mos.ti.srv.channel.Channels;
 import me.mos.ti.user.User;
 
 import org.apache.commons.lang3.StringUtils;
@@ -33,7 +33,7 @@ public class RegisterHandler extends AbstractPacketHandler<InRegister> {
 			return outRegister.err();
 		}
 		user.online().setMid(mid);
-		channel.setMID(mid);
+		channel.setChannelId(mid);
 		Channels.online(channel);
 		outRegister.setMid(mid);
 		return outRegister;
