@@ -1,6 +1,8 @@
 package test;
 
 import java.net.Socket;
+import java.nio.ByteBuffer;
+import java.nio.channels.Pipe;
 import java.util.Date;
 
 import me.mos.ti.channel.Channels;
@@ -28,8 +30,29 @@ import org.apache.commons.lang3.StringUtils;
 public class Client {
 
 	private static final String PASSWD = "123456";
-
+	
 	public static void main(String[] args) throws Exception {
+		Pipe pipe = Pipe.open();
+		Pipe.SinkChannel sinkChannel = pipe.sink();
+		String newData = "New String to write to file..." + System.currentTimeMillis();
+		ByteBuffer buf = ByteBuffer.allocate(48);
+		buf.clear();
+		buf.put(newData.getBytes());
+		buf.flip();
+		while(buf.hasRemaining()) {
+		    sinkChannel.write(buf);
+		}
+		
+		Pipe.SourceChannel sourceChannel = pipe.source();
+		
+		ByteBuffer r = ByteBuffer.allocate(48);
+
+		int bytesRead = sourceChannel.read(r);
+		
+//		java.nio.channels.Channels.newChannel(null);
+	}
+
+	public static void main111(String[] args) throws Exception {
 //		Socket socket = new Socket("127.0.0.1", Server.DEFAULT_PORT);
 		Socket socket = new Socket("wjz", Server.DEFAULT_PORT);
 		socket.setKeepAlive(true);
