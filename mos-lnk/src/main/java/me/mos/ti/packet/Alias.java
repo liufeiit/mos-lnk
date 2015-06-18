@@ -16,5 +16,7 @@ public interface Alias {
 	
 	String REGISTER_NAME = "register";
 	
+	String REVISE_NAME = "revise";
+	
 	String ACKNOWLEDGE_NAME = "ack";
 }

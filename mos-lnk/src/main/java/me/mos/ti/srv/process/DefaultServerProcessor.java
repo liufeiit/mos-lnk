@@ -6,11 +6,13 @@ import me.mos.ti.packet.InMessage;
 import me.mos.ti.packet.InPacket;
 import me.mos.ti.packet.InPresence;
 import me.mos.ti.packet.InRegister;
+import me.mos.ti.packet.InRevise;
 import me.mos.ti.packet.OutPacket;
 import me.mos.ti.srv.handler.IQHandler;
 import me.mos.ti.srv.handler.MessageHandler;
 import me.mos.ti.srv.handler.PresenceHandler;
 import me.mos.ti.srv.handler.RegisterHandler;
+import me.mos.ti.srv.handler.ReviseHandler;
 
 /**
  * Lnk服务通道消息业务处理器.
@@ -21,7 +23,7 @@ import me.mos.ti.srv.handler.RegisterHandler;
  * @since 2015年6月2日 上午12:44:18
  */
 public class DefaultServerProcessor implements ServerProcessor {
-	
+
 	private IQHandler iqHandler;
 
 	private MessageHandler messageHandler;
@@ -30,12 +32,15 @@ public class DefaultServerProcessor implements ServerProcessor {
 
 	private RegisterHandler registerHandler;
 
+	private ReviseHandler reviseHandler;
+
 	public DefaultServerProcessor() {
 		super();
 		iqHandler = new IQHandler();
 		messageHandler = new MessageHandler();
 		presenceHandler = new PresenceHandler();
 		registerHandler = new RegisterHandler();
+		reviseHandler = new ReviseHandler();
 	}
 
 	@Override
@@ -53,6 +58,9 @@ public class DefaultServerProcessor implements ServerProcessor {
 			break;
 		case Register:
 			outPacket = registerHandler.process(channel, (InRegister) packet);
+			break;
+		case Revise:
+			outPacket = reviseHandler.process(channel, (InRevise) packet);
 			break;
 		default:
 			break;

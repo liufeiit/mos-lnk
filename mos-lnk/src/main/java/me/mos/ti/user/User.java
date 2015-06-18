@@ -3,6 +3,7 @@ package me.mos.ti.user;
 import java.util.Date;
 
 import me.mos.ti.packet.InRegister;
+import me.mos.ti.packet.InRevise;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -90,6 +91,20 @@ public class User {
 		user.setWeixin(inRegister.getWeixin());
 		user.offline();
 		return user;
+	}
+	
+	public User merge(InRevise inRevise) {
+		setGmt_modified(new Date());
+		if(StringUtils.isNotBlank(inRevise.getAvatar())) setAvatar(inRevise.getAvatar());
+		if(StringUtils.isNotBlank(inRevise.getEmail())) setEmail(inRevise.getEmail());
+		if(StringUtils.isNotBlank(inRevise.getNick())) setNick(inRevise.getNick());
+		if(StringUtils.isNotBlank(inRevise.getParty_id())) setParty_id(inRevise.getParty_id());
+		if(StringUtils.isNotBlank(inRevise.getPasswd())) setPasswd(inRevise.getPasswd());
+		if(StringUtils.isNotBlank(inRevise.getPhone())) setPhone(inRevise.getPhone());
+		if(StringUtils.isNotBlank(inRevise.getQq())) setQq(inRevise.getQq());
+		if(StringUtils.isNotBlank(inRevise.getTelephone())) setTelephone(inRevise.getTelephone());
+		if(StringUtils.isNotBlank(inRevise.getWeixin())) setWeixin(inRevise.getWeixin());
+		return this;
 	}
 	
 	public boolean isOnline() {

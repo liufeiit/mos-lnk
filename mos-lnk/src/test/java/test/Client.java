@@ -12,10 +12,12 @@ import me.mos.ti.packet.InIQ;
 import me.mos.ti.packet.InMessage;
 import me.mos.ti.packet.InPresence;
 import me.mos.ti.packet.InRegister;
+import me.mos.ti.packet.InRevise;
 import me.mos.ti.packet.OutIQ;
 import me.mos.ti.packet.OutMessage;
 import me.mos.ti.packet.OutPresence;
 import me.mos.ti.packet.OutRegister;
+import me.mos.ti.packet.OutRevise;
 import me.mos.ti.srv.Server;
 import me.mos.ti.utils.Charsets;
 
@@ -31,7 +33,7 @@ public class Client {
 
 	private static final String PASSWD = "123456";
 	
-	public static void main(String[] args) throws Exception {
+	public static void main233(String[] args) throws Exception {
 		Pipe pipe = Pipe.open();
 		Pipe.SinkChannel sinkChannel = pipe.sink();
 		String newData = "New String to write to file..." + System.currentTimeMillis();
@@ -107,7 +109,26 @@ public class Client {
 		return inRegister;
 	}
 
-	public static void main1(String[] args) {
+	public static InRevise newInRevise() {
+		InRevise inRevise = new InRevise();
+		inRevise.setMid(123L);
+		inRevise.setNick("大飞哥儿1");
+		inRevise.setParty_id("3");
+		inRevise.setPasswd(PASSWD);
+		inRevise.setAvatar("头像地址");
+		inRevise.setEmail("email");
+		inRevise.setPhone("固话");
+		inRevise.setQq("QQ");
+		inRevise.setTelephone("手机号码");
+		inRevise.setWeixin("微信");
+		return inRevise;
+	}
+
+	public static void main(String[] args) {
+		InRevise inRevise = newInRevise();
+		System.out.println("inRevise : " + inRevise);
+		OutRevise outRevise = inRevise.toOutPacket();
+		System.out.println("outRevise : " + outRevise);
 		InRegister inRegister = newInRegister();
 		System.out.println("inRegister : " + inRegister);
 		OutRegister outRegister = inRegister.toOutPacket();

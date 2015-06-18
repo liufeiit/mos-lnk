@@ -5,6 +5,7 @@ import me.mos.ti.packet.InMessage;
 import me.mos.ti.packet.InPacket;
 import me.mos.ti.packet.InPresence;
 import me.mos.ti.packet.InRegister;
+import me.mos.ti.packet.InRevise;
 import me.mos.ti.packet.Type;
 import net.sf.json.JSONObject;
 
@@ -33,6 +34,8 @@ public class JsonPacketParser implements PacketParser {
 			return InPresence.fromPacket(packet);
 		case Register:
 			return InRegister.fromPacket(packet);
+		case Revise:
+			return InRevise.fromPacket(packet);
 		default:
 			throw new IllegalStateException("Error Type of Packet " + packet);
 		}

@@ -10,7 +10,7 @@ package me.mos.ti.packet;
  */
 public enum Type {
 
-	IQ((byte) 1), Message((byte) 2), Presence((byte) 3), Register((byte) 4), Acknowledge((byte) 5);
+	IQ((byte) 1), Message((byte) 2), Presence((byte) 3), Register((byte) 4), Acknowledge((byte) 5), Revise((byte) 6);
 
 	public final byte type;
 
