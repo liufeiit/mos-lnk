@@ -33,7 +33,7 @@ public class Client {
 
 	private static final String PASSWD = "123456";
 	
-	public static void main233(String[] args) throws Exception {
+	public static void main21212(String[] args) throws Exception {
 		Pipe pipe = Pipe.open();
 		Pipe.SinkChannel sinkChannel = pipe.sink();
 		String newData = "New String to write to file..." + System.currentTimeMillis();
@@ -54,7 +54,7 @@ public class Client {
 //		java.nio.channels.Channels.newChannel(null);
 	}
 
-	public static void main111(String[] args) throws Exception {
+	public static void main(String[] args) throws Exception {
 //		Socket socket = new Socket("127.0.0.1", Server.DEFAULT_PORT);
 		Socket socket = new Socket("wjz", Server.DEFAULT_PORT);
 		socket.setKeepAlive(true);
@@ -124,7 +124,7 @@ public class Client {
 		return inRevise;
 	}
 
-	public static void main(String[] args) {
+	public static void main0ok(String[] args) {
 		InRevise inRevise = newInRevise();
 		System.out.println("inRevise : " + inRevise);
 		OutRevise outRevise = inRevise.toOutPacket();
