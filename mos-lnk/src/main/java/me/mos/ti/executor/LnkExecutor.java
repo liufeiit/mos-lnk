@@ -1,6 +1,6 @@
 package me.mos.ti.executor;
 
-import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -17,7 +17,17 @@ public class LnkExecutor extends ThreadPoolExecutor {
 	private static final long DEFAULT_KEEPALIVETIME = 60L;
 
 	public LnkExecutor(Profile profile) {
-		super(profile.getCorePoolSize(), profile.getMaximumPoolSize(), DEFAULT_KEEPALIVETIME, TimeUnit.SECONDS, new ArrayBlockingQueue<Runnable>(profile.getQueueSize()), new LnkThreadFactory(),
-				new LnkRejectedExecutionHandler());
+		super(
+				profile.getCorePoolSize(), 
+				profile.getMaximumPoolSize(), 
+				DEFAULT_KEEPALIVETIME, 
+				TimeUnit.SECONDS, 
+				/**
+				 * @see ArrayBlockingQueue
+				 */
+				new LinkedBlockingQueue<Runnable>(profile.getQueueSize()), 
+				new LnkThreadFactory(),
+				new LnkRejectedExecutionHandler()
+			);
 	}
 }
