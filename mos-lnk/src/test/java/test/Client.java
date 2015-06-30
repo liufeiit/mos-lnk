@@ -64,29 +64,32 @@ public class Client {
 //		channel.deliver(newInRegister());
 		channel.deliver(newInPresence());
 		channel.deliver(newInMessage());
-		System.out.println("1 登录 并给2发消息");
+//		System.out.println("1 登录");
+		System.out.println("2 登录 并给1发消息");
 		while (true) {
 			String response = channel.read();
 			if (StringUtils.isBlank(response)) {
 				continue;
 			}
-			System.err.println("Response : " + response);
+			System.err.println("收到消息 : " + response);
 		}
 	}
 
 	public static InMessage newInMessage() {
 		InMessage inMessage = new InMessage();
-		inMessage.setMid(1);
-		inMessage.setTid(2);
+		inMessage.setMid(2);
+		inMessage.setTid(1);
 		inMessage.setBody("你好啊");
 		inMessage.setGmt_created(new Date().getTime());
+		System.out.println("Sent : " + inMessage);
 		return inMessage;
 	}
 
 	public static InPresence newInPresence() {
 		InPresence inPresence = new InPresence();
-		inPresence.setMid(1);
+		inPresence.setMid(2);
 		inPresence.setPasswd(PASSWD);
+		System.out.println("Sent : " + inPresence);
 		return inPresence;
 	}
 
