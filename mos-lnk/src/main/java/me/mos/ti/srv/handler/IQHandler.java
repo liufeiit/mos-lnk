@@ -23,7 +23,6 @@ public class IQHandler extends AbstractPacketHandler<InIQ> {
 			outIQ.online();
 		} else {
 			outIQ.offline();
-			Channels.online(channel);
 		}
 		return outIQ;
 	}
