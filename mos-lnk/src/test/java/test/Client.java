@@ -60,10 +60,11 @@ public class Client {
 		socket.setKeepAlive(true);
 		socket.setSoTimeout(30000);
 		SockChannel channel = Channels.newChannel(socket, Charsets.UTF_8);
-		channel.deliver(newInIQ());
-		// channel.write(newInRegister());
-		// channel.write(newInIQ());
-		// channel.write(newInMessage());
+//		channel.deliver(newInIQ());
+//		channel.deliver(newInRegister());
+		channel.deliver(newInPresence());
+		channel.deliver(newInMessage());
+		System.out.println("1 登录 并给2发消息");
 		while (true) {
 			String response = channel.read();
 			if (StringUtils.isBlank(response)) {
@@ -76,7 +77,7 @@ public class Client {
 	public static InMessage newInMessage() {
 		InMessage inMessage = new InMessage();
 		inMessage.setMid(1);
-		inMessage.setTid(4);
+		inMessage.setTid(2);
 		inMessage.setBody("你好啊");
 		inMessage.setGmt_created(new Date().getTime());
 		return inMessage;
