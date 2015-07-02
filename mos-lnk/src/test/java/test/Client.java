@@ -63,7 +63,7 @@ public class Client {
 //		channel.deliver(newInIQ());
 //		channel.deliver(newInRegister());
 		channel.deliver(newInPresence());
-		channel.deliver(newInMessage());
+//		channel.deliver(newInMessage());
 //		System.out.println("1 登录");
 		System.out.println("2 登录 并给1发消息");
 		while (true) {
