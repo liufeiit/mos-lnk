@@ -52,44 +52,43 @@ public class LocalJob {
 		service.execute(new Runnable() {
 			@Override
 			public void run() {
-				s(sql0, sql1, sql2);
+				LocalJob.run("一代T0", sql0, sql1, sql2);
 			}
 		});
 		
 		service.execute(new Runnable() {
 			@Override
 			public void run() {
-				s(sql3, sql4, sql5);
+				LocalJob.run("二代T0", sql3, sql4, sql5);
 			}
 		});
 		
 		service.execute(new Runnable() {
 			@Override
 			public void run() {
-				s(sql6, sql7, sql8);
+				LocalJob.run("三代T0", sql6, sql7, sql8);
 			}
 		});
 	}
 
-	private static void s(String sql0, String sql1, String sql2) {
+	private static void run(String name, String sql0, String sql1, String sql2) {
 		List<Map<String, Object>> list = jdbcTemplate.queryForList(sql0, new HashMap<String, Object>());
-		System.out.println(list.size());
+		System.out.println(name + " : " + list.size());
 		for (Map<String, Object> map : list) {
 			try {
 				List<Map<String, Object>> el = jdbcTemplate.queryForList(sql1, map);
 				if (CollectionUtils.isEmpty(el)) {
 					continue;
 				}
-				System.out.println(el.size());
 				if (el.size() >= 2) {
-					System.out.println("del " + el.get(0).get("id"));
+					System.out.println("DEL " + el.get(0).get("id"));
 					jdbcTemplate.update(sql2, el.get(0));
 				}
 			} catch (Throwable e) {
 				e.printStackTrace(System.err);
 			}
 		}
-		System.out.println("success for SQL " + sql0);
+		System.out.println(name + " Execute Success.");
 	}
 
 	static DriverManagerDataSource createDataSource(String url, String username, String password) {
