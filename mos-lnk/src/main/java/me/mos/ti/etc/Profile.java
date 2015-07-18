@@ -1,14 +1,12 @@
 package me.mos.ti.etc;
 
-import org.apache.commons.lang3.StringUtils;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
 import me.mos.ti.conf.ConfTools;
 import me.mos.ti.conf.Resource;
 import me.mos.ti.srv.Server;
 import me.mos.ti.utils.Charsets;
-
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
 /**
  * @author 刘飞 E-mail:liufei_it@126.com
@@ -63,39 +61,16 @@ public class Profile {
 	@XStreamAlias("so-linger")
 	private int soLinger = Server.DEFAULT_OS_SOLINGER;
 	
-	@XStreamAlias("srv-provider")
-	private String srvProvider;
-
 	public static Profile newInstance() {
 		return ConfTools.conf(Profile.class, Charsets.UTF_8);
 	}
 	
-	public boolean minaSrv() {
-		return StringUtils.equalsIgnoreCase("mina", srvProvider);
-	}
-	
-	public boolean sockSrv() {
-		return StringUtils.equalsIgnoreCase("sock", srvProvider);
-	}
-	
-	public boolean nioSockSrv() {
-		return StringUtils.equalsIgnoreCase("nio-sock", srvProvider);
-	}
-
 	public int getPort() {
 		return port;
 	}
 
 	public void setPort(int port) {
 		this.port = port;
-	}
-
-	public String getSrvProvider() {
-		return srvProvider;
-	}
-
-	public void setSrvProvider(String srvProvider) {
-		this.srvProvider = srvProvider;
 	}
 
 	public int getCorePoolSize() {

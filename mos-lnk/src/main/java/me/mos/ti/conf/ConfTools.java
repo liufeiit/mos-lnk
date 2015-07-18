@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.nio.charset.Charset;
 
 import me.mos.ti.serializer.SerializerUtils;
+import me.mos.ti.utils.Charsets;
 import me.mos.ti.utils.StreamUtils;
 
 /**
@@ -13,6 +14,10 @@ import me.mos.ti.utils.StreamUtils;
  * @since 2015年6月15日 下午1:41:57
  */
 public class ConfTools {
+	
+	public static <T> T conf(Class<T> type) {
+		return conf(type, Charsets.UTF_8);
+	}
 
 	public static <T> T conf(Class<T> type, Charset charset) {
 		try {

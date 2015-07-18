@@ -1,7 +1,5 @@
 package me.mos.ti.srv;
 
-import me.mos.ti.etc.Profile;
-
 /**
  * 服务器启动入口.
  * 
@@ -13,22 +11,7 @@ import me.mos.ti.etc.Profile;
 public class ServerStarter {
 
 	public static void main(String[] args) {
-		Profile profile = Profile.newInstance();
-		if (profile.minaSrv()) {
-			me.mos.ti.srv.mina.LnkServerStarter.main(args);
-			System.err.println("Mina Lnk Server Started Success!!!");
-			return;
-		}
-		if (profile.sockSrv()) {
-			me.mos.ti.srv.sock.LnkServerStarter.main(args);
-			System.err.println("Sock Lnk Server Started Success!!!");
-			return;
-		}
-		if (profile.nioSockSrv()) {
-			me.mos.ti.srv.nio.LnkServerStarter.main(args);
-			System.err.println("Nio Sock Lnk Server Started Success!!!");
-			return;
-		}
-		System.err.println("Non Lnk Server to Started!!!");
+		me.mos.ti.srv.mina.LnkServerStarter.main(args);
+		System.err.println("Mina Lnk Server Started Success!!!");
 	}
 }
