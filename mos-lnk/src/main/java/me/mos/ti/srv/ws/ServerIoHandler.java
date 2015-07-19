@@ -27,7 +27,7 @@ import me.mos.ti.srv.process.ServerProcessor;
  * @version 1.0
  * @since 2015年7月19日 上午8:49:26
  */
-@ServerEndpoint("/lnk")
+@ServerEndpoint(value = "/lnk", configurator = ServerEndpointConfigurator.class)
 public final class ServerIoHandler {
 
 	private static final Logger log = LoggerFactory.getLogger(ServerIoHandler.class);
