@@ -15,7 +15,8 @@ import me.mos.ti.utils.Charsets;
  * @since 2015年5月30日 下午7:14:01
  */
 @XStreamAlias("server")
-@Resource(location = "../etc/profile.xml")
+//@Resource(location = "../etc/profile.xml")
+@Resource(location = "F://dev/workspace/mos-lnk/mos-lnk/lnk/etc/profile.xml")
 public class Profile {
 
 	@XStreamAlias("port")

@@ -14,51 +14,6 @@
 		<jar.main.class>me.mos.ti.srv.ServerStarter</jar.main.class>
 	</properties>
 	<dependencies>
-		
-		<!--
-		<dependency>
-			<groupId>org.eclipse.jetty.websocket</groupId>
-			<artifactId>websocket-common</artifactId>
-			<version>9.3.0.v20150612</version>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.jetty.websocket</groupId>
-			<artifactId>websocket-api</artifactId>
-			<version>9.3.0.v20150612</version>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.jetty.websocket</groupId>
-			<artifactId>websocket-client</artifactId>
-			<version>9.3.0.v20150612</version>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.jetty.websocket</groupId>
-			<artifactId>javax-websocket-server-impl</artifactId>
-			<version>9.3.0.v20150612</version>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.jetty.websocket</groupId>
-			<artifactId>websocket-server</artifactId>
-			<version>9.3.0.v20150612</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.glassfish.websocket</groupId>
-			<artifactId>websocket-api</artifactId>
-			<version>0.2</version>
-		</dependency>
-		<dependency>
-			<groupId>org.glassfish.websocket</groupId>
-			<artifactId>websocket-impl</artifactId>
-			<version>0.2</version>
-		</dependency>
-		<dependency>
-			<groupId>org.glassfish.tyrus</groupId>
-			<artifactId>websocket-impl</artifactId>
-			<version>1.0-b06</version>
-		</dependency>
-		-->
-		
 		<dependency>
 			<groupId>org.glassfish.tyrus</groupId>
 			<artifactId>tyrus-server</artifactId>

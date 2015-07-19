@@ -1,5 +1,7 @@
 package me.mos.ti.srv.ws;
 
+import java.util.concurrent.CountDownLatch;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,6 +23,8 @@ public class LnkServer implements Server {
 	
 	private Profile profile;
 	
+	private CountDownLatch latch;
+	
 	LnkServer() {
 		super();
 		try {
@@ -35,9 +39,11 @@ public class LnkServer implements Server {
 	@Override
 	public void start() {
 		try {
+			latch = new CountDownLatch(1);
 			server = new org.glassfish.tyrus.server.Server("localhost", port, "/ws", ServerIoHandler.class);
 			server.start();
 			log.error("LnkServer[WS] started success on port {}.", port);
+			latch.await();
 		} catch (Throwable e) {
 			log.error("LnkServer Starting Error.", e);
 			throw new IllegalStateException(e);
