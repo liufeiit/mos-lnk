@@ -54,7 +54,7 @@ public class Client {
 //		java.nio.channels.Channels.newChannel(null);
 	}
 
-	public static void main(String[] args) throws Exception {
+	public static void main1234(String[] args) throws Exception {
 //		Socket socket = new Socket("127.0.0.1", Server.DEFAULT_PORT);
 		Socket socket = new Socket("wjz", Server.DEFAULT_PORT);
 		socket.setKeepAlive(true);
@@ -91,6 +91,10 @@ public class Client {
 		inPresence.setPasswd(PASSWD);
 		System.out.println("Sent : " + inPresence);
 		return inPresence;
+	}
+	
+	public static void main(String[] args) {
+		System.out.println(newInIQ());
 	}
 
 	public static InIQ newInIQ() {

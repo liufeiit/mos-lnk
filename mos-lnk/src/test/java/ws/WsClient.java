@@ -29,7 +29,7 @@ public class WsClient {
 	public void onOpen(Session session) {
         System.out.println("Connected ... " + session.getId());
         try {
-            session.getBasicRemote().sendText("start");
+            session.getBasicRemote().sendText("{\"mid\":1,\"type\":1}");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -57,7 +57,7 @@ public class WsClient {
 		latch = new CountDownLatch(1);
 		ClientManager client = ClientManager.createClient();
 		try {
-			client.connectToServer(WsClient.class, new URI("ws://localhost:8025/ws/lnk"));
+			client.connectToServer(WsClient.class, new URI("ws://wjz:9099/ws/lnk"));
 			
 			latch.await();
 		} catch (Exception e) {
