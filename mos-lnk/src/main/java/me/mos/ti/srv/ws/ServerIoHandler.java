@@ -1,7 +1,9 @@
 package me.mos.ti.srv.ws;
 
 import javax.websocket.CloseReason;
+import javax.websocket.EndpointConfig;
 import javax.websocket.OnClose;
+import javax.websocket.OnError;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
@@ -43,7 +45,7 @@ public final class ServerIoHandler {
 	}
 
 	@OnOpen
-	public void onOpen(Session session) {
+	public void onOpen(Session session, EndpointConfig config) {
 		WsChannel channel = Channels.newChannel(session);
 		session.getUserProperties().put(IO_CHANNEL, channel);
 	}
@@ -63,6 +65,12 @@ public final class ServerIoHandler {
 			log.error("ServerIoHandler MessageReceived Error.", e);
 		}
 		return StringUtils.EMPTY;
+	}
+	
+	@OnError
+	public void onError(Session session, Throwable t) {
+		WsChannel channel = (WsChannel) session.getUserProperties().get(IO_CHANNEL);
+		log.error("ServerIoHandler: Channel Error.\n" + channel, t);
 	}
 
 	@OnClose

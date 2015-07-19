@@ -1,6 +1,5 @@
 package me.mos.ti.channel;
 
-import java.io.IOException;
 import java.net.InetSocketAddress;
 
 import javax.websocket.CloseReason;
@@ -37,7 +36,7 @@ public class BoundWsChannel extends AbstractChannel<Session> implements WsChanne
 	public void deliver(Packet packet) {
 		try {
 			session.getBasicRemote().sendText(packet.toPacket());
-		} catch (IOException e) {
+		} catch (Throwable e) {
 			log.error(toString() + " Deliver Packet Error.", e);
 		}
 	}
@@ -51,7 +50,7 @@ public class BoundWsChannel extends AbstractChannel<Session> implements WsChanne
 	protected void _close() {
 		try {
 			session.close(new CloseReason(CloseCodes.NORMAL_CLOSURE, "离线"));
-		} catch (IOException e) {
+		} catch (Throwable e) {
 			log.error(toString() + " Offline Error.", e);
 		}
 	}

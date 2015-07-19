@@ -45,11 +45,8 @@ public abstract class AbstractChannel<I> implements Channel<I> {
 		synchronized (this) {
 			try {
 				Channels.offline(this);
-			} catch (Throwable e) {
-			}
-			if (isConnect()) {
-				_close();
-			}
+			} catch (Throwable e) {}
+			_close();
 		}
 	}
 
