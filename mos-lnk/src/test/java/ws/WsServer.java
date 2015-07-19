@@ -12,7 +12,6 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
-import org.apache.log4j.Logger;
 import org.glassfish.tyrus.server.Server;
 
 /**
@@ -21,15 +20,13 @@ import org.glassfish.tyrus.server.Server;
  * @version 1.0
  * @since 2015年7月19日 上午12:16:01
  */
-@ServerEndpoint("/game")
+@ServerEndpoint("/lnk")
 //@ServerEndpoint(value = "/game", decoders = WsDecoder.class, encoders = WsEncoder.class)
 public class WsServer {
 
-	private Logger logger = Logger.getLogger(getClass());
-	  
     @OnOpen
     public void onOpen(Session session) {
-        logger.info("Connected ... " + session.getId());
+        System.err.println("Connected ... " + session.getId());
     }
   
     @OnMessage
@@ -48,15 +45,15 @@ public class WsServer {
   
     @OnClose
     public void onClose(Session session, CloseReason closeReason) {
-        logger.info(String.format("Session %s closed because of %s", session.getId(), closeReason));
+        System.err.println(String.format("Session %s closed because of %s", session.getId(), closeReason));
     }
 
 	public static void main(String[] args) {
-		Server server = new Server("localhost", 8025, "/websockets", WsServer.class);
+		Server server = new Server("localhost", 8025, "/ws", WsServer.class);
 		try {
 			server.start();
 			BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-			System.out.print("Please press a key to stop the server.");
+			System.err.print("Please press a key to stop the server.");
 			reader.readLine();
 		} catch (Exception e) {
 			throw new RuntimeException(e);

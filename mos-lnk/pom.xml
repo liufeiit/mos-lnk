@@ -58,6 +58,7 @@
 			<version>1.0-b06</version>
 		</dependency>
 		-->
+		
 		<dependency>
 			<groupId>org.glassfish.tyrus</groupId>
 			<artifactId>tyrus-server</artifactId>
@@ -84,6 +85,7 @@
 			<artifactId>javax.websocket-client-api</artifactId>
 			<version>1.1</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>io.netty</groupId>
 			<artifactId>netty-all</artifactId>
@@ -185,8 +187,9 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.2</version>
+				<version>3.1</version>
 				<configuration>
+					<compilerVersion>1.8</compilerVersion>
 					<source>1.8</source>
 					<target>1.8</target>
 					<encoding>UTF-8</encoding>

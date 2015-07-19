@@ -11,7 +11,7 @@ package me.mos.ti.srv;
 public class ServerStarter {
 
 	public static void main(String[] args) {
-		me.mos.ti.srv.mina.LnkServerStarter.main(args);
-		System.err.println("Mina Lnk Server Started Success!!!");
+		me.mos.ti.srv.ws.LnkServerStarter.main(args);
+		System.err.println("WS Lnk Server Started Success!!!");
 	}
 }

@@ -78,9 +78,9 @@ final class LnkServer implements Server {
 			setCharset(profile.getCharset());
 			setProcessor(new DefaultServerProcessor());
 			setParser(new JsonPacketParser());
-			log.error("Config LnkServer Success.");
 			IoBuffer.setUseDirectBuffer(false);
 			IoBuffer.setAllocator(new SimpleBufferAllocator());
+			log.error("Config LnkServer Success.");
 		} catch (Exception e) {
 			log.error("Create Server Profile from XML Error.", e);
 		}

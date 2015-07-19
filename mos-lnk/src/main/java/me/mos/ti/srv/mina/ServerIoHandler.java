@@ -27,7 +27,7 @@ final class ServerIoHandler implements IoHandler {
 
 	private static final Logger log = LoggerFactory.getLogger(ServerIoHandler.class);
 
-	protected static final String NIO_CHANNEL = "NIO-CHANNEL";
+	private static final String NIO_CHANNEL = "NIO-CHANNEL";
 
 	private final ServerProcessor processor;
 

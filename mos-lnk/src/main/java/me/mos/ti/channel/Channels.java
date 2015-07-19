@@ -6,12 +6,14 @@ import java.nio.charset.Charset;
 import java.util.Enumeration;
 import java.util.concurrent.ConcurrentHashMap;
 
-import me.mos.ti.user.DefaultUserProvider;
+import javax.websocket.Session;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import me.mos.ti.user.DefaultUserProvider;
 
 /**
  * 客户端通道寄存器.
@@ -37,6 +39,10 @@ public class Channels {
 	
 	public static NioSockChannel newChannel(SelectionKey key, Charset charset) {
 		return new BoundNioSockChannel(key, charset);
+	}
+	
+	public static WsChannel newChannel(Session session) {
+		return new BoundWsChannel(session);
 	}
 	
 	public static Enumeration<String> channels() {
