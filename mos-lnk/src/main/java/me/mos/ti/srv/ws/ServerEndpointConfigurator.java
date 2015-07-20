@@ -15,10 +15,5 @@ public class ServerEndpointConfigurator extends Configurator {
 	@Override
 	public void modifyHandshake(ServerEndpointConfig sec, HandshakeRequest request, HandshakeResponse response) {
 		super.modifyHandshake(sec, request, response);
-		sec.getUserProperties().put("HttpSession", request.getHttpSession());
-		System.err.println("HttpSession : " + request.getHttpSession());
-		System.err.println("HandshakeRequest : " + request);
-		System.err.println("HandshakeResponse : " + response);
-		System.err.println("Headers : " + request.getHeaders());
 	}
 }
