@@ -7,6 +7,6 @@ import javax.websocket.Session;
  * @version 1.0
  * @since 2015年7月19日 上午8:30:58
  */
-public interface WsChannel extends Channel<Session> {
+public interface WebSocketChannel extends Channel<Session> {
 
 }

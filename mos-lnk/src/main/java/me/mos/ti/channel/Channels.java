@@ -41,8 +41,8 @@ public class Channels {
 		return new BoundNioSockChannel(key, charset);
 	}
 	
-	public static WsChannel newChannel(Session session) {
-		return new BoundWsChannel(session);
+	public static WebSocketChannel newChannel(Session session) {
+		return new BoundWebSocketChannel(session);
 	}
 	
 	public static Enumeration<String> channels() {

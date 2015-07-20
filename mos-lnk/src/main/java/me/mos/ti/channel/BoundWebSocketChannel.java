@@ -13,11 +13,11 @@ import me.mos.ti.packet.Packet;
  * @version 1.0
  * @since 2015年7月19日 上午8:32:41
  */
-public class BoundWsChannel extends AbstractChannel<Session> implements WsChannel {
+public class BoundWebSocketChannel extends AbstractChannel<Session> implements WebSocketChannel {
 
 	private Session session;
 	
-	BoundWsChannel(Session session) {
+	BoundWebSocketChannel(Session session) {
 		super();
 		this.session = session;
 	}

@@ -29,7 +29,6 @@
 			<artifactId>tyrus-container-grizzly</artifactId>
 			<version>1.1</version>
 		</dependency>
-
 		<dependency>
 			<groupId>javax.websocket</groupId>
 			<artifactId>javax.websocket-api</artifactId>
@@ -40,11 +39,11 @@
 			<artifactId>javax.websocket-client-api</artifactId>
 			<version>1.1</version>
 		</dependency>
-		
 		<dependency>
 			<groupId>io.netty</groupId>
 			<artifactId>netty-all</artifactId>
-			<version>4.0.29.Final</version>
+			<!-- <version>4.0.29.Final</version> -->
+			<version>4.0.23.Final</version>
 		</dependency>
 		<dependency>
 			<groupId>net.sf.json-lib</groupId>

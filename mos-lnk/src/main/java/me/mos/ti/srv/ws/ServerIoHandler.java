@@ -14,7 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import me.mos.ti.channel.Channels;
-import me.mos.ti.channel.WsChannel;
+import me.mos.ti.channel.WebSocketChannel;
 import me.mos.ti.packet.InPacket;
 import me.mos.ti.packet.OutPacket;
 import me.mos.ti.parser.JsonPacketParser;
@@ -46,13 +46,13 @@ public final class ServerIoHandler {
 
 	@OnOpen
 	public void onOpen(Session session, EndpointConfig config) {
-		WsChannel channel = Channels.newChannel(session);
+		WebSocketChannel channel = Channels.newChannel(session);
 		session.getUserProperties().put(IO_CHANNEL, channel);
 	}
 
 	@OnMessage
 	public String onMessage(String message, Session session) {
-		WsChannel channel = (WsChannel) session.getUserProperties().get(IO_CHANNEL);
+		WebSocketChannel channel = (WebSocketChannel) session.getUserProperties().get(IO_CHANNEL);
 		try {
 			InPacket inPacket = parser.parse(message);
 			channel.setChannelId(inPacket.getMid());
@@ -69,13 +69,13 @@ public final class ServerIoHandler {
 	
 	@OnError
 	public void onError(Session session, Throwable t) {
-		WsChannel channel = (WsChannel) session.getUserProperties().get(IO_CHANNEL);
+		WebSocketChannel channel = (WebSocketChannel) session.getUserProperties().get(IO_CHANNEL);
 		log.error("ServerIoHandler: Channel Error.\n" + channel, t);
 	}
 
 	@OnClose
 	public void onClose(Session session, CloseReason closeReason) {
-		WsChannel channel = (WsChannel) session.getUserProperties().get(IO_CHANNEL);
+		WebSocketChannel channel = (WebSocketChannel) session.getUserProperties().get(IO_CHANNEL);
 		log.error("ServerIoHandler: Closing channel due to session Closed: " + channel);
 		channel.close();
 	}
