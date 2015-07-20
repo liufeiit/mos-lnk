@@ -16,4 +16,11 @@ public interface SockChannel extends Channel<Socket> {
 	 * 读消息
 	 */
 	String read();
+	
+	ChannelFactory<Socket> CHANNEL_FACTORY = new ChannelFactory<Socket>() {
+		@Override
+		public SockChannel newChannel(Socket channel, ChannelHandler<Socket> handler) {
+			return new BoundSockChannel(channel, null);
+		}
+	};
 }

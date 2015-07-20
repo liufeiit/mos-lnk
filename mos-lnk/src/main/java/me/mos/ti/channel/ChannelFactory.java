@@ -8,6 +8,9 @@ package me.mos.ti.channel;
  * @version 1.0.0
  * @since 2015年6月16日 下午7:53:28
  */
-public interface ChannelFactory {
-
+public interface ChannelFactory<I> {
+	Channel<I> newChannel(I channel, ChannelHandler<I> handler);
+	public interface ChannelHandler<I> {
+		Channel<I> handler(Channel<I> channel);
+	}
 }
